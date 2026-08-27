@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 import ProjectsGrid from '@/components/sections/ProjectsGrid';
 import type { Project, ProjectCategory } from '@/lib/projects-data';
 
@@ -16,10 +16,6 @@ type Props = { params: Promise<{ locale: string }> };
 
 async function fetchProjects(): Promise<Project[]> {
   try {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    );
 
     const { data, error } = await supabase
       .from('projects')

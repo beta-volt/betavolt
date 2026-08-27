@@ -4,14 +4,8 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslations, useLocale } from 'next-intl';
 import { CheckCircle, AlertCircle, Upload, X, Send, FileText } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
-
+import { supabase } from '@/lib/supabase';
 import type { ModalOption } from '@/lib/load-quote-modal-options';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-);
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
