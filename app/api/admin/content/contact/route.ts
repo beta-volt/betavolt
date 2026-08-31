@@ -8,7 +8,7 @@ const messagesDir = join(process.cwd(), 'messages');
 const detailsPath = join(process.cwd(), 'data', 'contact-details.json');
 
 interface ContactDetails {
-  email_general: string; email_projects: string;
+  email_general: string; email_projects: string; email_careers?: string;
   phone: string; whatsapp: string;
 }
 

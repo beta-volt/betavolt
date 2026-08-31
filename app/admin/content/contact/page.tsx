@@ -8,6 +8,7 @@ import { useAdminLang } from '@/components/admin/AdminLangProvider';
 interface ContactDetails {
   email_general:  string;
   email_projects: string;
+  email_careers?: string;
   phone:          string;
   whatsapp:       string;
 }
@@ -27,6 +28,9 @@ const L = {
     divPromise:   'Response Promise Box',
     promiseTitle: 'Promise Title',
     promiseBody:  'Promise Body',
+    divCareers:   'Careers & Opportunities Box',
+    careersTitle: 'Careers Box Title',
+    careersText:  'Careers Box Text',
     addressLabel: 'Address Label',
     addressValue: 'Address Value',
     divEmail:     'Email Addresses',
@@ -34,6 +38,8 @@ const L = {
     emailGenAddr: 'General Email Address',
     emailProjLabel:'Projects Email Label',
     emailProjAddr: 'Projects Email Address',
+    emailCarLabel:'Careers Email Label',
+    emailCarAddr: 'Careers Email Address',
     divPhone:     'Phone Numbers',
     phoneLabel:   'Phone Label',
     phoneNum:     'Primary Phone Number',
@@ -64,6 +70,9 @@ const L = {
     divPromise:   'صندوق وعد الرد',
     promiseTitle: 'عنوان الوعد',
     promiseBody:  'نص الوعد',
+    divCareers:   'صندوق التوظيف والانضمام للرحلة',
+    careersTitle: 'عنوان صندوق التوظيف',
+    careersText:  'نص صندوق التوظيف',
     addressLabel: 'تسمية العنوان',
     addressValue: 'قيمة العنوان',
     divEmail:     'عناوين البريد الإلكتروني',
@@ -71,6 +80,8 @@ const L = {
     emailGenAddr: 'عنوان البريد العام',
     emailProjLabel:'تسمية بريد المشاريع',
     emailProjAddr: 'بريد استفسارات المشاريع',
+    emailCarLabel:'تسمية بريد التوظيف',
+    emailCarAddr: 'بريد التوظيف والسير الذاتية',
     divPhone:     'أرقام الهواتف',
     phoneLabel:   'تسمية الهاتف',
     phoneNum:     'رقم الهاتف الرئيسي',
@@ -210,7 +221,7 @@ export default function ContactContentPage() {
   const [pageEn,  setPageEn]  = useState<Record<string, string>>({});
   const [pageAr,  setPageAr]  = useState<Record<string, string>>({});
   const [details, setDetails] = useState<ContactDetails>({
-    email_general: '', email_projects: '', phone: '', whatsapp: '',
+    email_general: '', email_projects: '', email_careers: '', phone: '', whatsapp: '',
   });
   const [loading, setLoading] = useState(true);
   const [saving,  setSaving]  = useState(false);
@@ -299,6 +310,16 @@ export default function ContactContentPage() {
           onEn={v => setEn('promise_body', v)} onAr={v => setAr('promise_body', v)}
           placeholderEn="Our support team will review your inquiry…"
           placeholderAr="سيراجع الدعم لدينا استفساركم…" />
+        <FieldDivider label={t.divCareers} />
+        <BiField t={t} label={t.careersTitle}
+          valueEn={en('careers_box_title')} valueAr={ar('careers_box_title')}
+          onEn={v => setEn('careers_box_title', v)} onAr={v => setAr('careers_box_title', v)}
+          placeholderEn="Join Our Journey" placeholderAr="انضم إلى رحلتنا" />
+        <BiField t={t} label={t.careersText} rows={2}
+          valueEn={en('careers_box_text')} valueAr={ar('careers_box_text')}
+          onEn={v => setEn('careers_box_text', v)} onAr={v => setAr('careers_box_text', v)}
+          placeholderEn="Want to join our journey? Send your resume to"
+          placeholderAr="هل ترغب في الانضمام إلى رحلتنا؟ أرسل سيرتك الذاتية إلى" />
       </SectionCard>
 
       {/* B — Contact Details */}
@@ -331,6 +352,15 @@ export default function ContactContentPage() {
               placeholderEn="Project Inquiries" placeholderAr="استفسارات المشاريع" />
             <SingleField label={t.emailProjAddr} value={details.email_projects}
               onChange={v => setDetail('email_projects', v)} placeholder="engineering@betavolt.com"
+              icon={Mail} type="email" />
+          </div>
+          <div className="space-y-3 sm:col-span-2">
+            <BiField t={t} label={t.emailCarLabel}
+              valueEn={en('email_careers_label')} valueAr={ar('email_careers_label')}
+              onEn={v => setEn('email_careers_label', v)} onAr={v => setAr('email_careers_label', v)}
+              placeholderEn="Careers & Talent" placeholderAr="التوظيف والوظائف" />
+            <SingleField label={t.emailCarAddr} value={details.email_careers ?? ''}
+              onChange={v => setDetail('email_careers', v)} placeholder="careers@betavolt.com.sa"
               icon={Mail} type="email" />
           </div>
         </div>

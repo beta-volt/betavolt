@@ -6,6 +6,7 @@ import { getContent } from '@/lib/content-store';
 interface ContactDetails {
   email_general: string;
   email_projects: string;
+  email_careers?: string;
   phone: string;
   whatsapp: string;
 }
@@ -15,7 +16,7 @@ async function loadContactDetails(): Promise<ContactDetails> {
     const db = await getContent('contact-details');
     if (db) return db as unknown as ContactDetails;
   } catch { /* fall through */ }
-  return { email_general: '', email_projects: '', phone: '', whatsapp: '' };
+  return { email_general: '', email_projects: '', email_careers: 'careers@betavolt.com.sa', phone: '', whatsapp: '' };
 }
 
 export const metadata: Metadata = {
@@ -64,6 +65,15 @@ function ShieldCheckIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+    </svg>
+  );
+}
+
+function BriefcaseIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+      <rect width="20" height="14" x="2" y="6" rx="2"/>
     </svg>
   );
 }
@@ -188,6 +198,18 @@ export default async function ContactPage({ params }: Props) {
                   </InfoRow>
                 )}
 
+                {details.email_careers && (
+                  <InfoRow icon={BriefcaseIcon} label={t('email_careers_label')}>
+                    <a
+                      href={`mailto:${details.email_careers}`}
+                      className="text-blue-600 dark:text-blue-400 hover:underline"
+                      dir="ltr"
+                    >
+                      {details.email_careers}
+                    </a>
+                  </InfoRow>
+                )}
+
                 {details.phone && (
                   <InfoRow icon={PhoneIcon} label={t('phone_label')}>
                     <a
@@ -203,6 +225,28 @@ export default async function ContactPage({ params }: Props) {
                 <InfoRow icon={ClockIcon} label={t('hours_label')}>
                   {t('hours_value')}
                 </InfoRow>
+              </div>
+
+              {/* Careers / Join our team banner */}
+              <div className="flex items-start gap-4 p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50/50 dark:from-slate-800/80 dark:to-blue-950/30 border border-slate-200 dark:border-slate-700/80 shadow-sm">
+                <div className="shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-blue-600 text-white shadow-md shadow-blue-600/20">
+                  <BriefcaseIcon />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-black tracking-[0.18em] uppercase text-blue-600 dark:text-blue-400 mb-1">
+                    {t('careers_box_title')}
+                  </p>
+                  <p className="text-sm font-medium text-slate-700 dark:text-slate-200 leading-relaxed">
+                    {t('careers_box_text')}{' '}
+                    <a
+                      href="mailto:careers@betavolt.com.sa"
+                      className="font-bold text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1"
+                      dir="ltr"
+                    >
+                      careers@betavolt.com.sa
+                    </a>
+                  </p>
+                </div>
               </div>
 
               {/* Promise box */}
