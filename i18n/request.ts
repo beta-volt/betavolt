@@ -1,6 +1,14 @@
 import { getRequestConfig } from 'next-intl/server';
 import { unstable_cache } from 'next/cache';
 import { routing } from './routing';
+import { getContent } from '@/lib/content-store';
+import enMessages from '@/messages/en.json';
+import arMessages from '@/messages/ar.json';
+
+const staticMessageMap: Record<string, Record<string, unknown>> = {
+  en: enMessages as Record<string, unknown>,
+  ar: arMessages as Record<string, unknown>,
+};
 
 function deepMerge(target: any, source: any): any {
   if (!source || typeof source !== 'object') return target;
@@ -27,7 +35,6 @@ function deepMerge(target: any, source: any): any {
 const fetchMessages = unstable_cache(
   async (locale: string) => {
     try {
-      const { getContent } = await import('@/lib/content-store');
       return await getContent(`messages.${locale}`);
     } catch {
       return null;
@@ -44,8 +51,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = routing.defaultLocale;
   }
 
-  /* Merge static bundled file as base with DB overrides so new keys never throw missing errors */
-  const staticMessages = (await import(`../messages/${locale}.json`)).default;
+  const staticMessages = staticMessageMap[locale] ?? staticMessageMap.ar;
   const dbMessages     = await fetchMessages(locale);
   const messages       = dbMessages ? deepMerge(staticMessages, dbMessages) : staticMessages;
 
