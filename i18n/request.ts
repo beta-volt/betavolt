@@ -2,6 +2,27 @@ import { getRequestConfig } from 'next-intl/server';
 import { unstable_cache } from 'next/cache';
 import { routing } from './routing';
 
+function deepMerge(target: any, source: any): any {
+  if (!source || typeof source !== 'object') return target;
+  if (!target || typeof target !== 'object') return source;
+  const result = { ...target };
+  for (const key of Object.keys(source)) {
+    if (
+      source[key] &&
+      typeof source[key] === 'object' &&
+      !Array.isArray(source[key]) &&
+      target[key] &&
+      typeof target[key] === 'object' &&
+      !Array.isArray(target[key])
+    ) {
+      result[key] = deepMerge(target[key], source[key]);
+    } else if (source[key] !== undefined && source[key] !== null) {
+      result[key] = source[key];
+    }
+  }
+  return result;
+}
+
 /* Cache translated messages for 60 s — invalidated by admin save via revalidateTag */
 const fetchMessages = unstable_cache(
   async (locale: string) => {
@@ -23,10 +44,10 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = routing.defaultLocale;
   }
 
-  /* Try DB first (admin-editable), fall back to static bundled file */
-  const dbMessages = await fetchMessages(locale);
-  const messages   = dbMessages
-    ?? (await import(`../messages/${locale}.json`)).default;
+  /* Merge static bundled file as base with DB overrides so new keys never throw missing errors */
+  const staticMessages = (await import(`../messages/${locale}.json`)).default;
+  const dbMessages     = await fetchMessages(locale);
+  const messages       = dbMessages ? deepMerge(staticMessages, dbMessages) : staticMessages;
 
   return { locale, messages };
 });
