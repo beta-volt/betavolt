@@ -28,9 +28,12 @@ const L = {
     divPromise:   'Response Promise Box',
     promiseTitle: 'Promise Title',
     promiseBody:  'Promise Body',
-    divCareers:   'Careers & Opportunities Box',
-    careersTitle: 'Careers Box Title',
-    careersText:  'Careers Box Text',
+    divCareers:   'Careers & Opportunities Section',
+    careersEyebrow: 'Careers Eyebrow Tag',
+    careersTitle: 'Careers Main Title',
+    careersSub:   'Careers Subtitle / Description',
+    careersCta:   'Careers CTA Label',
+    careersBadge: 'Careers Security / HR Badge',
     addressLabel: 'Address Label',
     addressValue: 'Address Value',
     divEmail:     'Email Addresses',
@@ -70,9 +73,12 @@ const L = {
     divPromise:   'صندوق وعد الرد',
     promiseTitle: 'عنوان الوعد',
     promiseBody:  'نص الوعد',
-    divCareers:   'صندوق التوظيف والانضمام للرحلة',
-    careersTitle: 'عنوان صندوق التوظيف',
-    careersText:  'نص صندوق التوظيف',
+    divCareers:   'قسم التوظيف وبناء المستقبل المستقل',
+    careersEyebrow: 'النص الصغير فوق عنوان التوظيف',
+    careersTitle: 'عنوان قسم التوظيف الرئيسي',
+    careersSub:   'وصف/نص قسم التوظيف',
+    careersCta:   'تسمية زر إرسال السيرة الذاتية',
+    careersBadge: 'شارة الموارد البشرية / المراجعة',
     addressLabel: 'تسمية العنوان',
     addressValue: 'قيمة العنوان',
     divEmail:     'عناوين البريد الإلكتروني',
@@ -311,15 +317,27 @@ export default function ContactContentPage() {
           placeholderEn="Our support team will review your inquiry…"
           placeholderAr="سيراجع الدعم لدينا استفساركم…" />
         <FieldDivider label={t.divCareers} />
+        <BiField t={t} label={t.careersEyebrow}
+          valueEn={en('careers_eyebrow')} valueAr={ar('careers_eyebrow')}
+          onEn={v => setEn('careers_eyebrow', v)} onAr={v => setAr('careers_eyebrow', v)}
+          placeholderEn="Careers & Opportunities" placeholderAr="التوظيف وبناء المستقبل" />
         <BiField t={t} label={t.careersTitle}
-          valueEn={en('careers_box_title')} valueAr={ar('careers_box_title')}
-          onEn={v => setEn('careers_box_title', v)} onAr={v => setAr('careers_box_title', v)}
-          placeholderEn="Join Our Journey" placeholderAr="انضم إلى رحلتنا" />
-        <BiField t={t} label={t.careersText} rows={2}
-          valueEn={en('careers_box_text')} valueAr={ar('careers_box_text')}
-          onEn={v => setEn('careers_box_text', v)} onAr={v => setAr('careers_box_text', v)}
-          placeholderEn="Want to join our journey? Send your resume to"
-          placeholderAr="هل ترغب في الانضمام إلى رحلتنا؟ أرسل سيرتك الذاتية إلى" />
+          valueEn={en('careers_title')} valueAr={ar('careers_title')}
+          onEn={v => setEn('careers_title', v)} onAr={v => setAr('careers_title', v)}
+          placeholderEn="Want to join our journey?" placeholderAr="هل ترغب في الانضمام إلى رحلتنا؟" />
+        <BiField t={t} label={t.careersSub} rows={2}
+          valueEn={en('careers_subtitle')} valueAr={ar('careers_subtitle')}
+          onEn={v => setEn('careers_subtitle', v)} onAr={v => setAr('careers_subtitle', v)}
+          placeholderEn="We are always seeking ambitious engineers…"
+          placeholderAr="نبحث دائماً عن الكفاءات الهندسية والتقنية الطموحة…" />
+        <BiField t={t} label={t.careersCta}
+          valueEn={en('careers_cta_label')} valueAr={ar('careers_cta_label')}
+          onEn={v => setEn('careers_cta_label', v)} onAr={v => setAr('careers_cta_label', v)}
+          placeholderEn="Send your resume directly to" placeholderAr="أرسل سيرتك الذاتية مباشرة إلى" />
+        <BiField t={t} label={t.careersBadge}
+          valueEn={en('careers_badge')} valueAr={ar('careers_badge')}
+          onEn={v => setEn('careers_badge', v)} onAr={v => setAr('careers_badge', v)}
+          placeholderEn="Direct HR Review" placeholderAr="مراجعة مباشرة من الموارد البشرية" />
       </SectionCard>
 
       {/* B — Contact Details */}

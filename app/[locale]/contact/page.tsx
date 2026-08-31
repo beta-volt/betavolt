@@ -78,6 +78,14 @@ function BriefcaseIcon() {
   );
 }
 
+function ArrowIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+    </svg>
+  );
+}
+
 // ── Contact info row ───────────────────────────────────────────────────────
 
 function InfoRow({
@@ -227,28 +235,6 @@ export default async function ContactPage({ params }: Props) {
                 </InfoRow>
               </div>
 
-              {/* Careers / Join our team banner */}
-              <div className="flex items-start gap-4 p-5 rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50/50 dark:from-slate-800/80 dark:to-blue-950/30 border border-slate-200 dark:border-slate-700/80 shadow-sm">
-                <div className="shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-blue-600 text-white shadow-md shadow-blue-600/20">
-                  <BriefcaseIcon />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-black tracking-[0.18em] uppercase text-blue-600 dark:text-blue-400 mb-1">
-                    {t('careers_box_title')}
-                  </p>
-                  <p className="text-sm font-medium text-slate-700 dark:text-slate-200 leading-relaxed">
-                    {t('careers_box_text')}{' '}
-                    <a
-                      href="mailto:careers@betavolt.com.sa"
-                      className="font-bold text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1"
-                      dir="ltr"
-                    >
-                      careers@betavolt.com.sa
-                    </a>
-                  </p>
-                </div>
-              </div>
-
               {/* Promise box */}
               <div className="flex items-start gap-3 p-5 rounded-xl bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/60">
                 <div className="shrink-0 mt-0.5 text-blue-600 dark:text-blue-400">
@@ -273,6 +259,71 @@ export default async function ContactPage({ params }: Props) {
               <ContactForm />
             </div>
 
+          </div>
+
+          {/* ── Careers / Join Our Journey Section (100% Full-Width Container) ── */}
+          <div className="mt-14 sm:mt-18 lg:mt-20">
+            <div className="relative overflow-hidden rounded-3xl border border-blue-200/80 dark:border-blue-900/40 bg-gradient-to-br from-slate-50 via-white to-blue-50/70 dark:from-[#0B1528] dark:via-[#07111F] dark:to-[#0A1A36] p-8 sm:p-10 lg:p-12 shadow-xl shadow-blue-600/5">
+              
+              {/* Decorative Ambient Glows */}
+              <div
+                className="pointer-events-none absolute -end-24 -top-24 w-96 h-96 rounded-full bg-blue-500/10 dark:bg-blue-500/15 blur-3xl"
+                aria-hidden="true"
+              />
+              <div
+                className="pointer-events-none absolute -start-24 -bottom-24 w-96 h-96 rounded-full bg-sky-500/10 dark:bg-sky-500/10 blur-3xl"
+                aria-hidden="true"
+              />
+
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                
+                {/* Left Side: Headlines & Mission */}
+                <div className="lg:col-span-7 flex flex-col gap-4">
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100/90 dark:bg-blue-950/70 border border-blue-200 dark:border-blue-800/80 text-blue-700 dark:text-blue-300 text-xs font-bold w-fit">
+                    <span className="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse" />
+                    {t('careers_eyebrow')}
+                  </div>
+                  
+                  <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-tight">
+                    {t('careers_title')}
+                  </h3>
+                  
+                  <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                    {t('careers_subtitle')}
+                  </p>
+                </div>
+
+                {/* Right Side: Direct Action Card */}
+                <div className="lg:col-span-5 flex flex-col gap-4 bg-white/90 dark:bg-slate-900/85 backdrop-blur-md rounded-2xl border border-slate-200/90 dark:border-slate-800 p-6 sm:p-7 shadow-lg shadow-slate-900/5">
+                  <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-wider">
+                    <span className="shrink-0 w-8 h-8 rounded-lg bg-blue-600/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                      <BriefcaseIcon />
+                    </span>
+                    <span>{t('careers_cta_label')}</span>
+                  </div>
+
+                  <a
+                    href="mailto:careers@betavolt.com.sa"
+                    className="group flex items-center justify-between gap-3 p-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-base sm:text-lg transition-all duration-200 shadow-md shadow-blue-600/25 hover:shadow-blue-600/40"
+                    dir="ltr"
+                  >
+                    <span className="truncate">careers@betavolt.com.sa</span>
+                    <span className="shrink-0 w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform">
+                      <ArrowIcon />
+                    </span>
+                  </a>
+
+                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 pt-2 border-t border-slate-100 dark:border-slate-800">
+                    <span className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      {t('careers_badge')}
+                    </span>
+                    <span className="font-mono text-[11px] text-slate-400">betavolt.com.sa</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
         </div>
       </section>
