@@ -95,6 +95,11 @@ export async function middleware(request: NextRequest) {
      Unauthenticated → 401 JSON.
      Wrong role      → 403 JSON.                              */
   if (pathname.startsWith('/api/admin')) {
+    // Auth endpoints (/api/admin/auth/*) handle their own credentials & cookies
+    if (pathname.startsWith('/api/admin/auth')) {
+      return NextResponse.next();
+    }
+
     const res     = NextResponse.next();
     const supabase = buildClient(request, res);
     const { data: { user } } = await supabase.auth.getUser();
