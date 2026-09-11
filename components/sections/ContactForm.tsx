@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { CheckCircle, AlertCircle, Send } from 'lucide-react';
+import { trackEvent, getStoredUtm } from '@/components/AnalyticsBeacon';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
@@ -25,6 +26,7 @@ export default function ContactForm() {
       phone:   data.get('phone'),
       service: data.get('service'),
       details: data.get('details'),
+      ...getStoredUtm(),
     };
 
     try {
@@ -35,6 +37,9 @@ export default function ContactForm() {
       });
       if (!res.ok) throw new Error('server_error');
       setStatus('success');
+      trackEvent('contact_submit', {
+        service: payload.service,
+      });
       formRef.current?.reset();
     } catch {
       setStatus('error');

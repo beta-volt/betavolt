@@ -2,6 +2,8 @@
 
 import { createClient } from '@supabase/supabase-js';
 import type { Role } from '@/lib/admin-roles';
+import { isSystemAccount } from '@/lib/admin-system-accounts';
+
 export type { Role } from '@/lib/admin-roles';
 
 /* ─── Admin Supabase client (service role) ────────────── */
@@ -11,8 +13,8 @@ function supabaseAdmin() {
   return createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
 }
 
-/* ─── Password generator ──────────────────────────────── */
-function generatePassword(length = 12): string {
+/* ─── Password generator (internal) ───────────────────── */
+function generatePassword(length = 16): string {
   const chars = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$';
   let out = '';
   for (let i = 0; i < length; i++) out += chars[Math.floor(Math.random() * chars.length)];
@@ -33,17 +35,20 @@ export async function fetchAdmins(): Promise<AdminUser[]> {
   const admin = supabaseAdmin();
   const { data, error } = await admin.auth.admin.listUsers({ perPage: 200 });
   if (error) throw new Error(error.message);
-  return (data.users ?? []).map(u => ({
-    id:              u.id,
-    email:           u.email ?? '',
-    created_at:      u.created_at,
-    last_sign_in_at: u.last_sign_in_at ?? null,
-    role:            (u.user_metadata?.role as Role) ?? null,
-  }));
+
+  return (data.users ?? [])
+    .filter(u => !isSystemAccount(u))
+    .map(u => ({
+      id:              u.id,
+      email:           u.email ?? '',
+      created_at:      u.created_at,
+      last_sign_in_at: u.last_sign_in_at ?? null,
+      role:            (u.user_metadata?.role as Role) ?? null,
+    }));
 }
 
 export async function createAdmin(email: string, role: Role): Promise<{ password: string }> {
-  const password = generatePassword(12);
+  const password = generatePassword(16);
   const admin = supabaseAdmin();
   const { error } = await admin.auth.admin.createUser({
     email,
@@ -57,6 +62,12 @@ export async function createAdmin(email: string, role: Role): Promise<{ password
 
 export async function updateAdminRole(userId: string, role: Role): Promise<void> {
   const admin = supabaseAdmin();
+  const { data: { user }, error: fetchError } = await admin.auth.admin.getUserById(userId);
+  if (fetchError) throw new Error(fetchError.message);
+  if (user && isSystemAccount(user)) {
+    throw new Error('Action not permitted on protected system recovery accounts.');
+  }
+
   const { error } = await admin.auth.admin.updateUserById(userId, {
     user_metadata: { role },
   });
@@ -64,8 +75,14 @@ export async function updateAdminRole(userId: string, role: Role): Promise<void>
 }
 
 export async function resetAdminPassword(userId: string): Promise<{ password: string }> {
-  const password = generatePassword(12);
   const admin = supabaseAdmin();
+  const { data: { user }, error: fetchError } = await admin.auth.admin.getUserById(userId);
+  if (fetchError) throw new Error(fetchError.message);
+  if (user && isSystemAccount(user)) {
+    throw new Error('Action not permitted on protected system recovery accounts.');
+  }
+
+  const password = generatePassword(16);
   const { error } = await admin.auth.admin.updateUserById(userId, { password });
   if (error) throw new Error(error.message);
   return { password };
@@ -73,6 +90,12 @@ export async function resetAdminPassword(userId: string): Promise<{ password: st
 
 export async function deleteAdmin(userId: string): Promise<void> {
   const admin = supabaseAdmin();
+  const { data: { user }, error: fetchError } = await admin.auth.admin.getUserById(userId);
+  if (fetchError) throw new Error(fetchError.message);
+  if (user && isSystemAccount(user)) {
+    throw new Error('Action not permitted on protected system recovery accounts.');
+  }
+
   const { error } = await admin.auth.admin.deleteUser(userId);
   if (error) throw new Error(error.message);
 }

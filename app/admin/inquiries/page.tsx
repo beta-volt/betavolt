@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import {
   Inbox, Search, X, Trash2, CheckCheck, MailOpen,
   RefreshCw, Building2, Phone, Tag, Mail,
-  MessageSquare, Calendar, Clock,
+  MessageSquare, Calendar, Clock, ArrowDownToLine,
 } from 'lucide-react';
 import { useAdminLang } from '@/components/admin/AdminLangProvider';
 
@@ -30,38 +30,52 @@ interface Inquiry {
 /* ─── Bilingual labels ─────────────────────────────────── */
 const L = {
   en: {
-    title: 'Inquiries',
-    subtitle: 'Incoming messages from the contact form.',
-    search: 'Search name or email…',
+    title: 'Inquiries & Leads',
+    subtitle: 'Incoming quotations, pre-qualification downloads, and contact messages.',
+    search: 'Search name, company, or email…',
     filter_all: 'All', filter_new: 'New', filter_read: 'Read', filter_replied: 'Replied',
-    col_name: 'Name', col_subject: 'Subject', col_date: 'Date', col_status: 'Status',
+    col_name: 'Name / Company', col_subject: 'Subject', col_date: 'Date', col_status: 'Status',
     lbl_email: 'Email', lbl_company: 'Company', lbl_phone: 'Phone',
     lbl_message: 'Message', lbl_source: 'Source', lbl_date: 'Received',
     source_contact: 'Contact Form',
     source_quote:   'Quote Request',
+    source_lead_magnet: 'Pre-Qualification (Lead Magnet)',
+    filter_src_all: 'All Sources',
+    filter_src_quote: 'Quotes',
+    filter_src_lead: 'Pre-Qual',
+    filter_src_contact: 'Contact',
+    btn_call: 'Call Client',
+    btn_whatsapp: 'WhatsApp',
     lbl_attachment: 'Attachment',
     btn_markRead: 'Mark as Read', btn_markReplied: 'Mark as Replied',
     btn_delete: 'Delete', btn_refresh: 'Refresh', btn_close: 'Close',
     empty_title: 'Inbox is empty',
-    empty_desc: 'New messages from the contact form will appear here.',
+    empty_desc: 'New messages and lead downloads will appear here.',
     delete_confirm: 'Delete this inquiry? This action cannot be undone.',
     err_load: 'Failed to load inquiries. Check your Supabase connection.',
   },
   ar: {
-    title: 'الاستفسارات',
-    subtitle: 'الرسائل الواردة من نموذج التواصل.',
-    search: 'البحث بالاسم أو البريد…',
+    title: 'الاستفسارات والفرص البيعية',
+    subtitle: 'طلبات التسعير، تنزيلات ملف التأهيل، ورسائل التواصل الواردة.',
+    search: 'البحث بالاسم أو الشركة أو البريد…',
     filter_all: 'الكل', filter_new: 'جديد', filter_read: 'مقروء', filter_replied: 'تم الرد',
-    col_name: 'الاسم', col_subject: 'الموضوع', col_date: 'التاريخ', col_status: 'الحالة',
-    lbl_email: 'البريد الإلكتروني', lbl_company: 'الشركة', lbl_phone: 'الهاتف',
+    col_name: 'الجهة / الاسم', col_subject: 'الموضوع', col_date: 'التاريخ', col_status: 'الحالة',
+    lbl_email: 'البريد الإلكتروني', lbl_company: 'الشركة / الجهة', lbl_phone: 'الهاتف',
     lbl_message: 'الرسالة', lbl_source: 'المصدر', lbl_date: 'تاريخ الاستلام',
     source_contact: 'نموذج التواصل',
     source_quote:   'طلب عرض سعر',
+    source_lead_magnet: 'تحميل ملف التأهيل (فرصة بيعية)',
+    filter_src_all: 'كافة المصادر',
+    filter_src_quote: 'عروض الأسعار',
+    filter_src_lead: 'ملف التأهيل',
+    filter_src_contact: 'نموذج التواصل',
+    btn_call: 'اتصال هاتفي',
+    btn_whatsapp: 'محادثة واتساب',
     lbl_attachment: 'المرفق',
     btn_markRead: 'تعيين كمقروء', btn_markReplied: 'تعيين كمُجاب',
     btn_delete: 'حذف', btn_refresh: 'تحديث', btn_close: 'إغلاق',
     empty_title: 'صندوق الوارد فارغ',
-    empty_desc: 'ستظهر الرسائل الجديدة من نموذج التواصل هنا.',
+    empty_desc: 'ستظهر الرسائل الجديدة وتحميلات ملف التأهيل هنا.',
     delete_confirm: 'حذف هذا الاستفسار؟ لا يمكن التراجع عن هذا الإجراء.',
     err_load: 'فشل تحميل الاستفسارات. تحقق من اتصال Supabase.',
   },
@@ -175,6 +189,41 @@ function StatusBadge({ status, lang }: { status: Status; lang: Lang }) {
   );
 }
 
+function getWhatsAppUrl(phone?: string | null): string | null {
+  if (!phone) return null;
+  let digits = phone.replace(/\D/g, '');
+  if (!digits) return null;
+  if (digits.startsWith('00966')) digits = digits.slice(2);
+  else if (digits.startsWith('05')) digits = '966' + digits.slice(1);
+  else if (digits.startsWith('5') && digits.length === 9) digits = '966' + digits;
+  return `https://wa.me/${digits}`;
+}
+
+function SourceBadge({ source, lang }: { source: string; lang: Lang }) {
+  if (source === 'lead_magnet') {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-cyan-50 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800 shrink-0">
+        <ArrowDownToLine size={10} className="shrink-0" />
+        {lang === 'ar' ? 'ملف التأهيل' : 'Lead Magnet'}
+      </span>
+    );
+  }
+  if (source === 'quote_form') {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 shrink-0">
+        <Tag size={10} className="shrink-0" />
+        {lang === 'ar' ? 'طلب تسعير' : 'Quote'}
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 shrink-0">
+      <Mail size={10} className="shrink-0" />
+      {lang === 'ar' ? 'تواصل' : 'Contact'}
+    </span>
+  );
+}
+
 /* ─── Skeleton row ─────────────────────────────────────── */
 function SkeletonRow() {
   return (
@@ -194,15 +243,16 @@ function SkeletonRow() {
 /* ─── Page ─────────────────────────────────────────────── */
 export default function InquiriesPage() {
   const { lang } = useAdminLang();
-  const [inquiries,  setInquiries]  = useState<Inquiry[]>([]);
-  const [loading,    setLoading]    = useState(true);
-  const [hasError,   setHasError]   = useState(false);
-  const [search,     setSearch]     = useState('');
-  const [filter,     setFilter]     = useState<Status | 'all'>('all');
-  const [selected,    setSelected]    = useState<Inquiry | null>(null);
-  const [actionLoad,  setActionLoad]  = useState(false);
-  const [viewerUrl,   setViewerUrl]   = useState<string | null>(null);
-  const [viewerName,  setViewerName]  = useState<string>('');
+  const [inquiries,    setInquiries]    = useState<Inquiry[]>([]);
+  const [loading,      setLoading]      = useState(true);
+  const [hasError,     setHasError]     = useState(false);
+  const [search,       setSearch]       = useState('');
+  const [filter,       setFilter]       = useState<Status | 'all'>('all');
+  const [sourceFilter, setSourceFilter] = useState<'all' | 'quote_form' | 'lead_magnet' | 'contact_form'>('all');
+  const [selected,     setSelected]     = useState<Inquiry | null>(null);
+  const [actionLoad,   setActionLoad]   = useState(false);
+  const [viewerUrl,    setViewerUrl]    = useState<string | null>(null);
+  const [viewerName,   setViewerName]   = useState<string>('');
 
   const t   = L[lang];
   const dir = lang === 'ar' ? 'rtl' : 'ltr';
@@ -233,12 +283,18 @@ export default function InquiriesPage() {
   /* ── Filtered list ── */
   const filtered = useMemo(() => inquiries.filter(inq => {
     if (filter !== 'all' && inq.status !== filter) return false;
+    if (sourceFilter !== 'all' && inq.source !== sourceFilter) return false;
     if (search) {
       const q = search.toLowerCase();
-      return inq.full_name.toLowerCase().includes(q) || inq.email.toLowerCase().includes(q);
+      return (
+        inq.full_name.toLowerCase().includes(q) ||
+        inq.email.toLowerCase().includes(q) ||
+        (inq.company && inq.company.toLowerCase().includes(q)) ||
+        inq.subject.toLowerCase().includes(q)
+      );
     }
     return true;
-  }), [inquiries, filter, search]);
+  }), [inquiries, filter, sourceFilter, search]);
 
   /* ── Counts ── */
   const counts = useMemo(() => ({
@@ -246,6 +302,13 @@ export default function InquiriesPage() {
     new:     inquiries.filter(i => i.status === 'new').length,
     read:    inquiries.filter(i => i.status === 'read').length,
     replied: inquiries.filter(i => i.status === 'replied').length,
+  }), [inquiries]);
+
+  const sourceCounts = useMemo(() => ({
+    all: inquiries.length,
+    quote_form: inquiries.filter(i => i.source === 'quote_form').length,
+    lead_magnet: inquiries.filter(i => i.source === 'lead_magnet').length,
+    contact_form: inquiries.filter(i => i.source === 'contact_form' || !i.source).length,
   }), [inquiries]);
 
   /* ── Actions ── */
@@ -293,6 +356,13 @@ export default function InquiriesPage() {
     { key: 'replied' as const, label: t.filter_replied, count: counts.replied },
   ];
 
+  const SOURCE_FILTERS = [
+    { key: 'all'          as const, label: t.filter_src_all,     count: sourceCounts.all          },
+    { key: 'quote_form'   as const, label: t.filter_src_quote,   count: sourceCounts.quote_form   },
+    { key: 'lead_magnet'  as const, label: t.filter_src_lead,    count: sourceCounts.lead_magnet  },
+    { key: 'contact_form' as const, label: t.filter_src_contact, count: sourceCounts.contact_form },
+  ];
+
   /* ── Responsive table grid ── */
   const TABLE_GRID_OPEN   = 'grid-cols-[minmax(0,1fr)_auto]';
   const TABLE_GRID_CLOSED = 'grid-cols-[minmax(0,1fr)_auto] sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto_auto]';
@@ -303,7 +373,15 @@ export default function InquiriesPage() {
     panelContent.email   ? { icon: Mail,      label: t.lbl_email,   value: panelContent.email   } : null,
     panelContent.company ? { icon: Building2, label: t.lbl_company, value: panelContent.company } : null,
     panelContent.phone   ? { icon: Phone,     label: t.lbl_phone,   value: panelContent.phone   } : null,
-    { icon: Tag,      label: t.lbl_source, value: panelContent.source === 'quote_form' ? t.source_quote : t.source_contact },
+    {
+      icon: Tag,
+      label: t.lbl_source,
+      value: panelContent.source === 'lead_magnet'
+        ? t.source_lead_magnet
+        : panelContent.source === 'quote_form'
+          ? t.source_quote
+          : t.source_contact
+    },
     { icon: Calendar, label: t.lbl_date,   value: formatDate(panelContent.created_at, lang) },
   ].filter(Boolean) as { icon: React.ElementType; label: string; value: string }[] : [];
 
@@ -373,6 +451,32 @@ export default function InquiriesPage() {
             ))}
           </div>
         </div>
+
+        {/* Source filter tabs */}
+        <div className="flex items-center gap-1.5 mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/80 overflow-x-auto text-xs">
+          <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 whitespace-nowrap">
+            {t.lbl_source}:
+          </span>
+          {SOURCE_FILTERS.map(({ key, label, count }) => (
+            <button
+              key={key}
+              onClick={() => setSourceFilter(key)}
+              className={[
+                'flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold whitespace-nowrap transition-all duration-150',
+                sourceFilter === key
+                  ? key === 'lead_magnet'
+                    ? 'bg-cyan-600 text-white shadow-sm font-bold'
+                    : key === 'quote_form'
+                      ? 'bg-blue-600 text-white shadow-sm font-bold'
+                      : 'bg-slate-700 text-white shadow-sm font-bold'
+                  : 'bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white',
+              ].join(' ')}
+            >
+              <span>{label}</span>
+              <span className="text-[10px] opacity-80">({count})</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* ── Body ──────────────────────────────────────────── */}
@@ -435,14 +539,20 @@ export default function InquiriesPage() {
                     TABLE_GRID,
                   ].join(' ')}
                 >
-                  {/* Col 1: Avatar + Name + Email */}
+                  {/* Col 1: Avatar + Name + Email + SourceBadge */}
                   <div className="flex items-center gap-3 min-w-0">
                     <Avatar name={inq.full_name} />
                     <div className="min-w-0">
-                      <p className={`text-sm truncate ${inq.status === 'new' ? 'font-bold text-slate-900 dark:text-white' : 'font-medium text-slate-700 dark:text-slate-300'}`}>
-                        {inq.full_name}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className={`text-sm truncate ${inq.status === 'new' ? 'font-bold text-slate-900 dark:text-white' : 'font-medium text-slate-700 dark:text-slate-300'}`}>
+                          {inq.full_name}
+                        </p>
+                        <SourceBadge source={inq.source} lang={lang} />
+                      </div>
+                      <p className="text-xs text-slate-400 dark:text-slate-500 truncate">
+                        {inq.company ? <span className="font-semibold text-slate-600 dark:text-slate-300">{inq.company} • </span> : null}
+                        {inq.email}
                       </p>
-                      <p className="text-xs text-slate-400 dark:text-slate-500 truncate">{inq.email}</p>
                     </div>
                   </div>
 
@@ -530,6 +640,30 @@ export default function InquiriesPage() {
                   </div>
                 ))}
               </div>
+
+              {/* Quick Contact Actions (WhatsApp & Phone) */}
+              {panelContent.phone && (
+                <div className="flex gap-2">
+                  <a
+                    href={`tel:${panelContent.phone.replace(/[^\d+]/g, '')}`}
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-colors shadow-sm"
+                  >
+                    <Phone size={13} />
+                    <span>{t.btn_call}</span>
+                  </a>
+                  {getWhatsAppUrl(panelContent.phone) && (
+                    <a
+                      href={getWhatsAppUrl(panelContent.phone)!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors shadow-sm"
+                    >
+                      <MessageSquare size={13} />
+                      <span>{t.btn_whatsapp}</span>
+                    </a>
+                  )}
+                </div>
+              )}
 
               {/* Subject */}
               <div className="rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 p-4">

@@ -3,6 +3,7 @@ import { Link } from '@/navigation';
 import { getContent } from '@/lib/content-store';
 import HeroMediaDisplay from './HeroMediaDisplay';
 import type { HeroMedia } from '@/app/api/admin/content/home/media/route';
+import { LeadMagnetTriggerButton } from '@/components/LeadMagnetModal';
 
 /* ── SVG icons ── */
 function BoltIcon()   { return <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg>; }
@@ -225,6 +226,8 @@ export default async function Hero() {
               >
                 {t('hero.cta_secondary')}
               </a>
+
+              <LeadMagnetTriggerButton />
             </div>
 
             {/* Service Pills */}

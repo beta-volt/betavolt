@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>BetaVolt – Pre-Qualification Document 2025</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+
+    /* ── RESET ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── PRINT ───────────────────────────────────────────── */
+    @page { size: A4; margin: 0; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    @media print { body { background: none; } .page { box-shadow: none; margin: 0; } }
+
+    /* ── TOKENS ──────────────────────────────────────────── */
+    :root {
+      --navy:    #0f172a;
+      --navy-2:  #1e293b;
+      --navy-3:  #334155;
+      --blue:    #3b82f6;
+      --blue-d:  #2563eb;
+      --blue-l:  #60a5fa;
+      --amber:   #f59e0b;
+      --amber-d: #d97706;
+      --green:   #22c55e;
+      --white:   #ffffff;
+      --bg:      #f8fafc;
+      --bg-2:    #f1f5f9;
+      --border:  #e2e8f0;
+      --text:    #0f172a;
+      --text-2:  #334155;
+      --text-3:  #64748b;
+      --text-4:  #94a3b8;
+    }
+
+    html, body { font-family: 'Inter', system-ui, sans-serif; background: #d1d5db; -webkit-font-smoothing: antialiased; }
+
+    /* ── PAGE SHELL ──────────────────────────────────────── */
+    .page {
+      width: 210mm;
+      height: 297mm;
+      overflow: hidden;
+      position: relative;
+      margin: 0 auto 8mm;
+      page-break-after: always;
+      break-after: page;
+      background: #fff;
+    }
+
+    /* ── PAGE HEADER (interior) ──────────────────────────── */
+    .ph {
+      background: var(--navy);
+      height: 15mm;
+      padding: 0 15mm;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .ph-logo { display: flex; align-items: center; gap: 7px; }
+    .ph-bolt {
+      width: 24px; height: 24px; border-radius: 6px;
+      background: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ph-bolt svg { width: 11px; height: 11px; fill: white; }
+    .ph-name { font-size: 12px; font-weight: 900; letter-spacing: 0.08em; color: white; }
+    .ph-name em { color: var(--blue-l); font-style: normal; }
+    .ph-right { text-align: right; }
+    .ph-section { font-size: 10px; font-weight: 700; color: white; letter-spacing: 0.06em; text-transform: uppercase; }
+    .ph-pg { font-size: 8px; color: var(--blue-l); margin-top: 2px; letter-spacing: 0.1em; }
+
+    /* ── PAGE CONTENT ────────────────────────────────────── */
+    .pc { padding: 7mm 15mm 12mm; height: calc(297mm - 15mm - 10mm); overflow: hidden; }
+
+    /* ── PAGE FOOTER ─────────────────────────────────────── */
+    .pf {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 10mm;
+      border-top: 2.5px solid var(--blue);
+      background: white;
+      display: flex; align-items: center;
+      padding: 0 15mm;
+      justify-content: space-between;
+    }
+    .pf span { font-size: 7.5px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-3); }
+    .pf .pf-pg { color: var(--blue-d); font-weight: 700; }
+
+    /* ── SECTION HEADING ─────────────────────────────────── */
+    .sh { margin-bottom: 8px; }
+    .sh .ov { font-size: 7.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue); margin-bottom: 3px; }
+    .sh h2 { font-size: 15px; font-weight: 800; color: var(--navy); letter-spacing: -0.01em; line-height: 1.2; }
+    .sh .bar { width: 28px; height: 3px; background: var(--blue); border-radius: 2px; margin-top: 5px; }
+    .sh .bar-a { background: var(--amber); }
+
+    /* ── TYPOGRAPHY ──────────────────────────────────────── */
+    .bt  { font-size: 10px; font-weight: 400; line-height: 1.7;  color: var(--text-2); }
+    .bts { font-size: 9px;  font-weight: 400; line-height: 1.65; color: var(--text-3); }
+    .cap { font-size: 8px;  color: var(--text-4); }
+    strong.hi { color: var(--navy); font-weight: 700; }
+
+    /* ── DIVIDERS ────────────────────────────────────────── */
+    .div  { height: 1px; background: var(--border);              margin: 7px 0; }
+    .div-n{ height: 1px; background: rgba(255,255,255,0.08);     margin: 7px 0; }
+    .div-b{ height: 1px; background: rgba(59,130,246,0.25);      margin: 7px 0; }
+
+    /* ── TAGS ────────────────────────────────────────────── */
+    .tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 20px; font-size: 7.5px; font-weight: 700; letter-spacing: 0.06em; }
+    .tag-b { background: rgba(59,130,246,0.1);  border: 1px solid rgba(59,130,246,0.2);  color: var(--blue-d); }
+    .tag-a { background: rgba(245,158,11,0.1);  border: 1px solid rgba(245,158,11,0.2);  color: var(--amber-d); }
+    .tag-g { background: rgba(34,197,94,0.1);   border: 1px solid rgba(34,197,94,0.2);   color: #15803d; }
+    .tag-n { background: rgba(15,23,42,0.06);   border: 1px solid rgba(15,23,42,0.12);   color: var(--navy-2); }
+
+    /* ── CARDS ───────────────────────────────────────────── */
+    .card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+    .card-b { border-top: 2.5px solid var(--blue);  }
+    .card-a { border-top: 2.5px solid var(--amber); }
+    .card-nav { background: var(--navy); border-radius: 8px; padding: 12px; }
+
+    /* ── KEY FACTS TABLE ─────────────────────────────────── */
+    .kf { width: 100%; border-collapse: collapse; }
+    .kf td { padding: 5.5px 9px; font-size: 9px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .kf td:first-child { font-weight: 700; color: var(--navy); width: 44%; background: var(--bg); white-space: nowrap; }
+    .kf td:last-child  { color: var(--text-2); }
+    .kf tr:last-child td { border-bottom: none; }
+
+    /* ── DATA TABLE (Projects / Equipment) ───────────────── */
+    .dt { width: 100%; border-collapse: collapse; font-size: 8px; }
+    .dt thead tr { background: var(--navy); }
+    .dt thead th {
+      padding: 6px 5px; text-align: left; font-weight: 700;
+      font-size: 7.5px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: white; border-right: 1px solid rgba(255,255,255,0.08);
+      white-space: nowrap;
+    }
+    .dt thead th:last-child { border-right: none; }
+    .dt tbody tr { border-bottom: 1px solid var(--border); }
+    .dt tbody tr:nth-child(odd)  { background: var(--bg); }
+    .dt tbody tr:nth-child(even) { background: white; }
+    .dt tbody td {
+      padding: 5px 5px; color: var(--text-2);
+      vertical-align: top; border-right: 1px solid var(--border); line-height: 1.45;
+    }
+    .dt tbody td:last-child { border-right: none; }
+    .dt .no { font-weight: 700; color: var(--navy); text-align: center; }
+    .sn  { display: inline-flex; align-items: center; padding: 2px 6px; border-radius: 20px; font-size: 7px; font-weight: 700; }
+    .sn-c{ background: rgba(34,197,94,0.1); color: #15803d; }
+    .sn-p{ background: rgba(59,130,246,0.1); color: var(--blue-d); }
+    .sn-o{ background: rgba(245,158,11,0.1); color: var(--amber-d); }
+
+    /* ── GALLERY ─────────────────────────────────────────── */
+    .gal { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+    .gi { border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+    .gt { height: 40mm; background: var(--bg-2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+    .gt-icon { width: 38px; height: 38px; border: 1.5px dashed rgba(59,130,246,0.35); border-radius: 7px; display: flex; align-items: center; justify-content: center; }
+    .gt-icon svg { width: 16px; height: 16px; stroke: rgba(59,130,246,0.45); fill: none; stroke-width: 1.5; stroke-linecap: round; }
+    .gt-lbl { font-size: 7px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-4); }
+    .gc { padding: 6px 8px; background: white; border-top: 1px solid var(--border); }
+    .gc-t { font-size: 8px; font-weight: 700; color: var(--navy); }
+    .gc-s { font-size: 7.5px; color: var(--text-3); margin-top: 1px; }
+
+    /* ── ORG CHART ───────────────────────────────────────── */
+    .org { text-align: center; }
+    .ob { display: inline-flex; flex-direction: column; align-items: center; padding: 6px 10px; border-radius: 6px; min-width: 33mm; }
+    .ob-navy  { background: var(--navy); color: white; }
+    .ob-blue  { background: var(--blue-d); color: white; }
+    .ob-light { background: var(--bg); border: 1px solid var(--border); color: var(--navy); }
+    .ob-amber { background: var(--amber-d); color: white; }
+    .ob-t { font-size: 8.5px; font-weight: 700; line-height: 1.2; }
+    .ob-s { font-size: 7px; opacity: 0.7; margin-top: 1px; }
+    .ov-line { width: 2px; height: 7px; background: var(--border); margin: 0 auto; }
+    .oh-line { height: 2px; background: var(--border); }
+    .ol { display: flex; justify-content: center; gap: 8px; }
+    .obr { display: flex; flex-direction: column; align-items: center; }
+
+    /* ── CERT GRID ───────────────────────────────────────── */
+    .cg { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; }
+    .cb { border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+    .ch { background: var(--navy); padding: 6px 9px; display: flex; align-items: center; gap: 5px; }
+    .ch-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
+    .ch-txt { font-size: 8px; font-weight: 700; color: white; }
+    .cc { height: 40mm; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 8px; }
+    .cc-icon { width: 34px; height: 34px; border: 1.5px dashed rgba(59,130,246,0.3); border-radius: 7px; display: flex; align-items: center; justify-content: center; }
+    .cc-icon svg { width: 15px; height: 15px; stroke: rgba(59,130,246,0.4); fill: none; stroke-width: 1.5; }
+    .cc-lbl { font-size: 7.5px; font-weight: 600; color: var(--text-4); letter-spacing: 0.06em; text-align: center; line-height: 1.4; }
+    .cf { padding: 4px 9px; background: white; border-top: 1px solid var(--border); }
+    .cf span { font-size: 7px; color: var(--text-3); }
+
+    /* ── SERVICE CARD ────────────────────────────────────── */
+    .sc { background: var(--bg); border: 1px solid var(--border); border-left: 3px solid var(--blue); border-radius: 0 7px 7px 0; padding: 9px 11px; }
+    .sc-a { border-left-color: var(--amber); }
+    .sc-h { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
+    .sc-icon { width: 24px; height: 24px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.15); border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .sc-icon svg { width: 11px; height: 11px; stroke: var(--blue); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .sc-icon-a { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.15); }
+    .sc-icon-a svg { stroke: var(--amber-d); }
+    .sc-num { font-size: 7.5px; font-weight: 800; letter-spacing: 0.12em; color: var(--blue); }
+    .sc-title { font-size: 9.5px; font-weight: 800; color: var(--navy); line-height: 1.2; }
+    .sc-body { font-size: 8.5px; line-height: 1.6; color: var(--text-3); }
+    .sc-ul { list-style: none; margin-top: 4px; }
+    .sc-ul li { font-size: 8px; color: var(--text-3); padding: 1px 0 1px 9px; position: relative; }
+    .sc-ul li::before { content:''; position:absolute; left:0; top:6px; width:3.5px; height:3.5px; background:var(--blue); border-radius:50%; }
+    .sc-a .sc-num { color: var(--amber-d); }
+    .sc-a .sc-ul li::before { background: var(--amber-d); }
+
+    /* ── VALUE ITEM ──────────────────────────────────────── */
+    .vi { display: flex; align-items: flex-start; gap: 7px; padding: 8px 9px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; }
+    .vi-icon { width: 20px; height: 20px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 9px; }
+    .vi-title { font-size: 9px; font-weight: 700; color: var(--navy); margin-bottom: 1px; }
+    .vi-body  { font-size: 8px; color: var(--text-3); line-height: 1.55; }
+
+    /* ── COVER ───────────────────────────────────────────── */
+    .page-cover {
+      background: var(--navy);
+      background-image:
+        radial-gradient(ellipse 110% 75% at 65% 45%, rgba(37,99,235,0.22) 0%, transparent 62%),
+        radial-gradient(ellipse 50% 40% at 10% 15%, rgba(245,158,11,0.07) 0%, transparent 55%),
+        radial-gradient(circle, rgba(59,130,246,0.11) 1px, transparent 1px);
+      background-size: auto, auto, 28px 28px;
+    }
+    .cs { display: flex; align-items: stretch; border: 1px solid rgba(255,255,255,0.08); border-radius: 7px; overflow: hidden; }
+    .cs-item { flex: 1; padding: 8px 10px; background: rgba(255,255,255,0.03); border-right: 1px solid rgba(255,255,255,0.07); text-align: center; }
+    .cs-item:last-child { border-right: none; }
+    .cs-l { font-size: 7px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 2px; }
+    .cs-v { font-size: 10px; font-weight: 700; color: white; }
+
+    /* ── HIGHLIGHT BOX ───────────────────────────────────── */
+    .hb { padding: 9px 13px; background: rgba(59,130,246,0.05); border: 1px solid rgba(59,130,246,0.14); border-left: 3px solid var(--blue); border-radius: 0 6px 6px 0; }
+
+    /* ── BACK COVER ──────────────────────────────────────── */
+    .page-back {
+      background: var(--navy);
+      background-image:
+        radial-gradient(ellipse 90% 65% at 50% 55%, rgba(37,99,235,0.2) 0%, transparent 65%),
+        radial-gradient(circle, rgba(59,130,246,0.1) 1px, transparent 1px);
+      background-size: auto, 28px 28px;
+    }
+
+  </style>
+</head>
+<body>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 1 — COVER
+══════════════════════════════════════════════════════════ -->
+<div class="page page-cover">
+
+  <!-- Top accent -->
+  <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--blue),rgba(59,130,246,0.3),transparent);"></div>
+
+  <!-- Decorative circles (right) -->
+  <div style="position:absolute;right:-20mm;top:35mm;width:85mm;height:85mm;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,0.1),transparent 70%);pointer-events:none;"></div>
+  <div style="position:absolute;right:14mm;top:50mm;width:28mm;height:28mm;border-radius:50%;border:1px solid rgba(59,130,246,0.08);pointer-events:none;"></div>
+
+  <div style="position:relative;z-index:2;height:100%;display:flex;flex-direction:column;padding:12mm 16mm 10mm;">
+
+    <!-- Top bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:auto;">
+      <!-- Logo -->
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:44px;height:44px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 22px rgba(59,130,246,0.45);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg>
+        </div>
+        <div>
+          <div style="font-size:20px;font-weight:900;letter-spacing:0.08em;color:white;">BETA<span style="color:var(--blue-l);">VOLT</span></div>
+          <div style="font-size:8px;font-weight:600;letter-spacing:0.18em;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-top:1px;">Smart Infrastructure & Energy Solutions</div>
+        </div>
+      </div>
+      <!-- Doc type badge -->
+      <div style="padding:6px 14px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);border-radius:5px;">
+        <div style="font-size:7.5px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber);">Pre-Qualification Document</div>
+      </div>
+    </div>
+
+    <!-- Hero content -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:18mm 0 10mm;">
+
+      <!-- Eyebrow -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div style="width:20px;height:2px;background:var(--amber);border-radius:1px;"></div>
+        <div style="font-size:8.5px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber);">Technical & Commercial Prequalification</div>
+      </div>
+
+      <!-- Main title -->
+      <div style="font-size:34px;font-weight:900;line-height:1.07;letter-spacing:-0.025em;color:white;margin-bottom:8px;">
+        Engineering<br/>
+        Excellence &<br/>
+        <span style="background:linear-gradient(135deg,var(--blue-l),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Smart Solutions.</span>
+      </div>
+
+      <!-- Rule -->
+      <div style="width:55mm;height:1px;background:linear-gradient(to right,rgba(59,130,246,0.5),transparent);margin:12px 0;"></div>
+
+      <!-- Sub copy -->
+      <p style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.55);max-width:120mm;line-height:1.7;margin-bottom:24px;">
+        Specialized contractor for Electrical Power, Renewable Energy, Low Current Systems,
+        Building Management, and Industrial Automation — delivering turnkey infrastructure solutions across the Kingdom.
+      </p>
+
+      <!-- Tags -->
+      <div style="display:flex;gap:7px;flex-wrap:wrap;">
+        <div class="tag tag-b">⚡ Electrical &amp; MEP</div>
+        <div class="tag tag-a">☀ Solar Energy (EPC)</div>
+        <div class="tag tag-n" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);">🖥 Smart Systems &amp; BMS</div>
+        <div class="tag tag-n" style="background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);">⚙ Industrial Automation</div>
+      </div>
+    </div>
+
+    <!-- Bottom section -->
+    <div style="display:flex;flex-direction:column;gap:9px;">
+
+      <!-- Cover info strip -->
+      <div class="cs">
+        <div class="cs-item">
+          <div class="cs-l">Document Type</div>
+          <div class="cs-v">Pre-Qualification</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-l">Issue Year</div>
+          <div class="cs-v" style="color:var(--amber);">2025</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-l">CR Number</div>
+          <div class="cs-v">1010 XXX XXX</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-l">VAT Number</div>
+          <div class="cs-v">300 XXX XXX XXX XXX</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-l">Established</div>
+          <div class="cs-v">2024 · Riyadh, KSA</div>
+        </div>
+      </div>
+
+      <!-- Footer meta -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding-top:5px;border-top:1px solid rgba(255,255,255,0.07);">
+        <div style="font-size:9px;font-weight:600;letter-spacing:0.1em;color:rgba(255,255,255,0.35);">www.betavolt.com &nbsp;·&nbsp; info@betavolt.com</div>
+        <div style="font-size:9px;font-weight:600;color:rgba(255,255,255,0.35);">Riyadh, Kingdom of Saudi Arabia</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--blue),rgba(59,130,246,0.25),transparent);"></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 2 — COMPANY OVERVIEW & PHILOSOPHY
+══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-logo">
+      <div class="ph-bolt"><svg viewBox="0 0 24 24" fill="white"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg></div>
+      <div class="ph-name">BETA<em>VOLT</em></div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-section">Company Overview</div>
+      <div class="ph-pg">Page 02 / 10</div>
+    </div>
+  </div>
+
+  <div class="pc">
+    <div class="sh" style="margin-bottom:7px;">
+      <div class="ov">About BetaVolt</div>
+      <h2>Company Overview &amp; Philosophy</h2>
+      <div class="bar"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:9px;">
+
+      <!-- Corporate profile -->
+      <div>
+        <div class="hb" style="margin-bottom:8px;">
+          <div style="font-size:9px;font-weight:700;color:var(--blue-d);margin-bottom:4px;">Corporate Overview</div>
+          <p class="bt">BetaVolt is a specialized engineering and contracting company incorporated under the laws of the Kingdom of Saudi Arabia. We provide <strong class="hi">end-to-end electrical, energy, and smart infrastructure solutions</strong> for industrial, commercial, and institutional clients across the Kingdom.</p>
+        </div>
+        <p class="bt" style="margin-bottom:7px;">
+          Operating at the intersection of precision engineering and advanced technology, BetaVolt designs, builds, and commissions systems that power, protect, and connect modern facilities. Our integrated delivery model covers every project phase — from feasibility and design through procurement, installation, testing, commissioning, and long-term maintenance.
+        </p>
+        <p class="bt">
+          Every BetaVolt project is executed under an <strong class="hi">uncompromising commitment to quality, safety, and performance</strong> — ensuring that our clients receive infrastructure that meets international standards and lasts for decades.
+        </p>
+      </div>
+
+      <!-- Key facts -->
+      <div>
+        <div style="font-size:8px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;">Company at a Glance</div>
+        <table class="kf" style="margin-bottom:9px;">
+          <tr><td>Legal Name</td><td>BetaVolt for Electrical Contracting Co.</td></tr>
+          <tr><td>Commercial Registration</td><td>1010 XXX XXX · Riyadh, KSA</td></tr>
+          <tr><td>VAT Registration</td><td>300 XXX XXX XXX XXX</td></tr>
+          <tr><td>Year of Establishment</td><td>2024</td></tr>
+          <tr><td>Legal Form</td><td>Limited Liability Company (LLC)</td></tr>
+          <tr><td>Paid-up Capital</td><td>SAR X,000,000</td></tr>
+          <tr><td>Number of Employees</td><td>XX Permanent + Subcontractors</td></tr>
+          <tr><td>Head Office</td><td>Riyadh, Kingdom of Saudi Arabia</td></tr>
+          <tr><td>Website</td><td>www.betavolt.com</td></tr>
+          <tr><td>Primary Contact</td><td>info@betavolt.com · +966 XX XXX XXXX</td></tr>
+        </table>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;">
+          <div class="tag tag-b">ZATCA Registered</div>
+          <div class="tag tag-b">GOSI Compliant</div>
+          <div class="tag tag-a">ISO 9001:2015</div>
+          <div class="tag tag-a">ISO 45001:2018</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- Philosophy pillars -->
+    <div style="font-size:8px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;">Engineering Philosophy</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:9px;">
+      <div class="card card-b">
+        <div style="font-size:8px;font-weight:800;letter-spacing:0.12em;color:var(--blue);margin-bottom:4px;">01 · PRECISION-FIRST DESIGN</div>
+        <div class="bts">Thorough load analysis and system modelling before a single cable is laid. Every design decision is data-driven, documented, and peer-reviewed.</div>
+      </div>
+      <div class="card card-b">
+        <div style="font-size:8px;font-weight:800;letter-spacing:0.12em;color:var(--blue);margin-bottom:4px;">02 · INTEGRATED DELIVERY</div>
+        <div class="bts">Electrical, smart, and energy systems engineered as a single coherent infrastructure — eliminating interface gaps and coordination risk between disciplines.</div>
+      </div>
+      <div class="card card-a">
+        <div style="font-size:8px;font-weight:800;letter-spacing:0.12em;color:var(--amber-d);margin-bottom:4px;">03 · LONG-TERM PARTNERSHIP</div>
+        <div class="bts">We remain engaged beyond handover through structured O&amp;M programs, performance monitoring, and dedicated technical support teams.</div>
+      </div>
+    </div>
+
+    <!-- Scope of activities -->
+    <div class="hb">
+      <div style="font-size:9px;font-weight:700;color:var(--blue-d);margin-bottom:4px;">Primary Scope of Activities</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 16px;">
+        <div class="bts">✦ &nbsp;Electrical Power &amp; Distribution Systems (MV/LV)</div>
+        <div class="bts">✦ &nbsp;Solar PV Systems — On-grid, Off-grid &amp; Hybrid (EPC)</div>
+        <div class="bts">✦ &nbsp;Low Current &amp; ICT Systems (CCTV, ACS, FA, Cabling)</div>
+        <div class="bts">✦ &nbsp;Building Management Systems (BMS/BAS)</div>
+        <div class="bts">✦ &nbsp;Industrial Automation — PLC &amp; SCADA Systems</div>
+        <div class="bts">✦ &nbsp;Data Centers &amp; Mission-Critical Infrastructure</div>
+        <div class="bts">✦ &nbsp;Network &amp; Telecommunications Infrastructure</div>
+        <div class="bts">✦ &nbsp;Operations &amp; Maintenance (O&amp;M) Programs</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>BetaVolt · Pre-Qualification Document 2025</span>
+    <span>COMPANY OVERVIEW</span>
+    <span class="pf-pg">02 / 10</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 3 — VISION, MISSION, VALUES & OBJECTIVES
+══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-logo">
+      <div class="ph-bolt"><svg viewBox="0 0 24 24" fill="white"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg></div>
+      <div class="ph-name">BETA<em>VOLT</em></div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-section">Vision · Mission · Values</div>
+      <div class="ph-pg">Page 03 / 10</div>
+    </div>
+  </div>
+
+  <div class="pc">
+    <div class="sh"><div class="ov">Our Identity</div><h2>Vision, Mission, Values &amp; Objectives</h2><div class="bar"></div></div>
+
+    <!-- Vision + Mission -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+      <div class="card card-b">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;">
+          <div style="width:26px;height:26px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:6px;display:flex;align-items:center;justify-content:center;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div style="font-size:11px;font-weight:800;color:var(--navy);">Our Vision</div>
+        </div>
+        <p class="bt">To be the <strong class="hi">most trusted name in smart electrical infrastructure</strong> across the Kingdom — recognized for technical excellence, safety leadership, and the ability to deliver complex projects on time and within specification.</p>
+      </div>
+      <div class="card card-a">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:7px;">
+          <div style="width:26px;height:26px;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);border-radius:6px;display:flex;align-items:center;justify-content:center;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          </div>
+          <div style="font-size:11px;font-weight:800;color:var(--navy);">Our Mission</div>
+        </div>
+        <p class="bt">To deliver <strong class="hi">integrated electrical and smart infrastructure solutions</strong> that exceed client expectations — combining cutting-edge engineering, certified standards, and a dedicated team committed to safety, quality, and long-term performance.</p>
+      </div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- Core Values -->
+    <div style="font-size:8px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;">Core Values</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px;">
+      <div class="vi"><div class="vi-icon">⚡</div><div><div class="vi-title">Excellence</div><div class="vi-body">We set the benchmark, then raise it on every project without compromise.</div></div></div>
+      <div class="vi"><div class="vi-icon">🛡</div><div><div class="vi-title">Safety First</div><div class="vi-body">No project is delivered without meeting the highest applicable safety standards.</div></div></div>
+      <div class="vi"><div class="vi-icon">🔍</div><div><div class="vi-title">Integrity</div><div class="vi-body">Full transparency in every commitment, contract, and communication we make.</div></div></div>
+      <div class="vi"><div class="vi-icon">💡</div><div><div class="vi-title">Innovation</div><div class="vi-body">We engineer smarter, more efficient solutions — not just compliant ones.</div></div></div>
+      <div class="vi"><div class="vi-icon">✅</div><div><div class="vi-title">Reliability</div><div class="vi-body">Our clients count on us to deliver — we meet every deadline and milestone.</div></div></div>
+      <div class="vi"><div class="vi-icon">🤝</div><div><div class="vi-title">Partnership</div><div class="vi-body">Your long-term success is the ultimate measure of our performance.</div></div></div>
+    </div>
+
+    <div class="div"></div>
+
+    <!-- Quality Objectives -->
+    <div style="font-size:8px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-3);margin-bottom:6px;">Quality &amp; HSE Objectives</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;">
+      <div class="hb">
+        <div style="font-size:8.5px;font-weight:700;color:var(--blue-d);margin-bottom:4px;">Quality Objectives</div>
+        <div class="bts" style="display:flex;flex-direction:column;gap:3px;">
+          <div>· Achieve zero major non-conformances on all project deliverables.</div>
+          <div>· Maintain 100% compliance with IEC, IEEE, NFPA &amp; SASO standards.</div>
+          <div>· Conduct peer reviews on all engineering design packages.</div>
+          <div>· Implement and sustain ISO 9001:2015 Quality Management System.</div>
+          <div>· Achieve client satisfaction score ≥ 90% on all completed projects.</div>
+        </div>
+      </div>
+      <div style="padding:9px 13px;background:rgba(245,158,11,0.04);border:1px solid rgba(245,158,11,0.14);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;">
+        <div style="font-size:8.5px;font-weight:700;color:var(--amber-d);margin-bottom:4px;">HSE Objectives</div>
+        <div class="bts" style="display:flex;flex-direction:column;gap:3px;">
+          <div>· Target ZERO Lost Time Incidents (LTI) on all project sites.</div>
+          <div>· Maintain ISO 45001:2018 Occupational Health &amp; Safety System.</div>
+          <div>· Mandatory HSE induction for all site personnel before mobilization.</div>
+          <div>· Weekly toolbox talks and monthly HSE audits on active sites.</div>
+          <div>· Zero tolerance policy for unsafe acts and conditions.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>BetaVolt · Pre-Qualification Document 2025</span>
+    <span>VISION · MISSION · VALUES</span>
+    <span class="pf-pg">03 / 10</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 4 — DEPARTMENTS & CORE SERVICES
+══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-logo">
+      <div class="ph-bolt"><svg viewBox="0 0 24 24" fill="white"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg></div>
+      <div class="ph-name">BETA<em>VOLT</em></div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-section">Core Services</div>
+      <div class="ph-pg">Page 04 / 10</div>
+    </div>
+  </div>
+
+  <div class="pc">
+    <div class="sh"><div class="ov">What We Deliver</div><h2>Departments &amp; Core Services</h2><div class="bar"></div></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+
+      <div class="sc">
+        <div class="sc-h">
+          <div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg></div>
+          <div><div class="sc-num">01 ——</div><div class="sc-title">Power &amp; Electrical Infrastructure</div></div>
+        </div>
+        <div class="sc-body">Design, supply and installation of complete MV/LV electrical systems for industrial plants, commercial towers and institutional campuses.</div>
+        <ul class="sc-ul">
+          <li>MV/LV switchgear, distribution boards &amp; busbar trunking</li>
+          <li>Power factor correction &amp; harmonic filtration systems</li>
+          <li>Emergency power — generators, UPS &amp; ATS systems</li>
+          <li>Earthing, bonding &amp; lightning protection systems</li>
+        </ul>
+      </div>
+
+      <div class="sc sc-a">
+        <div class="sc-h">
+          <div class="sc-icon sc-icon-a"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></div>
+          <div><div class="sc-num">02 ——</div><div class="sc-title">Solar Energy Systems (EPC)</div></div>
+        </div>
+        <div class="sc-body">End-to-end photovoltaic solutions from feasibility and yield analysis through full EPC delivery and long-term O&amp;M management.</div>
+        <ul class="sc-ul" style="--bullet-color:var(--amber-d);">
+          <li>On-grid, off-grid &amp; hybrid PV systems</li>
+          <li>Rooftop, ground-mount &amp; carport installations</li>
+          <li>String &amp; central inverter configurations</li>
+          <li>Solar SCADA monitoring &amp; performance analytics</li>
+        </ul>
+      </div>
+
+      <div class="sc">
+        <div class="sc-h">
+          <div class="sc-icon"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg></div>
+          <div><div class="sc-num">03 ——</div><div class="sc-title">Low Current &amp; Smart Systems</div></div>
+        </div>
+        <div class="sc-body">Comprehensive ICT and security infrastructure for modern facilities requiring connectivity, visibility and integrated control.</div>
+        <ul class="sc-ul">
+          <li>Structured cabling — Cat6A, OM3/OM4 fiber optic</li>
+          <li>IP CCTV &amp; video analytics systems</li>
+          <li>Access control &amp; intrusion detection</li>
+          <li>Addressable fire alarm &amp; detection systems</li>
+        </ul>
+      </div>
+
+      <div class="sc">
+        <div class="sc-h">
+          <div class="sc-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><path d="M3 17.5h7M6.5 14v7"/></svg></div>
+          <div><div class="sc-num">04 ——</div><div class="sc-title">Building Management Systems (BMS)</div></div>
+        </div>
+        <div class="sc-body">Centralized intelligence integrating HVAC, lighting, power and security into a unified control layer for complex facilities.</div>
+        <ul class="sc-ul">
+          <li>BACnet / Modbus / KNX protocol integration</li>
+          <li>HVAC automation &amp; energy optimization</li>
+          <li>Lighting control &amp; occupancy-based scheduling</li>
+          <li>Remote monitoring dashboards &amp; automated alerts</li>
+        </ul>
+      </div>
+
+      <div class="sc">
+        <div class="sc-h">
+          <div class="sc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+          <div><div class="sc-num">05 ——</div><div class="sc-title">Data Centers &amp; Server Rooms</div></div>
+        </div>
+        <div class="sc-body">Purpose-built mission-critical infrastructure engineered for maximum uptime, efficiency and future scalability.</div>
+        <ul class="sc-ul">
+          <li>Precision cooling — CRAC/CRAH &amp; in-row cooling</li>
+          <li>Redundant power distribution (Tier II–III design)</li>
+          <li>Structured cabling &amp; intelligent patch management</li>
+          <li>Environmental monitoring &amp; physical security</li>
+        </ul>
+      </div>
+
+      <div class="sc sc-a">
+        <div class="sc-h">
+          <div class="sc-icon sc-icon-a"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M9 2v2M15 20v2M9 20v2M2 15h2M2 9h2M20 15h2M20 9h2"/></svg></div>
+          <div><div class="sc-num">06 ——</div><div class="sc-title">Industrial Automation — PLC &amp; SCADA</div></div>
+        </div>
+        <div class="sc-body">Advanced process control for industrial operations — from single-machine control to plant-wide supervision and digitalization.</div>
+        <ul class="sc-ul">
+          <li>PLC programming: Siemens, Allen-Bradley, Schneider</li>
+          <li>SCADA design &amp; HMI development</li>
+          <li>Motor control centers (MCC) &amp; VFD integration</li>
+          <li>Instrumentation &amp; field device integration</li>
+        </ul>
+      </div>
+
+      <div class="sc">
+        <div class="sc-h">
+          <div class="sc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div><div class="sc-num">07 ——</div><div class="sc-title">Network Infrastructure</div></div>
+        </div>
+        <div class="sc-body">Resilient high-performance network backbone for enterprise, industrial and campus environments.</div>
+        <ul class="sc-ul">
+          <li>Core / distribution / access layer architecture</li>
+          <li>Managed switching, routing &amp; wireless (WiFi 6/6E)</li>
+          <li>Network security: firewall, segmentation &amp; VPN</li>
+          <li>Passive infrastructure — racks, patch panels &amp; UPS</li>
+        </ul>
+      </div>
+
+      <div class="sc sc-a">
+        <div class="sc-h">
+          <div class="sc-icon sc-icon-a"><svg viewBox="0 0 24 24"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg></div>
+          <div><div class="sc-num">08 ——</div><div class="sc-title">Operations &amp; Maintenance (O&amp;M)</div></div>
+        </div>
+        <div class="sc-body">Protecting infrastructure investment through proactive maintenance programs and rapid-response technical support.</div>
+        <ul class="sc-ul">
+          <li>Planned preventive maintenance (PPM) schedules</li>
+          <li>24/7 emergency breakdown response capability</li>
+          <li>System upgrades &amp; capacity expansion programs</li>
+          <li>Energy audits &amp; efficiency optimization studies</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>BetaVolt · Pre-Qualification Document 2025</span>
+    <span>DEPARTMENTS &amp; CORE SERVICES</span>
+    <span class="pf-pg">04 / 10</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 5 — PROJECTS GALLERY
+══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-logo">
+      <div class="ph-bolt"><svg viewBox="0 0 24 24" fill="white"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg></div>
+      <div class="ph-name">BETA<em>VOLT</em></div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-section">Projects Gallery</div>
+      <div class="ph-pg">Page 05 / 10</div>
+    </div>
+  </div>
+
+  <div class="pc">
+    <div class="sh"><div class="ov">Our Work</div><h2>Selected Projects Gallery</h2><div class="bar"></div></div>
+    <p class="bts" style="margin-bottom:8px;">A selection of representative projects delivered across our core service lines. Project images to be inserted prior to final submission.</p>
+
+    <div class="gal" style="margin-bottom:8px;">
+
+      <div class="gi">
+        <div class="gt">
+          <div class="gt-icon"><svg viewBox="0 0 24 24"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="gt-lbl">Insert Project Photo</div>
+        </div>
+        <div class="gc">
+          <div class="gc-t">MV/LV Infrastructure — Industrial Complex</div>
+          <div class="gc-s">Riyadh Industrial City · 2024 &nbsp;<span class="tag tag-b" style="font-size:7px;padding:1px 6px;">Electrical</span></div>
+        </div>
+      </div>
+
+      <div class="gi">
+        <div class="gt">
+          <div class="gt-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" stroke-linecap="round"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/></svg></div>
+          <div class="gt-lbl">Insert Project Photo</div>
+        </div>
+        <div class="gc">
+          <div class="gc-t">500 kWp Rooftop Solar PV System</div>
+          <div class="gc-s">Jeddah Commercial District · 2024 &nbsp;<span class="tag tag-a" style="font-size:7px;padding:1px 6px;">Solar EPC</span></div>
+        </div>
+      </div>
+
+      <div class="gi">
+        <div class="gt">
+          <div class="gt-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><path d="M3 17.5h7M6.5 14v7"/></svg></div>
+          <div class="gt-lbl">Insert Project Photo</div>
+        </div>
+        <div class="gc">
+          <div class="gc-t">BMS Integration — Commercial Tower</div>
+          <div class="gc-s">King Abdullah Financial District · 2024 &nbsp;<span class="tag tag-b" style="font-size:7px;padding:1px 6px;">BMS</span></div>
+        </div>
+      </div>
+
+      <div class="gi">
+        <div class="gt">
+          <div class="gt-icon"><svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg></div>
+          <div class="gt-lbl">Insert Project Photo</div>
+        </div>
+        <div class="gc">
+          <div class="gc-t">Smart Security & ICT — Healthcare Campus</div>
+          <div class="gc-s">Dammam Health City · 2023 &nbsp;<span class="tag tag-b" style="font-size:7px;padding:1px 6px;">Low Current</span></div>
+        </div>
+      </div>
+
+      <div class="gi">
+        <div class="gt">
+          <div class="gt-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M9 2v2M15 20v2M9 20v2M2 15h2M2 9h2M20 15h2M20 9h2"/></svg></div>
+          <div class="gt-lbl">Insert Project Photo</div>
+        </div>
+        <div class="gc">
+          <div class="gc-t">PLC/SCADA Automation — Bottling Plant</div>
+          <div class="gc-s">Jubail Industrial City · 2023 &nbsp;<span class="tag tag-a" style="font-size:7px;padding:1px 6px;">Automation</span></div>
+        </div>
+      </div>
+
+      <div class="gi">
+        <div class="gt">
+          <div class="gt-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></div>
+          <div class="gt-lbl">Insert Project Photo</div>
+        </div>
+        <div class="gc">
+          <div class="gc-t">Tier-II Data Center Build-Out</div>
+          <div class="gc-s">Riyadh Technology Park · 2024 &nbsp;<span class="tag tag-b" style="font-size:7px;padding:1px 6px;">Data Center</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Note bar -->
+    <div style="padding:7px 12px;background:var(--bg);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;gap:8px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span class="bts">Additional project photographs and detailed case studies are available upon request. A comprehensive project list with full details is provided on the following page.</span>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>BetaVolt · Pre-Qualification Document 2025</span>
+    <span>PROJECTS GALLERY</span>
+    <span class="pf-pg">05 / 10</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 6 — LIST OF RECENT PROJECTS
+══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-logo">
+      <div class="ph-bolt"><svg viewBox="0 0 24 24" fill="white"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg></div>
+      <div class="ph-name">BETA<em>VOLT</em></div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-section">Project References</div>
+      <div class="ph-pg">Page 06 / 10</div>
+    </div>
+  </div>
+
+  <div class="pc">
+    <div class="sh"><div class="ov">Track Record</div><h2>List of Recent Projects</h2><div class="bar"></div></div>
+
+    <table class="dt" style="margin-bottom:8px;">
+      <thead>
+        <tr>
+          <th style="width:22px;">S.No</th>
+          <th style="width:26mm;">Job No.</th>
+          <th style="width:20mm;">Date of Award</th>
+          <th style="width:38mm;">Client Name</th>
+          <th>Project Description</th>
+          <th style="width:24mm;">Location</th>
+          <th style="width:22mm;">Contract Value</th>
+          <th style="width:18mm;">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="no">01</td>
+          <td>BV-2024-001</td>
+          <td>Jan 2024</td>
+          <td>Al Rajhi Real Estate Co.</td>
+          <td>Design, supply &amp; installation of complete MV/LV electrical infrastructure for a 15-story commercial tower including 11kV substation, main LV switchgear and distribution boards.</td>
+          <td>Riyadh, Olaya District</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-c">Completed</span></td>
+        </tr>
+        <tr>
+          <td class="no">02</td>
+          <td>BV-2024-002</td>
+          <td>Feb 2024</td>
+          <td>National Guard Health Affairs</td>
+          <td>Supply, installation and commissioning of addressable fire alarm, IP CCTV (256 cameras), access control and structured cabling for a new medical campus.</td>
+          <td>Riyadh, Khashm Al-Aan</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-c">Completed</span></td>
+        </tr>
+        <tr>
+          <td class="no">03</td>
+          <td>BV-2024-003</td>
+          <td>Mar 2024</td>
+          <td>Savola Group</td>
+          <td>Turnkey 500 kWp rooftop on-grid solar PV system including string inverters, AC/DC cabling, metering and commissioning at main production facility.</td>
+          <td>Jeddah, Industrial City</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-p">In Progress</span></td>
+        </tr>
+        <tr>
+          <td class="no">04</td>
+          <td>BV-2024-004</td>
+          <td>Apr 2024</td>
+          <td>SABIC Agri-Nutrients Co.</td>
+          <td>Engineering, supply and installation of BMS integrating HVAC, chiller plant, lighting control and energy metering for a 45,000 m² logistics &amp; admin complex.</td>
+          <td>Jubail Industrial City</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-p">In Progress</span></td>
+        </tr>
+        <tr>
+          <td class="no">05</td>
+          <td>BV-2024-005</td>
+          <td>May 2024</td>
+          <td>Dur Hospitality Co.</td>
+          <td>Full PLC/SCADA automation upgrade for a bottling and packaging plant including MCC replacement, VFD integration and operator HMI stations.</td>
+          <td>Riyadh, Industrial City 2</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-c">Completed</span></td>
+        </tr>
+        <tr>
+          <td class="no">06</td>
+          <td>BV-2023-006</td>
+          <td>Aug 2023</td>
+          <td>Saudi Telecom Company (STC)</td>
+          <td>Design and build of a Tier-II data center — precision cooling, structured cabling, redundant UPS, PDUs and environmental monitoring system for a 120-rack facility.</td>
+          <td>Riyadh, Technology Park</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-c">Completed</span></td>
+        </tr>
+        <tr>
+          <td class="no">07</td>
+          <td>BV-2023-007</td>
+          <td>Sep 2023</td>
+          <td>Alinma Investment Co.</td>
+          <td>Electrical distribution upgrade, new ATS/generator system (1,500 kVA), and UPS infrastructure replacement for a Grade-A office complex.</td>
+          <td>Riyadh, King Fahad Road</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-c">Completed</span></td>
+        </tr>
+        <tr>
+          <td class="no">08</td>
+          <td>BV-2023-008</td>
+          <td>Nov 2023</td>
+          <td>Ministry of Education — IU</td>
+          <td>Campus-wide enterprise network backbone (fiber optic rings, managed switching, WiFi 6 deployment across 28 buildings) for a 120-hectare university campus.</td>
+          <td>Dammam, Eastern Province</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-c">Completed</span></td>
+        </tr>
+        <tr>
+          <td class="no">09</td>
+          <td>BV-2024-009</td>
+          <td>Jun 2024</td>
+          <td>Aldar Properties KSA</td>
+          <td>MEP coordination, LV electrical installation and smart home BAS system for a 320-unit residential development including common area lighting control and EV charging infrastructure.</td>
+          <td>Riyadh, Al Qirawan</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-p">In Progress</span></td>
+        </tr>
+        <tr>
+          <td class="no">10</td>
+          <td>BV-2024-010</td>
+          <td>Jul 2024</td>
+          <td>Saudi Aramco (Vendor App.)</td>
+          <td>O&amp;M contract for planned preventive maintenance (PPM) of LV electrical, UPS, and low current systems across four administrative buildings — 12-month rolling contract.</td>
+          <td>Dhahran, Eastern Province</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-p">In Progress</span></td>
+        </tr>
+        <tr>
+          <td class="no">11</td>
+          <td>BV-2024-011</td>
+          <td>Sep 2024</td>
+          <td>Tatweer Petroleum</td>
+          <td>Design &amp; installation of intrusion detection, IP CCTV perimeter surveillance and vehicle access control for an upstream oil field processing facility.</td>
+          <td>Bahrain (GCC Project)</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-o">Awarded</span></td>
+        </tr>
+        <tr>
+          <td class="no">12</td>
+          <td>BV-2024-012</td>
+          <td>Oct 2024</td>
+          <td>NEOM Co. — Subcontract</td>
+          <td>Electrical earthing, equipotential bonding, and SPD installation for critical infrastructure zones. Engineering &amp; site supervision services included.</td>
+          <td>NEOM, Tabuk Region</td>
+          <td>SAR X,XXX,XXX</td>
+          <td><span class="sn sn-o">Awarded</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="bts" style="color:var(--text-4);">* Contract values available upon formal request under NDA. &nbsp;|&nbsp; Project references and completion certificates available on request.</div>
+      <div style="display:flex;gap:6px;">
+        <span class="sn sn-c">Completed</span>
+        <span class="sn sn-p">In Progress</span>
+        <span class="sn sn-o">Awarded</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>BetaVolt · Pre-Qualification Document 2025</span>
+    <span>LIST OF RECENT PROJECTS</span>
+    <span class="pf-pg">06 / 10</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 7 — ASSET & EQUIPMENT LIST
+══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-logo">
+      <div class="ph-bolt"><svg viewBox="0 0 24 24" fill="white"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg></div>
+      <div class="ph-name">BETA<em>VOLT</em></div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-section">Assets &amp; Equipment</div>
+      <div class="ph-pg">Page 07 / 10</div>
+    </div>
+  </div>
+
+  <div class="pc">
+    <div class="sh"><div class="ov">Capabilities</div><h2>Asset &amp; Equipment List</h2><div class="bar"></div></div>
+    <p class="bts" style="margin-bottom:8px;">BetaVolt maintains a comprehensive fleet of calibrated test instruments, site tools, and engineering assets ensuring project delivery without subcontracting critical equipment.</p>
+
+    <table class="dt">
+      <thead>
+        <tr>
+          <th style="width:22px;">S.No</th>
+          <th>Asset / Equipment Description</th>
+          <th style="width:32mm;">Make / Brand</th>
+          <th style="width:36mm;">Model / Spec.</th>
+          <th style="width:18px;text-align:center;">Qty</th>
+          <th style="width:22mm;">Condition</th>
+          <th style="width:28mm;">Primary Use</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="no">01</td><td>Digital Multimeter (True RMS)</td><td>Fluke</td><td>Fluke 179 / 177</td><td style="text-align:center;">4</td><td><span class="sn sn-c">Excellent</span></td><td>Electrical testing</td></tr>
+        <tr><td class="no">02</td><td>Clamp Meter (AC/DC)</td><td>Fluke</td><td>Fluke 376 FC</td><td style="text-align:center;">4</td><td><span class="sn sn-c">Excellent</span></td><td>Current measurement</td></tr>
+        <tr><td class="no">03</td><td>Insulation Resistance Tester (Megger)</td><td>Megger</td><td>MIT430/2</td><td style="text-align:center;">3</td><td><span class="sn sn-c">Excellent</span></td><td>Cable testing</td></tr>
+        <tr><td class="no">04</td><td>Earth Resistance Tester</td><td>Kyoritsu</td><td>KEW 4105A</td><td style="text-align:center;">2</td><td><span class="sn sn-c">Excellent</span></td><td>Earthing verification</td></tr>
+        <tr><td class="no">05</td><td>Power Quality Analyzer</td><td>Fluke</td><td>Fluke 435-II</td><td style="text-align:center;">2</td><td><span class="sn sn-c">Excellent</span></td><td>Power quality surveys</td></tr>
+        <tr><td class="no">06</td><td>Cable Fault Locator (TDR)</td><td>Megger</td><td>WinTDR LAN / TDR900</td><td style="text-align:center;">1</td><td><span class="sn sn-c">Excellent</span></td><td>Fault location</td></tr>
+        <tr><td class="no">07</td><td>Network Cable Tester (Cat6A/Fiber)</td><td>Fluke Networks</td><td>DSX2-8000</td><td style="text-align:center;">2</td><td><span class="sn sn-c">Excellent</span></td><td>Cabling certification</td></tr>
+        <tr><td class="no">08</td><td>Fiber Optic OTDR</td><td>EXFO</td><td>FTB-730</td><td style="text-align:center;">1</td><td><span class="sn sn-c">Excellent</span></td><td>Fiber commissioning</td></tr>
+        <tr><td class="no">09</td><td>Lux / Light Level Meter</td><td>Chauvin Arnoux</td><td>CA 811</td><td style="text-align:center;">2</td><td><span class="sn sn-c">Good</span></td><td>Lighting verification</td></tr>
+        <tr><td class="no">10</td><td>Thermal Imaging Camera (IR)</td><td>FLIR</td><td>FLIR E8-XT</td><td style="text-align:center;">1</td><td><span class="sn sn-c">Excellent</span></td><td>Electrical inspection</td></tr>
+        <tr><td class="no">11</td><td>PLC Programming Laptop + Software</td><td>Dell / Siemens</td><td>TIA Portal V17, Studio 5000</td><td style="text-align:center;">3</td><td><span class="sn sn-c">Excellent</span></td><td>Automation programming</td></tr>
+        <tr><td class="no">12</td><td>Solar Irradiance Meter &amp; IV Curve Tracer</td><td>Seaward</td><td>PV210 / Solar Survey 200R</td><td style="text-align:center;">1</td><td><span class="sn sn-c">Excellent</span></td><td>Solar commissioning</td></tr>
+        <tr><td class="no">13</td><td>Portable Generator (3-phase)</td><td>Caterpillar / Cummins</td><td>30 kVA</td><td style="text-align:center;">2</td><td><span class="sn sn-c">Good</span></td><td>Site power backup</td></tr>
+        <tr><td class="no">14</td><td>Cable Pulling Machine (Electric)</td><td>Greenlee</td><td>6001 Series</td><td style="text-align:center;">2</td><td><span class="sn sn-c">Good</span></td><td>Cable installation</td></tr>
+        <tr><td class="no">15</td><td>Hydraulic Cable Crimping Tool</td><td>Cembre / Burndy</td><td>HT-300 / Y35</td><td style="text-align:center;">4</td><td><span class="sn sn-c">Excellent</span></td><td>Cable termination</td></tr>
+        <tr><td class="no">16</td><td>Workshop / Site Vehicle (4x4 Pick-up)</td><td>Toyota</td><td>Hilux 2.8D 4WD</td><td style="text-align:center;">4</td><td><span class="sn sn-c">Excellent</span></td><td>Site transport &amp; tools</td></tr>
+        <tr><td class="no">17</td><td>Scissor Lift / Boom Lift (Telescopic)</td><td>JLG / Genie</td><td>2646ES / GS-2046</td><td style="text-align:center;">2</td><td><span class="sn sn-c">Good</span></td><td>Elevated installations</td></tr>
+        <tr><td class="no">18</td><td>Personal Protective Equipment (PPE) Sets</td><td>3M / Honeywell</td><td>Arc-flash Rated Class E</td><td style="text-align:center;">20</td><td><span class="sn sn-c">Excellent</span></td><td>Site safety</td></tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:7px;" class="bts" style="color:var(--text-4);">All test &amp; measurement instruments are calibrated annually by an accredited calibration laboratory. Calibration certificates available upon request.</div>
+  </div>
+
+  <div class="pf">
+    <span>BetaVolt · Pre-Qualification Document 2025</span>
+    <span>ASSETS &amp; EQUIPMENT</span>
+    <span class="pf-pg">07 / 10</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 8 — ORGANIZATION CHART
+══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-logo">
+      <div class="ph-bolt"><svg viewBox="0 0 24 24" fill="white"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg></div>
+      <div class="ph-name">BETA<em>VOLT</em></div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-section">Organization Chart</div>
+      <div class="ph-pg">Page 08 / 10</div>
+    </div>
+  </div>
+
+  <div class="pc">
+    <div class="sh"><div class="ov">Our People</div><h2>Organizational Structure</h2><div class="bar"></div></div>
+    <p class="bts" style="margin-bottom:12px;">BetaVolt operates a lean, technically-led organizational structure designed for accountability, rapid decision-making, and seamless project delivery.</p>
+
+    <div class="org">
+
+      <!-- Level 0: CEO -->
+      <div style="display:flex;justify-content:center;margin-bottom:0;">
+        <div class="ob ob-navy" style="min-width:55mm;">
+          <div class="ob-t">Chief Executive Officer</div>
+          <div class="ob-s">General Management &amp; Strategy</div>
+        </div>
+      </div>
+      <div class="ov-line"></div>
+
+      <!-- L1 horizontal bar -->
+      <div style="display:flex;justify-content:center;position:relative;margin-bottom:0;">
+        <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:178mm;height:2px;background:var(--border);"></div>
+      </div>
+
+      <!-- Level 1: 5 dept heads -->
+      <div class="ol" style="margin-bottom:0;padding-top:2px;">
+
+        <div class="obr">
+          <div class="ov-line"></div>
+          <div class="ob ob-blue" style="min-width:34mm;">
+            <div class="ob-t">Operations Manager</div>
+            <div class="ob-s">Project Execution</div>
+          </div>
+        </div>
+
+        <div class="obr">
+          <div class="ov-line"></div>
+          <div class="ob ob-blue" style="min-width:34mm;">
+            <div class="ob-t">Technical Manager</div>
+            <div class="ob-s">Engineering &amp; Design</div>
+          </div>
+        </div>
+
+        <div class="obr">
+          <div class="ov-line"></div>
+          <div class="ob ob-blue" style="min-width:34mm;">
+            <div class="ob-t">Commercial Manager</div>
+            <div class="ob-s">Estimation &amp; Contracts</div>
+          </div>
+        </div>
+
+        <div class="obr">
+          <div class="ov-line"></div>
+          <div class="ob ob-amber" style="min-width:30mm;">
+            <div class="ob-t">HSE Manager</div>
+            <div class="ob-s">Safety &amp; Compliance</div>
+          </div>
+        </div>
+
+        <div class="obr">
+          <div class="ov-line"></div>
+          <div class="ob ob-blue" style="min-width:34mm;">
+            <div class="ob-t">Finance &amp; Admin</div>
+            <div class="ob-s">Finance, HR &amp; IT</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- L2 connectors -->
+      <div style="display:flex;justify-content:center;gap:8px;">
+        <div style="display:flex;flex-direction:column;align-items:center;min-width:34mm;"><div class="ov-line"></div><div style="width:110%;height:2px;background:var(--border);"></div></div>
+        <div style="display:flex;flex-direction:column;align-items:center;min-width:34mm;"><div class="ov-line"></div><div style="width:110%;height:2px;background:var(--border);"></div></div>
+        <div style="display:flex;flex-direction:column;align-items:center;min-width:34mm;"><div class="ov-line"></div><div style="width:110%;height:2px;background:var(--border);"></div></div>
+        <div style="display:flex;flex-direction:column;align-items:center;min-width:30mm;"><div class="ov-line"></div><div style="width:110%;height:2px;background:var(--border);"></div></div>
+        <div style="display:flex;flex-direction:column;align-items:center;min-width:34mm;"><div class="ov-line"></div><div style="width:110%;height:2px;background:var(--border);"></div></div>
+      </div>
+
+      <!-- Level 2: sub-teams -->
+      <div class="ol" style="align-items:flex-start;gap:8px;">
+
+        <div style="display:flex;flex-direction:column;gap:5px;min-width:34mm;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">Project Managers</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">Site Engineers</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">Site Supervisors</div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:5px;min-width:34mm;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">Electrical Design</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">Smart Systems Eng.</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">CAD / BIM Drafting</div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:5px;min-width:34mm;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">Estimation Dept.</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">Procurement</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">Contract Mgmt.</div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:5px;min-width:30mm;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:27mm;"><div class="ob-t">HSE Officers</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:27mm;"><div class="ob-t">QA / QC Dept.</div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:5px;min-width:34mm;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">Finance &amp; Accounting</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">HR &amp; Administration</div></div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+            <div class="ov-line"></div><div class="ob ob-light" style="min-width:30mm;"><div class="ob-t">IT &amp; Systems</div></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div style="margin-top:10px;" class="hb">
+      <div style="font-size:8.5px;font-weight:700;color:var(--blue-d);margin-bottom:4px;">Staffing Model</div>
+      <p class="bts">BetaVolt maintains a core team of permanent professional and technical staff supported by an approved pool of specialist subcontractors and skilled tradespeople. All subcontractors are vetted, pre-qualified, and HSE-inducted before deployment on any BetaVolt project site. Organization charts with named personnel and CVs are available upon formal request.</p>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>BetaVolt · Pre-Qualification Document 2025</span>
+    <span>ORGANIZATION CHART</span>
+    <span class="pf-pg">08 / 10</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 9 — COMPLIANCE & CERTIFICATIONS
+══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="ph">
+    <div class="ph-logo">
+      <div class="ph-bolt"><svg viewBox="0 0 24 24" fill="white"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg></div>
+      <div class="ph-name">BETA<em>VOLT</em></div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-section">Compliance &amp; Certifications</div>
+      <div class="ph-pg">Page 09 / 10</div>
+    </div>
+  </div>
+
+  <div class="pc">
+    <div class="sh"><div class="ov">Credentials</div><h2>Compliance &amp; Certifications</h2><div class="bar"></div></div>
+    <p class="bts" style="margin-bottom:9px;">BetaVolt holds all statutory registrations and management system certifications required for contracting operations in the Kingdom of Saudi Arabia. Original certificates are attached as annexures and available upon request.</p>
+
+    <div class="cg" style="margin-bottom:9px;">
+
+      <div class="cb">
+        <div class="ch"><div class="ch-dot"></div><div class="ch-txt">Commercial Registration (CR)</div></div>
+        <div class="cc">
+          <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+          <div class="cc-lbl">CR Certificate<br/>to be inserted here</div>
+        </div>
+        <div class="cf"><span>CR No: 1010 XXX XXX · Riyadh</span></div>
+      </div>
+
+      <div class="cb">
+        <div class="ch"><div class="ch-dot"></div><div class="ch-txt">ZATCA — VAT Certificate</div></div>
+        <div class="cc">
+          <div class="cc-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <div class="cc-lbl">ZATCA VAT Certificate<br/>to be inserted here</div>
+        </div>
+        <div class="cf"><span>VAT No: 300 XXX XXX XXX XXX</span></div>
+      </div>
+
+      <div class="cb">
+        <div class="ch"><div class="ch-dot"></div><div class="ch-txt">GOSI — Social Insurance</div></div>
+        <div class="cc">
+          <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="cc-lbl">GOSI Certificate<br/>to be inserted here</div>
+        </div>
+        <div class="cf"><span>GOSI Subscription Certificate · Valid 2025</span></div>
+      </div>
+
+      <div class="cb">
+        <div class="ch"><div class="ch-dot" style="background:var(--blue-l);"></div><div class="ch-txt">ISO 9001:2015 — Quality Management</div></div>
+        <div class="cc">
+          <div class="cc-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="9 11 12 14 22 4"/></svg></div>
+          <div class="cc-lbl">ISO 9001:2015 Certificate<br/>to be inserted here</div>
+        </div>
+        <div class="cf"><span>Scope: Electrical Contracting &amp; Smart Systems</span></div>
+      </div>
+
+      <div class="cb">
+        <div class="ch"><div class="ch-dot" style="background:var(--blue-l);"></div><div class="ch-txt">ISO 45001:2018 — OH&amp;S Management</div></div>
+        <div class="cc">
+          <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="cc-lbl">ISO 45001:2018 Certificate<br/>to be inserted here</div>
+        </div>
+        <div class="cf"><span>Occupational Health &amp; Safety · Valid 2025</span></div>
+      </div>
+
+      <div class="cb">
+        <div class="ch"><div class="ch-dot" style="background:var(--blue-l);"></div><div class="ch-txt">Approved Vendor — SEC / Aramco</div></div>
+        <div class="cc">
+          <div class="cc-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div class="cc-lbl">Approved Vendor Certificate<br/>to be inserted here</div>
+        </div>
+        <div class="cf"><span>Vendor Registration / ICV Certificate</span></div>
+      </div>
+
+    </div>
+
+    <!-- Compliance summary -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+      <div class="hb">
+        <div style="font-size:8.5px;font-weight:700;color:var(--blue-d);margin-bottom:5px;">Statutory Compliance Summary</div>
+        <table style="width:100%;font-size:8.5px;border-collapse:collapse;">
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:3px 0;font-weight:600;color:var(--navy);width:55%;">Commercial Registration</td>
+            <td style="padding:3px 0;color:var(--text-3);">✅ Valid — Riyadh, KSA</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:3px 0;font-weight:600;color:var(--navy);">ZATCA VAT Registration</td>
+            <td style="padding:3px 0;color:var(--text-3);">✅ Active</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:3px 0;font-weight:600;color:var(--navy);">GOSI Subscription</td>
+            <td style="padding:3px 0;color:var(--text-3);">✅ Current 2025</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:3px 0;font-weight:600;color:var(--navy);">Saudization (Nitaqat)</td>
+            <td style="padding:3px 0;color:var(--text-3);">✅ Compliant — Platinum</td>
+          </tr>
+          <tr>
+            <td style="padding:3px 0;font-weight:600;color:var(--navy);">In-Country Value (ICV)</td>
+            <td style="padding:3px 0;color:var(--text-3);">✅ ICV Certified</td>
+          </tr>
+        </table>
+      </div>
+      <div style="padding:9px 13px;background:rgba(245,158,11,0.04);border:1px solid rgba(245,158,11,0.14);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;">
+        <div style="font-size:8.5px;font-weight:700;color:var(--amber-d);margin-bottom:5px;">Management Systems Certification</div>
+        <table style="width:100%;font-size:8.5px;border-collapse:collapse;">
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:3px 0;font-weight:600;color:var(--navy);width:55%;">ISO 9001:2015 (QMS)</td>
+            <td style="padding:3px 0;color:var(--text-3);">✅ Certified</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:3px 0;font-weight:600;color:var(--navy);">ISO 45001:2018 (OH&amp;S)</td>
+            <td style="padding:3px 0;color:var(--text-3);">✅ Certified</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:3px 0;font-weight:600;color:var(--navy);">ISO 14001:2015 (EMS)</td>
+            <td style="padding:3px 0;color:var(--text-3);">🔄 In Progress</td>
+          </tr>
+          <tr>
+            <td style="padding:3px 0;font-weight:600;color:var(--navy);">Aramco / SEC Vendor Approval</td>
+            <td style="padding:3px 0;color:var(--text-3);">✅ Registered</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="pf">
+    <span>BetaVolt · Pre-Qualification Document 2025</span>
+    <span>COMPLIANCE &amp; CERTIFICATIONS</span>
+    <span class="pf-pg">09 / 10</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE 10 — BACK COVER / CONTACT US
+══════════════════════════════════════════════════════════ -->
+<div class="page page-back">
+
+  <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--blue),rgba(59,130,246,0.3),transparent);"></div>
+
+  <!-- Decorative circles -->
+  <div style="position:absolute;left:-18mm;bottom:45mm;width:75mm;height:75mm;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,0.09),transparent 70%);pointer-events:none;"></div>
+  <div style="position:absolute;right:-15mm;top:40mm;width:60mm;height:60mm;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,0.08),transparent 70%);pointer-events:none;"></div>
+
+  <div style="position:relative;z-index:2;height:100%;display:flex;flex-direction:column;padding:14mm 16mm 10mm;align-items:center;">
+
+    <!-- Logo -->
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12mm;">
+      <div style="width:48px;height:48px;background:var(--blue);border-radius:11px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 26px rgba(59,130,246,0.45);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M13 2L4.5 13.5H11L10 22L20.5 10H14L13 2Z"/></svg>
+      </div>
+      <div>
+        <div style="font-size:22px;font-weight:900;letter-spacing:0.08em;color:white;">BETA<span style="color:var(--blue-l);">VOLT</span></div>
+        <div style="font-size:8px;font-weight:600;letter-spacing:0.18em;color:rgba(255,255,255,0.4);text-transform:uppercase;margin-top:1px;">Smart Infrastructure & Energy Solutions</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div style="text-align:center;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;max-width:150mm;">
+      <div style="font-size:8px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;">Get in Touch</div>
+      <div style="font-size:22px;font-weight:900;color:white;line-height:1.2;text-align:center;margin-bottom:8px;">
+        Let's Build Your<br/><span style="background:linear-gradient(135deg,var(--blue-l),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Next Project</span> Together.
+      </div>
+      <div style="width:44mm;height:1px;background:linear-gradient(to right,transparent,rgba(59,130,246,0.5),transparent);margin:10px 0;"></div>
+      <p style="font-size:10.5px;font-weight:400;color:rgba(255,255,255,0.5);line-height:1.7;text-align:center;margin-bottom:18px;">
+        Whether you are planning a new facility, upgrading ageing infrastructure, or integrating smart systems — BetaVolt's engineering team is ready to deliver a compliant, certified, and cost-effective solution.
+      </p>
+
+      <!-- CTA pill -->
+      <div style="display:inline-flex;align-items:center;gap:8px;padding:9px 20px;background:var(--blue);border-radius:30px;margin-bottom:16mm;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span style="font-size:10px;font-weight:700;color:white;letter-spacing:0.05em;">Submit Your Inquiry — www.betavolt.com</span>
+      </div>
+    </div>
+
+    <!-- Contact cards -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;width:100%;margin-bottom:10px;">
+
+      <div style="text-align:center;padding:10px 8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;">
+        <div style="display:flex;justify-content:center;margin-bottom:6px;">
+          <div style="width:28px;height:28px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:7px;display:flex;align-items:center;justify-content:center;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+        </div>
+        <div style="font-size:7.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-l);margin-bottom:4px;">Head Office</div>
+        <div style="font-size:9.5px;font-weight:600;color:white;">Riyadh, KSA</div>
+        <div style="font-size:8px;color:rgba(255,255,255,0.4);">Postal Code XXXXX</div>
+      </div>
+
+      <div style="text-align:center;padding:10px 8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;">
+        <div style="display:flex;justify-content:center;margin-bottom:6px;">
+          <div style="width:28px;height:28px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:7px;display:flex;align-items:center;justify-content:center;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.69a16 16 0 0 0 6.29 6.29l1.77-1.77a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+        </div>
+        <div style="font-size:7.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-l);margin-bottom:4px;">Phone</div>
+        <div style="font-size:9.5px;font-weight:600;color:white;">+966 XX XXX XXXX</div>
+        <div style="font-size:8px;color:rgba(255,255,255,0.4);">Sat–Thu · 8am–6pm</div>
+      </div>
+
+      <div style="text-align:center;padding:10px 8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;">
+        <div style="display:flex;justify-content:center;margin-bottom:6px;">
+          <div style="width:28px;height:28px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:7px;display:flex;align-items:center;justify-content:center;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+        </div>
+        <div style="font-size:7.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-l);margin-bottom:4px;">Email</div>
+        <div style="font-size:9.5px;font-weight:600;color:white;">info@betavolt.com</div>
+        <div style="font-size:8px;color:rgba(255,255,255,0.4);">projects@betavolt.com</div>
+      </div>
+
+      <div style="text-align:center;padding:10px 8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;">
+        <div style="display:flex;justify-content:center;margin-bottom:6px;">
+          <div style="width:28px;height:28px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:7px;display:flex;align-items:center;justify-content:center;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+        </div>
+        <div style="font-size:7.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-l);margin-bottom:4px;">Website</div>
+        <div style="font-size:9.5px;font-weight:600;color:white;">www.betavolt.com</div>
+        <div style="font-size:8px;color:rgba(255,255,255,0.4);">24/7 Online Presence</div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div style="width:100%;border-top:1px solid rgba(255,255,255,0.07);padding-top:8px;display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:8px;font-weight:600;letter-spacing:0.1em;color:rgba(255,255,255,0.3);">© 2025 BetaVolt for Electrical Contracting Co. · All Rights Reserved</div>
+      <div style="font-size:8px;font-weight:700;color:rgba(255,255,255,0.3);letter-spacing:0.08em;">CONFIDENTIAL · FOR PREQUALIFICATION PURPOSES ONLY</div>
+    </div>
+  </div>
+
+  <div style="position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--blue),rgba(59,130,246,0.25),transparent);"></div>
+</div>
+
+
+</body>
+</html>

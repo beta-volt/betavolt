@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/lib/supabase-server';
+import { sendSalesAlert } from '@/lib/notifications';
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,9 +14,13 @@ export async function POST(request: NextRequest) {
       requirements: string;
       file_name?: string;
       file_url?: string;
+      utm_source?: string;
+      utm_medium?: string;
+      utm_campaign?: string;
+      utm_content?: string;
     };
 
-    const { name, company, email, phone, project_type, timeline, requirements, file_name, file_url } = body;
+    const { name, company, email, phone, project_type, timeline, requirements, file_name, file_url, utm_source, utm_medium, utm_campaign, utm_content } = body;
 
     if (!name || !company || !project_type || !timeline || !requirements) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -38,6 +43,22 @@ export async function POST(request: NextRequest) {
     });
 
     if (error) throw error;
+
+    // Trigger instant sales alert (fail-safe)
+    await sendSalesAlert({
+      type: 'quote_request',
+      name,
+      company,
+      email,
+      phone,
+      subject,
+      service: project_type,
+      message: requirements,
+      utm_source,
+      utm_medium,
+      utm_campaign,
+      utm_content,
+    });
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (err) {

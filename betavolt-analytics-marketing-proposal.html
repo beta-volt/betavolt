@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خطة تطوير لوحة التحليلات واستراتيجية التسويق — شركة بيتافولت</title>
+  
+  <!-- Google Fonts: Cairo & Orbitron -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Orbitron:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #070B14;
+      --surface: #0E1524;
+      --surface-card: #131D31;
+      --surface-border: #1E2D4A;
+      --accent-blue: #2563EB;
+      --accent-cyan: #38BDF8;
+      --accent-yellow: #F59E0B;
+      --success-green: #10B981;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    @page {
+      size: 210mm 297mm;
+      margin: 0mm !important;
+    }
+
+    html, body {
+      background-color: var(--bg-dark) !important;
+      color: var(--text-main);
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 210mm !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      font-size: 9.6px;
+      line-height: 1.34;
+    }
+
+    .print-bar {
+      padding: 10px;
+      background: #0F172A;
+      text-align: center;
+      border-bottom: 1px solid #334155;
+    }
+
+    .btn-pdf {
+      background: #2563EB;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ─── Exact A4 Sheets (210mm x 297mm) ─── */
+    .sheet {
+      width: 210mm !important;
+      height: 297mm !important;
+      min-height: 297mm !important;
+      max-height: 297mm !important;
+      box-sizing: border-box !important;
+      padding: 9mm 12mm 7mm !important;
+      background-color: var(--bg-dark) !important;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .sheet:last-child {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+
+    .sheet-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    /* ─── Header Card ─── */
+    .header-card {
+      background: linear-gradient(135deg, #0B1322 0%, #101B30 100%);
+      border: 1.5px solid #2563EB;
+      border-radius: 9px;
+      padding: 9px 13px;
+      margin-bottom: 7px;
+      box-shadow: 0 3px 12px rgba(37, 99, 235, 0.14);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 5px;
+      margin-bottom: 6px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .brand-icon {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFF;
+      font-size: 15px;
+      box-shadow: 0 0 9px rgba(59, 130, 246, 0.4);
+    }
+
+    .brand-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      color: #FFF;
+      line-height: 1;
+    }
+
+    .brand-sub {
+      font-size: 9px;
+      color: var(--accent-cyan);
+      font-weight: 700;
+      margin-top: 1.5px;
+    }
+
+    .header-badge {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 9px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .header-title-block h2 {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #FFF;
+      margin-bottom: 1.5px;
+    }
+
+    .header-title-block p {
+      font-size: 9.5px;
+      color: var(--text-muted);
+    }
+
+    .meta-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      margin-top: 6px;
+    }
+
+    .meta-box {
+      background: rgba(6, 10, 18, 0.75);
+      border: 1px solid var(--surface-border);
+      border-radius: 5px;
+      padding: 4px 7px;
+    }
+
+    .meta-lbl {
+      font-size: 8px;
+      color: var(--text-dim);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .meta-val {
+      font-size: 10px;
+      color: #FFF;
+      font-weight: 800;
+      margin-top: 1px;
+    }
+
+    /* ─── Section Headings ─── */
+    .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #FFF;
+      margin: 6px 0 4px;
+      border-right: 3px solid var(--accent-cyan);
+      padding-right: 6px;
+    }
+
+    /* ─── Cards & Grid ─── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 7px;
+      padding: 7px 10px;
+      margin-bottom: 6px;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 9.6px;
+      line-height: 1.4;
+      text-align: justify;
+      margin-bottom: 3px;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .feature-box {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      border-radius: 6px;
+      padding: 7px 9px;
+    }
+
+    .feature-hdr {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      margin-bottom: 2.5px;
+    }
+
+    .feature-p {
+      font-size: 8.8px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* ─── Strategy Highlights ─── */
+    .highlight-card {
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(14, 21, 36, 0.95) 100%);
+      border: 1px solid rgba(37, 99, 235, 0.35);
+      border-radius: 7px;
+      padding: 7px 10px;
+      margin-top: 5px;
+    }
+
+    .highlight-title {
+      font-size: 10.2px;
+      font-weight: 800;
+      color: #93C5FD;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill-tag {
+      display: inline-block;
+      font-size: 8px;
+      padding: 1.5px 5px;
+      border-radius: 3px;
+      font-weight: 800;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    /* ─── Roadmap Steps ─── */
+    .roadmap-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4.5px;
+      margin-bottom: 5px;
+    }
+
+    .roadmap-item {
+      display: grid;
+      grid-template-columns: 20px 1fr 80px;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      border-radius: 5px;
+      padding: 4px 8px;
+    }
+
+    .step-badge {
+      width: 19px;
+      height: 19px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      color: white;
+      font-weight: 900;
+      font-size: 9.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-text {
+      font-weight: 700;
+      font-size: 9.6px;
+      color: var(--text-main);
+    }
+
+    .step-sub {
+      font-size: 8.5px;
+      color: var(--text-muted);
+    }
+
+    /* ─── Signatures Block ─── */
+    .signature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-top: 5px;
+    }
+
+    .sig-box {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      border-radius: 6px;
+      padding: 6px 9px;
+    }
+
+    .sig-tag {
+      font-size: 7.5px;
+      color: var(--text-dim);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 1.5px;
+    }
+
+    .sig-name {
+      font-size: 10.2px;
+      font-weight: 800;
+      color: #FFF;
+    }
+
+    .sig-sub {
+      font-size: 8.6px;
+      color: var(--accent-cyan);
+    }
+
+    .sig-seal {
+      display: inline-block;
+      margin-top: 3px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 8.2px;
+      font-weight: 800;
+    }
+
+    /* ─── Footer ─── */
+    .foot-note {
+      text-align: center;
+      padding-top: 4px;
+      font-size: 8.2px;
+      color: var(--text-dim);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      line-height: 1;
+      margin-top: 4px;
+    }
+
+    @media print {
+      .print-bar { display: none !important; }
+      body, html {
+        background: var(--bg-dark) !important;
+        width: 210mm !important;
+      }
+      .sheet {
+        width: 210mm !important;
+        height: 297mm !important;
+        min-height: 297mm !important;
+        max-height: 297mm !important;
+        margin: 0 !important;
+        padding: 9mm 12mm 7mm !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-bar">
+    <button class="btn-pdf" onclick="window.print()">🖨️ طباعة التقرير / حفظ كـ PDF</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════ -->
+  <!--  PAGE 1: STRATEGIC VISION & DASHBOARD ANALYTICS ARCHITECTURE             -->
+  <!-- ══════════════════════════════════════════════════════════════════════════ -->
+  <div class="sheet">
+    <div class="sheet-content">
+      <!-- Header -->
+      <div class="header-card">
+        <div class="header-top">
+          <div class="brand-group">
+            <div class="brand-icon">⚡</div>
+            <div>
+              <div class="brand-title">BETAVOLT</div>
+              <div class="brand-sub">المقاولات الكهروميكانيكية والأنظمة الذكية ومراكز البيانات</div>
+            </div>
+          </div>
+          <div class="header-badge">
+            <span>📊 مقترح استراتيجي وخطة عمل</span>
+          </div>
+        </div>
+
+        <div class="header-title-block">
+          <h2>خطة تطوير لوحة التحليلات المتقدمة (Analytics) واستراتيجية التسويق الرقمي B2B</h2>
+          <p>تحويل المنصة الرقمية إلى مركز جذب مشاريع هندسية كبرى وتتبع رحلة العملاء والاستشاريين بدقة</p>
+        </div>
+
+        <div class="meta-bar">
+          <div class="meta-box">
+            <div class="meta-lbl">الجهة المستهدفة</div>
+            <div class="meta-val">إدارة شركة بيتافولت (BetaVolt)</div>
+          </div>
+          <div class="meta-box">
+            <div class="meta-lbl">إشراف وتنفيذ</div>
+            <div class="meta-val">م. كريم أمجد (التطوير التقني)</div>
+          </div>
+          <div class="meta-box">
+            <div class="meta-lbl">النطاق والمنصة</div>
+            <div class="meta-val">betavolt.com.sa</div>
+          </div>
+          <div class="meta-box">
+            <div class="meta-lbl">الهدف الاستراتيجي</div>
+            <div class="meta-val" style="color: var(--accent-cyan);">توليد عروض أسعار B2B</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 1: Executive Vision -->
+      <div class="sec-head">أولاً: الرؤية الاستراتيجية — لماذا تعد هذه الخطوة نقلة نوعية لبيتافولت؟</div>
+      <div class="card">
+        <p>
+          في قطاع المقاولات الكهروميكانيكية ومراكز البيانات (MEP & Data Centers)، لا يُقاس النجاح بعدد الزيارات العشوائية، بل <strong>بجودة متخذي القرار</strong> (الاستشاريون الهندسيون، مدراء المشاريع، المطورون العقاريون، والجهات الحكومية في السعودية).
+        </p>
+        <p>
+          إضافة قسم التحليلات إلى لوحة تحكم بيتافولت لن تكون مجرد أرقام ورسوم بيانية، بل ستمنح الإدارة <strong>عينًا استخباراتية فورية</strong> لمعرفة من يهتم بخدمات الشركة، من أين أتى، ما هي المشاريع الأكثر جذباً لاهتمامه، وكيف تحول هذا الاهتمام إلى طلب تسعير رسمي أو تواصل تجاري.
+        </p>
+      </div>
+
+      <!-- Section 2: Dashboard Analytics Features -->
+      <div class="sec-head">ثانياً: المكونات الأربعة الأساسية لقسم التحليلات المقترح بالداشبورد</div>
+      
+      <div class="grid-2">
+        <div class="feature-box">
+          <div class="feature-hdr">
+            <span>🌍</span>
+            <span>1. الخارطة الجغرافية والمدن الأكثر اهتماماً</span>
+          </div>
+          <div class="feature-p">
+            • توزيع الزوار حسب الدول: التركيز على (السعودية، الإمارات، الخليج).<br>
+            • تفصيل مدن المملكة: (الرياض، الجبيل، الدمام، جدة، نيوم).<br>
+            • كشف الزيارات القادمة من نطاقات شبكات الشركات الاستشارية الكبرى.
+          </div>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-hdr">
+            <span>⏱️</span>
+            <span>2. عمق التصفح وزمن البقاء (User Engagement)</span>
+          </div>
+          <div class="feature-p">
+            • متوسط وقت بقاء العميل داخل الموقع ومعدل الارتداد (Bounce Rate).<br>
+            • مسار التصفح: ما هي الصفحات التي دخلها بالترتيب قبل إرسال الطلب.<br>
+            • تصنيف الزوار: زائر عابر أم عميل مستهدف مهتم بتفاصيل المشاريع.
+          </div>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-hdr">
+            <span>⚡</span>
+            <span>3. تحليل الاهتمام بالخدمات والمشاريع المنفذة</span>
+          </div>
+          <div class="feature-p">
+            • أي الخدمات تتلقى الاهتمام الأكبر: (مراكز البيانات، BMS، الجهد المنخفض).<br>
+            • نسبة تصفح معرض المشاريع الكبرى وسوابق الأعمال الهندسية.<br>
+            • رصد الخدمات الصاعدة لمساعدة الإدارة في تركيز العروض التسويقية.
+          </div>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-hdr">
+            <span>🎯</span>
+            <span>4. قمع التحويل وأفعال الزوار (Action Funnel)</span>
+          </div>
+          <div class="feature-p">
+            • عدد من فتح نافذة "طلب عرض سعر" (Quote Modal).<br>
+            • نسبة من أكمل النموذج بنجاح مقابل من أغلقه.<br>
+            • رصد النقرات المباشرة على واتساب، الاتصال الهاتفي، وبريد التوظيف.
+          </div>
+        </div>
+      </div>
+
+      <!-- Highlight Banner -->
+      <div class="highlight-card">
+        <div class="highlight-title">
+          <span>💡</span>
+          <span>القيمة المالية المباشرة لهذه الميزة:</span>
+        </div>
+        <p style="font-size: 9.3px; color: #CBD5E1; margin: 0; line-height: 1.4;">
+          عندما تطلق الشركة حملة تسويقية لمشروع محدد (مثلاً خدمات مراكز البيانات بالرياض)، ستعرف الإدارة مباشرة: كم مهندساً من الرياض دخل الصفحة، كم دقيقة قضاها يقرأ المواصفات، وهل قام بطلب تسعير؟ هذا يمنع إهدار الميزانيات التسويقية ويوجه المبيعات للفرص الحقيقية فوراً.
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer Page 1 -->
+    <div class="foot-note">
+      صفحة 1 من 2 — وثيقة مقترح لوحة التحليلات وخطة التسويق — شركة بيتافولت (BetaVolt)
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════════ -->
+  <!--  PAGE 2: B2B MARKETING STRATEGY, ROADMAP & SIGNATURES                   -->
+  <!-- ══════════════════════════════════════════════════════════════════════════ -->
+  <div class="sheet">
+    <div class="sheet-content">
+      <!-- Section 3: B2B Marketing Strategy -->
+      <div class="sec-head">ثالثاً: 4 أفكار تسويقية مبتكرة لرفع مبيعات شركة بيتافولت عبر المنصة</div>
+      
+      <div class="grid-2" style="margin-bottom: 6px;">
+        <div class="feature-box">
+          <div class="feature-hdr">
+            <span>👔</span>
+            <span>1. التسويق الموجه للشركات (Account-Based Marketing)</span>
+          </div>
+          <div class="feature-p">
+            استهداف مباشر عبر LinkedIn لمهندسي المشتريات والاستشاريين في مشاريع صندوق الاستثمارات العامة (نيوم، البحر الأحمر، روشن، القدية) وتوجيههم لصفحات مشاريعنا المتخصصة.
+          </div>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-hdr">
+            <span>🔍</span>
+            <span>2. قنص الكلمات المفتاحية عالية القيمة (High-Intent SEO)</span>
+          </div>
+          <div class="feature-p">
+            تصدر نتائج بحث Google لكلمات مثل: <em>"مقاول كهروميكانيك مراكز بيانات الرياض"</em> أو <em>"أنظمة BMS وتحكم ذكي الجبيل"</em> لضمان ظهور الموقع عند طرح مناقصات فورية.
+          </div>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-hdr">
+            <span>📑</span>
+            <span>3. ملفات التأهيل والكتالوجات القابلة للتحميل (Lead Magnets)</span>
+          </div>
+          <div class="feature-p">
+            إضافة خيار "تحميل الملف التعريفي وسابقة الأعمال (Company Pre-Qualification / Profile)" مقابل إدخال اسم الشركة ورقم الهاتف، مما يبني قاعدة بيانات جاهزة للتواصل المباشر.
+          </div>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-hdr">
+            <span>📲</span>
+            <span>4. الربط اللحظي بإشعارات إدارة المبيعات (Instant Alerts)</span>
+          </div>
+          <div class="feature-p">
+            تنبيه فوري عبر إيميل الإدارة أو WhatsApp للإدارة التنفيذية بمجرد ورود أي طلب تسعير، متضمناً مصدر الزيارة والخدمة المطلوبة للرد خلال أقل من ساعتين وكسب ثقة العميل.
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Technical Architecture -->
+      <div class="sec-head">رابعاً: كيف سنبني هذا النظام تقنياً وبأعلى كفاءة؟ (Implementation Architecture)</div>
+      <div class="card">
+        <p>
+          سنعتمد <strong>حلّين متكاملين (Hybrid Solution)</strong> يجمعان بين الخصوصية التامة وسرعة الموقع الفائقة:
+        </p>
+        <div class="grid-3" style="margin-top: 4px;">
+          <div style="background: var(--surface-card); border: 1px solid var(--surface-border); border-radius: 5px; padding: 5px 7px;">
+            <div style="font-weight: 800; color: var(--accent-cyan); font-size: 9.3px;">1. محرك التتبع الخفيف</div>
+            <div style="font-size: 8.3px; color: var(--text-muted); margin-top: 1.5px;">تتبع بدون كوكيز أو بطء، متوافق 100% مع نظام حماية البيانات السعودي (PDPL).</div>
+          </div>
+          <div style="background: var(--surface-card); border: 1px solid var(--surface-border); border-radius: 5px; padding: 5px 7px;">
+            <div style="font-weight: 800; color: var(--accent-cyan); font-size: 9.3px;">2. قاعدة بيانات Supabase</div>
+            <div style="font-size: 8.3px; color: var(--text-muted); margin-top: 1.5px;">تسجيل الأحداث الرئيسية (فتح النافذة، إرسال العرض) في جداول آمنة داخل قاعدة بياناتنا.</div>
+          </div>
+          <div style="background: var(--surface-card); border: 1px solid var(--surface-border); border-radius: 5px; padding: 5px 7px;">
+            <div style="font-weight: 800; color: var(--accent-cyan); font-size: 9.3px;">3. شاشات العرض بالداشبورد</div>
+            <div style="font-size: 8.3px; color: var(--text-muted); margin-top: 1.5px;">رسوم تفاعلية باللون الداكن المتناسق مع لوحة تحكم بيتافولت في مسار /admin/analytics.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Roadmap -->
+      <div class="sec-head">خامساً: خطة التنفيذ المقترحة ومراحل العمل</div>
+      <div class="roadmap-list">
+        <div class="roadmap-item">
+          <div class="step-badge">1</div>
+          <div>
+            <div class="step-text">إنشاء جدول ومسارات تسجيل الأحداث (Analytics Events Engine)</div>
+            <div class="step-sub">إعداد جداول Supabase ورصد الزيارات، الدول، والصفحات دون التأثير على سرعة التصفح.</div>
+          </div>
+          <div style="text-align: left;"><span class="pill-tag">المرحلة 1</span></div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="step-badge">2</div>
+          <div>
+            <div class="step-text">بناء واجهة لوحة التحليلات التفاعلية بالداشبورد (/admin/analytics)</div>
+            <div class="step-sub">تصميم البطاقات، الرسوم البيانية، جدول أكثر الدول، ومؤشرات الأداء اللحظية بالهوية الداكنة.</div>
+          </div>
+          <div style="text-align: left;"><span class="pill-tag">المرحلة 2</span></div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="step-badge">3</div>
+          <div>
+            <div class="step-text">إطلاق مسار التتبع التسويقي والحملات الإعلانية الموجهة</div>
+            <div class="step-sub">ربط روابط التتبع (UTM Parameters) لقياس عائد الحملات الإعلانية ومصادر عروض الأسعار.</div>
+          </div>
+          <div style="text-align: left;"><span class="pill-tag">المرحلة 3</span></div>
+        </div>
+      </div>
+
+      <!-- Signatures Block -->
+      <div class="signature-row">
+        <div class="sig-box">
+          <div class="sig-tag">المشرف التقني ومعد المقترح</div>
+          <div class="sig-name">م. كريم أمجد</div>
+          <div class="sig-sub">مسؤول التطوير والأنظمة الرقمية</div>
+          <div class="sig-seal" style="border: 1px dashed var(--success-green); color: var(--success-green);">✓ مقترح تقني وتجاري جاهز للتنفيذ</div>
+        </div>
+
+        <div class="sig-box">
+          <div class="sig-tag">الجهة المعتمدة والمستفيدة</div>
+          <div class="sig-name">م. خالد السباعي / إدارة بيتافولت</div>
+          <div class="sig-sub">شركة بيتافولت للمقاولات الكهروميكانيكية</div>
+          <div class="sig-seal" style="border: 1px dashed #64748B; color: #94A3B8; background: rgba(100, 116, 139, 0.1);">بانتظار مراجعة واعتماد الإدارة</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Page 2 -->
+    <div class="foot-note">
+      صفحة 2 من 2 — © 2026 شركة بيتافولت (BetaVolt) للمقاولات الكهروميكانيكية والأنظمة الذكية — وثيقة مقترح استراتيجي وخطة عمل.
+    </div>
+  </div>
+
+</body>
+</html>

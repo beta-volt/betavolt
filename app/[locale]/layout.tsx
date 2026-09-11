@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
@@ -6,6 +7,7 @@ import { routing } from '@/i18n/routing';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/Footer';
 import ThemeProvider from '@/components/layout/ThemeProvider';
+import AnalyticsBeacon from '@/components/AnalyticsBeacon';
 import { getContent } from '@/lib/content-store';
 import '@/app/globals.css';
 
@@ -39,6 +41,9 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <div lang={locale} dir={dir} className="min-h-screen flex flex-col justify-between">
       <ThemeProvider>
+        <Suspense fallback={null}>
+          <AnalyticsBeacon />
+        </Suspense>
         <NextIntlClientProvider messages={messages}>
           <Navbar />
           <main className="flex-1">{children}</main>

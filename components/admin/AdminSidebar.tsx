@@ -18,6 +18,7 @@ import {
   PanelBottom,
   FileText,
   Shield,
+  BarChart2,
 } from 'lucide-react';
 import { useSidebar } from './SidebarProvider';
 import { useAdminLang } from './AdminLangProvider';
@@ -39,6 +40,7 @@ const NAV_L = {
   en: {
     navigation:  'Navigation',
     dashboard:   'Dashboard Overview',
+    analytics:   'Analytics & B2B',
     contentMgmt: 'Content Management',
     inquiries:   'Inquiries',
     users:       'Admin Accounts',
@@ -47,6 +49,7 @@ const NAV_L = {
   ar: {
     navigation:  'التنقل',
     dashboard:   'لوحة التحكم',
+    analytics:   'التحليلات والمبيعات',
     contentMgmt: 'إدارة المحتوى',
     inquiries:   'الاستفسارات',
     users:       'حسابات المدير',
@@ -81,6 +84,7 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
     return exact ? pathname === href : pathname.startsWith(href);
   }
 
+  const canAnalytics = role === 'super_admin' || role === 'sales';
   const canContent   = role === 'super_admin' || role === 'content_manager';
   const canInquiries = role === 'super_admin' || role === 'sales';
   const canUsers     = role === 'super_admin';
@@ -118,6 +122,21 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" aria-hidden="true" />
           )}
         </Link>
+
+        {/* ── Analytics & B2B — super_admin + sales ── */}
+        {canAnalytics && (
+          <Link
+            href="/admin/analytics"
+            onClick={onLinkClick}
+            className={[BASE_ITEM, navActive('/admin/analytics') ? ACTIVE_ITEM : IDLE_ITEM].join(' ')}
+          >
+            <BarChart2 size={17} strokeWidth={1.75} className="shrink-0" />
+            <span className="flex-1 min-w-0 truncate">{nav.analytics}</span>
+            {navActive('/admin/analytics') && (
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" aria-hidden="true" />
+            )}
+          </Link>
+        )}
 
         {/* ── Content Management — super_admin + content_manager ── */}
         {canContent && (

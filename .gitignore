@@ -11,12 +11,23 @@ out/
 build/
 dist/
 
-# Environment variables & Credentials
+# ==============================================================================
+# Internal Agent Infrastructure, Skills & Task Management (STRICTLY LOCAL)
+# ==============================================================================
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+*.env
+.agents/
+.agents
+.gemini/
+tasks/
+AGENT_RULES.md
+SYSTEM_ARCHITECTURE_DOSSIER.md
+skills-lock.json
+scratch/
+*.log
+data/*.db
+data/*.sqlite
 PROJECT_CREDENTIALS.md
 
 # Debug logs

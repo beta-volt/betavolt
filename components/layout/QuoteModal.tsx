@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { useTranslations, useLocale } from 'next-intl';
 import { CheckCircle, AlertCircle, Upload, X, Send, FileText } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { trackEvent, getStoredUtm } from '@/components/AnalyticsBeacon';
 import type { ModalOption } from '@/lib/load-quote-modal-options';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
@@ -33,11 +34,12 @@ export default function QuoteModal({ isOpen, onClose, projectTypes, timelines }:
 
   useEffect(() => { setMounted(true); }, []);
 
-  // Animate in/out
+  // Animate in/out & Telemetry
   useEffect(() => {
     if (isOpen) {
       setVisible(false);
       const raf = requestAnimationFrame(() => setVisible(true));
+      trackEvent('quote_modal_open');
       return () => cancelAnimationFrame(raf);
     } else {
       setVisible(false);
@@ -109,10 +111,16 @@ export default function QuoteModal({ isOpen, onClose, projectTypes, timelines }:
           requirements: fd.get('requirements'),
           file_name:    fileName ?? undefined,
           file_url,
+          ...getStoredUtm(),
         }),
       });
       if (!res.ok) throw new Error();
       setStatus('success');
+      trackEvent('quote_submit', {
+        project_type: fd.get('project_type'),
+        timeline: fd.get('timeline'),
+        has_file: !!file_url,
+      });
       formRef.current?.reset();
       setFileName(null);
       setFileObj(null);
