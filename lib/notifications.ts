@@ -1,11 +1,17 @@
 /**
- * 🏛️ BetaVolt — Instant Sales Alert & Notification Engine
+ * 🏛️ BetaVolt — Automated Dual-Stream Notification Engine
  * 
- * Delivers immediate alerts to sales directors and executive leadership
- * upon quotation requests, pre-qualification downloads, and contact submissions.
- * Designed with a strict fail-safe architecture to ensure customer interactions
- * are never blocked by upstream notification providers.
+ * Delivers immediate, high-fidelity email and webhook alerts for:
+ * 1. Analytics & High-Intent Sales Alerts:
+ *    From: noreply@betavolt.com.sa -> To: sales@betavolt.com.sa
+ * 2. Inquiries & Quotation RFPs:
+ *    From: inquiries@betavolt.com.sa -> To: info@betavolt.com.sa (CC: sales@betavolt.com.sa)
+ * 
+ * Built with a non-blocking, fail-safe architecture to ensure customer form
+ * submissions are never delayed or interrupted.
  */
+
+import { sendEmail } from '@/lib/mail';
 
 export interface SalesAlertPayload {
   type: 'quote_request' | 'lead_magnet' | 'contact_message';
@@ -16,6 +22,9 @@ export interface SalesAlertPayload {
   subject?: string | null;
   message?: string | null;
   service?: string | null;
+  timeline?: string | null;
+  file_name?: string | null;
+  file_url?: string | null;
   utm_source?: string | null;
   utm_campaign?: string | null;
   utm_medium?: string | null;
@@ -25,25 +34,22 @@ export interface SalesAlertPayload {
 
 const TYPE_CONFIG = {
   quote_request: {
-    badgeAr: '⚡ طلب عرض سعر جديد (RFP)',
-    badgeEn: '⚡ New RFP Quote Request',
-    color: '#2563eb',
-    bgLight: '#eff6ff',
-    borderColor: '#bfdbfe',
+    badgeAr: '⚡ طلب عرض سعر رسمي (RFP)',
+    badgeEn: '⚡ Official RFP Quotation Request',
+    color: '#3B82F6',
+    fromDefault: 'BetaVolt Inquiries <inquiries@betavolt.com.sa>',
   },
   lead_magnet: {
     badgeAr: '📥 تحميل الملف التعريفي وسابقة الأعمال',
     badgeEn: '📥 Pre-Qualification Profile Download',
-    color: '#0d9488',
-    bgLight: '#f0fdfa',
-    borderColor: '#99f6e4',
+    color: '#06B6D4',
+    fromDefault: 'BetaVolt System <noreply@betavolt.com.sa>',
   },
   contact_message: {
-    badgeAr: '💬 استفسار تواصل جديد',
+    badgeAr: '💬 رسالة استفسار تواصل',
     badgeEn: '💬 New Contact Message',
-    color: '#d97706',
-    bgLight: '#fffbeb',
-    borderColor: '#fde68a',
+    color: '#F59E0B',
+    fromDefault: 'BetaVolt Inquiries <inquiries@betavolt.com.sa>',
   },
 };
 
@@ -76,7 +82,7 @@ function getTelUrl(phone?: string | null): string | null {
 }
 
 /**
- * Generates high-end HTML email body with official BetaVolt Dark Cyber styling.
+ * Generates an executive HTML email body tailored to the alert stream.
  */
 function generateHtmlEmail(payload: SalesAlertPayload): string {
   const cfg = TYPE_CONFIG[payload.type] || TYPE_CONFIG.contact_message;
@@ -91,22 +97,24 @@ function generateHtmlEmail(payload: SalesAlertPayload): string {
   <meta charset="utf-8">
   <style>
     body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background-color: #070B14; color: #E2E8F0; margin: 0; padding: 24px; direction: rtl; }
-    .card { max-width: 600px; margin: 0 auto; background: #0E1524; border: 1px solid #1E2D4A; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-    .header { background: linear-gradient(135deg, #0A101D 0%, #131D31 100%); padding: 24px; border-bottom: 1px solid #1E2D4A; text-align: center; }
-    .logo { font-size: 22px; font-weight: 900; letter-spacing: 2px; color: #FFFFFF; margin-bottom: 8px; }
+    .card { max-width: 620px; margin: 0 auto; background: #0E1524; border: 1px solid #1E2D4A; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .header { background: linear-gradient(135deg, #0A101D 0%, #131D31 100%); padding: 26px; border-bottom: 1px solid #1E2D4A; text-align: center; }
+    .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; color: #FFFFFF; margin-bottom: 10px; }
     .logo span { color: #38BDF8; }
-    .badge { display: inline-block; padding: 6px 16px; border-radius: 9999px; font-size: 13px; font-weight: 700; background: ${cfg.color}; color: #FFFFFF; }
-    .content { padding: 24px; }
-    .info-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-    .info-table td { padding: 10px 12px; border-bottom: 1px solid #1E2D4A; font-size: 14px; }
-    .info-label { color: #94A3B8; font-weight: 600; width: 35%; }
+    .badge { display: inline-block; padding: 6px 18px; border-radius: 9999px; font-size: 13px; font-weight: 700; background: ${cfg.color}; color: #FFFFFF; }
+    .content { padding: 26px; }
+    .info-table { width: 100%; border-collapse: collapse; margin-top: 18px; }
+    .info-table td { padding: 12px 14px; border-bottom: 1px solid #1E2D4A; font-size: 14px; }
+    .info-label { color: #94A3B8; font-weight: 600; width: 34%; }
     .info-value { color: #F1F5F9; font-weight: 700; }
-    .actions { margin-top: 24px; display: flex; gap: 12px; justify-content: center; }
-    .btn { display: inline-block; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 700; text-decoration: none; text-align: center; margin: 0 6px; }
+    .actions { margin-top: 26px; text-align: center; }
+    .btn { display: inline-block; padding: 12px 22px; border-radius: 8px; font-size: 14px; font-weight: 700; text-decoration: none; margin: 4px 6px; }
     .btn-wa { background: #22c55e; color: #FFFFFF; }
     .btn-call { background: #2563eb; color: #FFFFFF; }
-    .utm-box { margin-top: 20px; padding: 12px; border-radius: 8px; background: #070B14; border: 1px dashed #1E2D4A; font-size: 12px; color: #64748B; }
-    .footer { background: #070B14; padding: 16px; text-align: center; font-size: 11px; color: #475569; border-top: 1px solid #1E2D4A; }
+    .btn-file { background: #0284c7; color: #FFFFFF; }
+    .utm-box { margin-top: 22px; padding: 14px; border-radius: 8px; background: #070B14; border: 1px dashed #1E2D4A; font-size: 12px; color: #64748B; }
+    .footer { background: #070B14; padding: 18px; text-align: center; font-size: 12px; color: #475569; border-top: 1px solid #1E2D4A; }
+    .admin-link { color: #38BDF8; text-decoration: underline; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -133,12 +141,17 @@ function generateHtmlEmail(payload: SalesAlertPayload): string {
         ${payload.email ? `
         <tr>
           <td class="info-label">✉️ البريد الإلكتروني:</td>
-          <td class="info-value" dir="ltr" style="text-align: right;">${payload.email}</td>
+          <td class="info-value" dir="ltr" style="text-align: right;"><a href="mailto:${payload.email}" style="color: #38BDF8; text-decoration: none;">${payload.email}</a></td>
         </tr>` : ''}
         ${payload.service ? `
         <tr>
-          <td class="info-label">🎯 مجال الاهتمام:</td>
+          <td class="info-label">🎯 نوع المشروع / التخصص:</td>
           <td class="info-value">${payload.service}</td>
+        </tr>` : ''}
+        ${payload.timeline ? `
+        <tr>
+          <td class="info-label">⏱️ الجدول الزمني المطلوب:</td>
+          <td class="info-value">${payload.timeline}</td>
         </tr>` : ''}
         ${payload.subject ? `
         <tr>
@@ -150,29 +163,36 @@ function generateHtmlEmail(payload: SalesAlertPayload): string {
           <td class="info-label">📍 المدينة / الموقع:</td>
           <td class="info-value">${payload.city}</td>
         </tr>` : ''}
+        ${payload.file_url ? `
+        <tr>
+          <td class="info-label">📎 كراسة الشروط / الملف:</td>
+          <td class="info-value"><a href="${payload.file_url}" target="_blank" style="color: #38BDF8; text-decoration: underline;">📄 ${payload.file_name || 'تحميل كراسة المشروع المرفقة'}</a></td>
+        </tr>` : ''}
         ${payload.message ? `
         <tr>
-          <td class="info-label">📝 الملاحظات / التفاصيل:</td>
-          <td class="info-value">${payload.message}</td>
+          <td class="info-label">📝 التفاصيل والمتطلبات:</td>
+          <td class="info-value" style="white-space: pre-wrap; line-height: 1.6;">${payload.message}</td>
         </tr>` : ''}
       </table>
 
-      ${(telUrl || waUrl) ? `
-      <div class="actions" style="text-align: center; margin-top: 24px;">
-        ${telUrl ? `<a href="${telUrl}" class="btn btn-call">📞 اتصال فوري بالعميل</a>` : ''}
-        ${waUrl ? `<a href="${waUrl}" class="btn btn-wa" target="_blank">💬 محادثة واتساب فورية</a>` : ''}
+      ${(telUrl || waUrl || payload.file_url) ? `
+      <div class="actions">
+        ${waUrl ? `<a href="${waUrl}" class="btn btn-wa" target="_blank">💬 بدء محادثة واتساب فورية</a>` : ''}
+        ${telUrl ? `<a href="${telUrl}" class="btn btn-call">📞 اتصال هاتفي بالعميل</a>` : ''}
+        ${payload.file_url ? `<a href="${payload.file_url}" class="btn btn-file" target="_blank">📥 معاينة ملف المناقصة</a>` : ''}
       </div>` : ''}
 
       ${(payload.utm_source || payload.utm_campaign) ? `
       <div class="utm-box">
-        <strong>بيانات الحملة الإعلانية (UTM Attribution):</strong><br>
+        <strong>بيانات الحملة الإعلانية والتسويقية (Campaign Attribution):</strong><br>
         • المصدر (Source): ${payload.utm_source || 'مباشر'}<br>
         • الحملة (Campaign): ${payload.utm_campaign || 'غير محدد'}<br>
         • الوسيط (Medium): ${payload.utm_medium || 'غير محدد'}
       </div>` : ''}
     </div>
     <div class="footer">
-      تم إرسال هذا التنبيه آلياً بواسطة محرك مبيعات BetaVolt اللحظي • ${timestamp}
+      تم إرسال هذا الإشعار آلياً عبر محرك إشعارات BetaVolt • ${timestamp}<br>
+      <a href="https://betavolt.com.sa/admin/inquiries" class="admin-link">مراجعة الطلب في لوحة التحكم الإدارية</a>
     </div>
   </div>
 </body>
@@ -181,59 +201,56 @@ function generateHtmlEmail(payload: SalesAlertPayload): string {
 }
 
 /**
- * Dispatches the sales alert across configured communication channels.
- * Guarantees zero unhandled exceptions.
+ * Dispatches the notification across configured communication streams:
+ * - Lead Magnet Alerts -> From: noreply@betavolt.com.sa -> To: sales@betavolt.com.sa
+ * - Quotations & Inquiries -> From: inquiries@betavolt.com.sa -> To: info@betavolt.com.sa (CC: sales)
+ * 
+ * Non-blocking, completely fail-safe.
  */
 export async function sendSalesAlert(payload: SalesAlertPayload): Promise<void> {
+  const isLeadMagnet = payload.type === 'lead_magnet';
   const cfg = TYPE_CONFIG[payload.type] || TYPE_CONFIG.contact_message;
-  const alertTitle = `[BetaVolt Sales Alert] ${cfg.badgeEn}: ${payload.company} (${payload.name})`;
 
-  // 1. Console Fallback / Telemetry Audit
-  console.log(`\n======================================================`);
-  console.log(`🚨 [SALES ALERT ENGINE] ${cfg.badgeEn}`);
-  console.log(`   🏢 Company:  ${payload.company}`);
-  console.log(`   👤 Contact:  ${payload.name}`);
-  console.log(`   📞 Phone:    ${payload.phone || 'N/A'}`);
-  console.log(`   ✉️ Email:    ${payload.email || 'N/A'}`);
-  console.log(`   🎯 Service:  ${payload.service || payload.subject || 'N/A'}`);
-  if (payload.utm_source || payload.utm_campaign) {
-    console.log(`   📊 UTM:      source=${payload.utm_source}, campaign=${payload.utm_campaign}`);
-  }
-  console.log(`======================================================\n`);
+  // 1. Resolve Senders & Recipients dynamically
+  let fromAddress: string;
+  let toAddress: string;
+  let ccAddress: string | undefined = undefined;
+  let subject: string;
 
-  // 2. Resend API Email Dispatch (if RESEND_API_KEY is present)
-  const resendApiKey = process.env.RESEND_API_KEY;
-  if (resendApiKey) {
-    try {
-      const recipientEmail = process.env.SALES_ALERT_EMAIL || 'sales@betavolt.com.sa';
-      const senderEmail = process.env.RESEND_FROM_EMAIL || 'BetaVolt Alerts <onboarding@resend.dev>';
-
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: senderEmail,
-          to: [recipientEmail],
-          subject: alertTitle,
-          html: generateHtmlEmail(payload),
-        }),
-      });
-
-      if (!response.ok) {
-        const errText = await response.text();
-        console.warn('[Sales Alert Resend Warning]: Failed to dispatch email:', errText);
-      } else {
-        console.log('[Sales Alert Resend Success]: Delivered alert to', recipientEmail);
-      }
-    } catch (emailErr) {
-      console.warn('[Sales Alert Resend Error]: Network or configuration error:', emailErr);
-    }
+  if (isLeadMagnet) {
+    // Analytics / High-Intent Sales Alert Stream
+    fromAddress = process.env.SALES_ALERT_FROM_EMAIL || 'BetaVolt System <noreply@betavolt.com.sa>';
+    toAddress = process.env.SALES_ALERT_EMAIL || 'sales@betavolt.com.sa';
+    subject = `🚨 [تنبيه مبيعات فوري] تحميل الملف التعريفي وسابقة الأعمال — ${payload.company} (${payload.name})`;
+  } else if (payload.type === 'quote_request') {
+    // Official RFP Quotation Stream
+    fromAddress = process.env.INQUIRIES_FROM_EMAIL || 'BetaVolt Inquiries <inquiries@betavolt.com.sa>';
+    toAddress = process.env.INQUIRIES_TARGET_EMAIL || 'info@betavolt.com.sa';
+    ccAddress = process.env.SALES_ALERT_EMAIL || 'sales@betavolt.com.sa';
+    subject = `⚡ [طلب عرض سعر رسمي — RFP] ${payload.service || 'مشروع جديد'} من شركة ${payload.company}`;
+  } else {
+    // General Contact Message Stream
+    fromAddress = process.env.INQUIRIES_FROM_EMAIL || 'BetaVolt Inquiries <inquiries@betavolt.com.sa>';
+    toAddress = process.env.INQUIRIES_TARGET_EMAIL || 'info@betavolt.com.sa';
+    subject = `💬 [استفسار جديد عبر الموقع] من ${payload.name} — ${payload.subject || 'عام'}`;
   }
 
-  // 3. Webhook Dispatch (Slack / Discord / Teams / WhatsApp Gateway)
+  // 2. Dispatch via Universal Mail Engine (SMTP / Resend / Safe Logger)
+  try {
+    const htmlBody = generateHtmlEmail(payload);
+    await sendEmail({
+      from: fromAddress,
+      to: toAddress,
+      cc: ccAddress,
+      replyTo: payload.email || undefined,
+      subject,
+      html: htmlBody,
+    });
+  } catch (emailErr) {
+    console.warn('[Notifications Engine Warning]: Email dispatch encountered safe non-blocking error:', emailErr);
+  }
+
+  // 3. Optional Webhook Dispatch (Slack / Teams / WhatsApp Gateway)
   const webhookUrl = process.env.SALES_WEBHOOK_URL;
   if (webhookUrl) {
     try {
@@ -241,13 +258,15 @@ export async function sendSalesAlert(payload: SalesAlertPayload): Promise<void> 
       const telUrl = getTelUrl(payload.phone);
 
       const webhookBody = {
-        text: `*${alertTitle}*\n*Company:* ${payload.company}\n*Contact:* ${payload.name}\n*Phone:* ${payload.phone || 'N/A'}\n*Email:* ${payload.email || 'N/A'}\n*Interest:* ${payload.service || payload.subject || 'N/A'}\n*Campaign:* ${payload.utm_campaign || 'N/A'}${waUrl ? `\n*WhatsApp:* <${waUrl}|Chat Now>` : ''}`,
+        text: `*${subject}*\n*Company:* ${payload.company}\n*Contact:* ${payload.name}\n*Phone:* ${payload.phone || 'N/A'}\n*Email:* ${payload.email || 'N/A'}\n*Interest:* ${payload.service || payload.subject || 'N/A'}${payload.file_url ? `\n*File:* <${payload.file_url}|Download RFP Document>` : ''}${waUrl ? `\n*WhatsApp:* <${waUrl}|Chat Now>` : ''}`,
         type: payload.type,
         company: payload.company,
         name: payload.name,
         phone: payload.phone,
         email: payload.email,
         service: payload.service,
+        timeline: payload.timeline,
+        file_url: payload.file_url,
         utm_source: payload.utm_source,
         utm_campaign: payload.utm_campaign,
         whatsapp_url: waUrl,
@@ -255,17 +274,13 @@ export async function sendSalesAlert(payload: SalesAlertPayload): Promise<void> 
         timestamp: new Date().toISOString(),
       };
 
-      const whRes = await fetch(webhookUrl, {
+      await fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(webhookBody),
       });
-
-      if (!whRes.ok) {
-        console.warn('[Sales Alert Webhook Warning]: Webhook responded with status', whRes.status);
-      }
     } catch (whErr) {
-      console.warn('[Sales Alert Webhook Error]: Failed to post to webhook:', whErr);
+      console.warn('[Notifications Webhook Warning]: Failed to post to webhook:', whErr);
     }
   }
 }
