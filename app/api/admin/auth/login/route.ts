@@ -25,14 +25,17 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data: authData, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
+      console.warn(`[POST /api/admin/auth/login] Auth failed for "${email}": ${error.message} (status: ${error.status})`);
       return NextResponse.json(
-        { error: 'Invalid credentials. Please check your email and password.' },
+        { error: error.message || 'Invalid credentials. Please check your email and password.' },
         { status: 401 }
       );
     }
+
+    console.info(`[POST /api/admin/auth/login] Successfully authenticated: ${email} (UID: ${authData.user?.id})`);
 
     return res;
   } catch (err) {
