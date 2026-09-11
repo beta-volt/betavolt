@@ -6,7 +6,6 @@ import { Menu, RefreshCw, LogOut } from 'lucide-react';
 import { useSidebar } from './SidebarProvider';
 import { useAdminLang } from './AdminLangProvider';
 import { useAdminRefresh } from './AdminRefreshProvider';
-import { logoutAction } from '@/app/admin/login/actions';
 import ThemeToggle from '@/components/layout/ThemeToggle';
 
 const TITLES: Record<string, { en: string; ar: string }> = {
@@ -33,6 +32,15 @@ export default function AdminHeader() {
     setSpinning(true);
     triggerRefresh();
     setTimeout(() => setSpinning(false), 700);
+  }
+
+  async function handleLogout() {
+    try {
+      await fetch('/api/admin/auth/logout', { method: 'POST' });
+    } catch {
+      // Proceed to login redirect even on network error
+    }
+    window.location.href = '/admin/login';
   }
 
   const titleObj = Object.entries(TITLES)
@@ -104,16 +112,15 @@ export default function AdminHeader() {
         <div className="h-5 w-px bg-slate-200 dark:bg-slate-700" aria-hidden="true" />
 
         {/* Logout */}
-        <form action={logoutAction}>
-          <button
-            type="submit"
-            aria-label="Sign out"
-            title="Sign out"
-            className="flex items-center justify-center w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-900/60 transition-all duration-150 shrink-0"
-          >
-            <LogOut size={15} strokeWidth={2} />
-          </button>
-        </form>
+        <button
+          type="button"
+          onClick={handleLogout}
+          aria-label="Sign out"
+          title="Sign out"
+          className="flex items-center justify-center w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 hover:bg-red-50 dark:hover:bg-red-950/30 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-900/60 transition-all duration-150 shrink-0"
+        >
+          <LogOut size={15} strokeWidth={2} />
+        </button>
       </div>
 
     </header>

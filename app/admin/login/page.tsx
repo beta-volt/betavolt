@@ -1,13 +1,11 @@
 'use client';
 
-import { useActionState, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Mail, Lock, Shield, RefreshCw, AlertCircle, Eye, EyeOff } from 'lucide-react';
-import { loginAction } from './actions';
 import ThemeToggle from '@/components/layout/ThemeToggle';
 
 type Lang = 'en' | 'ar';
-type ActionState = { error: string } | null;
 
 /* ─── Bilingual labels ───────────────────────────────────── */
 const L = {
@@ -52,7 +50,8 @@ const LABEL =
 
 /* ─── Page ───────────────────────────────────────────────── */
 export default function AdminLoginPage() {
-  const [state, formAction, pending] = useActionState<ActionState, FormData>(loginAction, null);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [lang, setLangState] = useState<Lang>('en');
   const [showPass, setShowPass] = useState(false);
 
@@ -74,9 +73,36 @@ export default function AdminLoginPage() {
   const t   = L[lang];
   const dir = lang === 'ar' ? 'rtl' : 'ltr';
 
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setSubmitting(true);
+    setError(null);
+    const formData = new FormData(e.currentTarget);
+    const email = String(formData.get('email') || '').trim();
+    const password = String(formData.get('password') || '');
+    try {
+      const res = await fetch('/api/admin/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        setError(data.error || t.errorFallback);
+        setSubmitting(false);
+        return;
+      }
+      // Immediate redirection to command center
+      window.location.href = '/admin';
+    } catch {
+      setError(t.errorFallback);
+      setSubmitting(false);
+    }
+  }
+
   /* Translate server error if in Arabic */
-  const errorMsg = state?.error
-    ? (lang === 'ar' ? t.errorFallback : state.error)
+  const errorMsg = error
+    ? (lang === 'ar' ? t.errorFallback : error)
     : null;
 
   return (
@@ -165,7 +191,7 @@ export default function AdminLoginPage() {
           )}
 
           {/* Form */}
-          <form action={formAction} className="flex flex-col gap-4" noValidate>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
 
             {/* Email */}
             <div>
@@ -223,17 +249,17 @@ export default function AdminLoginPage() {
             {/* Submit */}
             <button
               type="submit"
-              disabled={pending}
+              disabled={submitting}
               className={[
                 'mt-1 w-full flex items-center justify-center gap-2.5',
                 'px-5 py-3 rounded-xl text-white text-sm font-bold tracking-wide',
                 'transition-all duration-200 shadow-sm select-none',
-                pending
+                submitting
                   ? 'bg-blue-400 dark:bg-blue-700 cursor-not-allowed'
                   : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800',
               ].join(' ')}
             >
-              {pending ? (
+              {submitting ? (
                 <>
                   <RefreshCw size={15} strokeWidth={2.5} className="animate-spin" />
                   {t.submitting}
