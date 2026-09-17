@@ -226,21 +226,21 @@ export async function sendSalesAlert(payload: SalesAlertPayload): Promise<void> 
   let subject: string;
 
   if (isLeadMagnet) {
-    // 1. Analytics & High-Intent Marketing / Sales Stream -> inquiries@betavolt.com.sa
+    // 1. Pre-Qualification Profile Download Alert: From noreply -> To inquiries
     fromAddress = process.env.SALES_ALERT_FROM_EMAIL || 'BetaVolt System <noreply@betavolt.com.sa>';
     toAddress = parseRecipientList(process.env.SALES_ALERT_EMAIL, ['inquiries@betavolt.com.sa']);
     subject = `🎯 [تنبيه مبيعات وتسويق] تحميل الملف التعريفي وسابقة الأعمال — ${payload.company} (${payload.name})`;
   } else if (payload.type === 'quote_request') {
-    // 2. Official RFP Quotation Stream -> inquiries@betavolt.com.sa
-    fromAddress = process.env.INQUIRIES_FROM_EMAIL || 'BetaVolt Inquiries <inquiries@betavolt.com.sa>';
+    // 2. Official RFP Quotation Request: From noreply -> To inquiries
+    fromAddress = process.env.QUOTE_FROM_EMAIL || 'BetaVolt System <noreply@betavolt.com.sa>';
     toAddress = parseRecipientList(process.env.QUOTE_TARGET_EMAIL, ['inquiries@betavolt.com.sa']);
     subject = `⚡ [طلب عرض سعر رسمي — RFP] ${payload.company} | مشروع: ${payload.service || 'مشروع جديد'} (${payload.name})`;
     if (process.env.INQUIRIES_CC_EMAIL) {
       ccAddress = parseRecipientList(process.env.INQUIRIES_CC_EMAIL);
     }
   } else {
-    // 3. General Contact Inquiries -> inquiries@betavolt.com.sa
-    fromAddress = process.env.INQUIRIES_FROM_EMAIL || 'BetaVolt Inquiries <inquiries@betavolt.com.sa>';
+    // 3. Website Contact Inquiries: From noreply -> To inquiries
+    fromAddress = process.env.CONTACT_FROM_EMAIL || 'BetaVolt System <noreply@betavolt.com.sa>';
     toAddress = parseRecipientList(process.env.CONTACT_TARGET_EMAIL, ['inquiries@betavolt.com.sa']);
     subject = `📩 [استفسار وتواصل عام] ${payload.name} (${payload.company || 'جهة عامة'}) — ${payload.subject || 'عام'}`;
     if (process.env.INQUIRIES_CC_EMAIL) {
