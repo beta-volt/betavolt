@@ -77,9 +77,12 @@ export async function sendEmail(options: SendEmailOptions): Promise<SendEmailRes
     try {
       const transporter = nodemailer.createTransport({
         ...smtpConfig,
-        connectionTimeout: 8000,
-        greetingTimeout: 5000,
-        socketTimeout: 10000,
+        connectionTimeout: 10000,
+        greetingTimeout: 7000,
+        socketTimeout: 15000,
+        tls: {
+          rejectUnauthorized: false,
+        },
       });
 
       const info = await transporter.sendMail({
