@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createSupabaseServerClient } from '@/lib/supabase-server';
+import { supabase } from '@/lib/supabase';
 import { sendSalesAlert } from '@/lib/notifications';
 
 export async function POST(request: NextRequest) {
@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
 
     const subject = `${project_type} — ${timeline}`;
 
-    const supabase = await createSupabaseServerClient();
     const { error } = await supabase.from('inquiries').insert({
       full_name: name,
       company,

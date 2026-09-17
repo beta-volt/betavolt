@@ -67,6 +67,23 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  /* ══ 0.2 Public API passthrough ═════════════════════════════
+     All public API routes (/api/quote, /api/contact, /api/lead-magnet,
+     /api/analytics/track) must pass directly without locale rewrite. */
+  if (pathname.startsWith('/api') && !pathname.startsWith('/api/admin')) {
+    return NextResponse.next();
+  }
+
+  /* ══ 0.3 Defensive Locale-prefixed API normalizer ═══════════
+     If a client or cached redirect requests /(ar|en)/api/*,
+     rewrite cleanly to /api/* to prevent 404s.                  */
+  const localeApiMatch = pathname.match(/^\/(?:ar|en)\/api\/(.*)/);
+  if (localeApiMatch) {
+    const cleanUrl = request.nextUrl.clone();
+    cleanUrl.pathname = `/api/${localeApiMatch[1]}`;
+    return NextResponse.rewrite(cleanUrl);
+  }
+
   /* ══ Global Maintenance Mode Interceptor ═══════════════════
      Overrides ALL routes including admin dashboard & user pages */
   if (MAINTENANCE_MODE) {
@@ -197,6 +214,7 @@ function buildClient(request: NextRequest, response: NextResponse) {
 export const config = {
   matcher: [
     '/api/admin/:path*',
-    '/((?!_next|_vercel|images|img|favicon\\.ico|.*\\..*).*)',
+    '/:locale(ar|en)/api/:path*',
+    '/((?!api|_next|_vercel|images|img|favicon\\.ico|.*\\..*).*)',
   ],
 };
