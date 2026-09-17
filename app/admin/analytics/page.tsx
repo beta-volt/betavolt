@@ -324,42 +324,42 @@ export default function AdminAnalyticsPage() {
     switch (type) {
       case 'quote_submit':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30">
             <CheckCircle size={13} className="shrink-0" />
             {lang === 'ar' ? 'طلب عرض سعر' : 'RFP Submitted'}
           </span>
         );
       case 'quote_modal_open':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-blue-500/15 text-blue-400 border border-blue-500/30">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-blue-50 dark:bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30">
             <Send size={13} className="shrink-0" />
             {lang === 'ar' ? 'فتح نموذج التسعير' : 'Quote Modal Open'}
           </span>
         );
       case 'whatsapp_click':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-green-500/15 text-green-400 border border-green-500/30">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-green-50 dark:bg-green-500/15 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30">
             <MessageCircle size={13} className="shrink-0" />
             {lang === 'ar' ? 'نقرة واتساب' : 'WhatsApp Click'}
           </span>
         );
       case 'phone_click':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/30">
             <Phone size={13} className="shrink-0" />
             {lang === 'ar' ? 'اتصال هاتفي' : 'Phone Call Click'}
           </span>
         );
       case 'careers_click':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-purple-500/15 text-purple-400 border border-purple-500/30">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-purple-50 dark:bg-purple-500/15 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-500/30">
             <Briefcase size={13} className="shrink-0" />
             {lang === 'ar' ? 'تصفح التوظيف' : 'Careers Click'}
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-500/15 text-slate-300 border border-slate-500/30">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-bold bg-slate-100 dark:bg-slate-500/15 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-500/30">
             <Layers size={13} className="shrink-0" />
             {lang === 'ar' ? 'مشاهدة صفحة' : 'Page View'}
           </span>
@@ -382,34 +382,34 @@ export default function AdminAnalyticsPage() {
     const s = (source || '').toLowerCase();
     if (s.includes('linkedin')) {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-bold bg-[#0A66C2]/20 text-[#70B5F9] border border-[#0A66C2]/40">
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-bold bg-blue-50 dark:bg-[#0A66C2]/20 text-blue-700 dark:text-[#70B5F9] border border-blue-200 dark:border-[#0A66C2]/40">
           LinkedIn
         </span>
       );
     }
     if (s.includes('google')) {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-bold bg-emerald-600/20 text-emerald-400 border border-emerald-500/30">
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-bold bg-emerald-50 dark:bg-emerald-600/20 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30">
           Google Ads
         </span>
       );
     }
     if (s.includes('whatsapp')) {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-bold bg-green-600/20 text-green-400 border border-green-500/30">
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-bold bg-green-50 dark:bg-green-600/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-500/30">
           WhatsApp VIP
         </span>
       );
     }
     if (s.includes('email')) {
       return (
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-bold bg-purple-600/20 text-purple-400 border border-purple-500/30">
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-bold bg-purple-50 dark:bg-purple-600/20 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-500/30">
           Email Tender
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-600/20 text-amber-400 border border-amber-500/30">
+      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-[11px] font-bold bg-amber-50 dark:bg-amber-600/20 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/30">
         Direct RFP
       </span>
     );
@@ -420,19 +420,19 @@ export default function AdminAnalyticsPage() {
     switch (badge) {
       case 'high':
         return (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30">
             ★ {l.badgeHigh}
           </span>
         );
       case 'moderate':
         return (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 dark:bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/30">
             {l.badgeModerate}
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-slate-500/15 text-slate-400 border border-slate-500/30">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-slate-500/15 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-500/30">
             {l.badgeBroad}
           </span>
         );
@@ -440,23 +440,23 @@ export default function AdminAnalyticsPage() {
   }
 
   return (
-    <div className="space-y-6 text-slate-100 max-w-7xl mx-auto pb-12">
+    <div className="space-y-6 text-slate-900 dark:text-slate-100 max-w-7xl mx-auto pb-12">
 
       {/* ─── 1. Header & Live Filter Bar ─────────────────────────── */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-[#0E1524] border border-[#1E2D4A] rounded-2xl p-5 shadow-xl shadow-blue-950/20">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white dark:bg-[#0E1524] border border-slate-200 dark:border-[#1E2D4A] rounded-2xl p-5 shadow-sm dark:shadow-xl dark:shadow-blue-950/20">
         <div>
           <div className="flex items-center gap-2.5">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center text-white shadow-lg shadow-blue-600/30 shrink-0">
               <BarChart2 size={22} strokeWidth={2} />
             </div>
             <div>
-              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
                 <span>{l.title}</span>
-                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-blue-500/10 text-cyan-400 border border-cyan-500/30 tracking-widest">
+                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-cyan-400 border border-blue-200 dark:border-cyan-500/30 tracking-widest">
                   v2.0
                 </span>
               </h1>
-              <p className="text-xs text-slate-400 mt-0.5">{l.subtitle}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{l.subtitle}</p>
             </div>
           </div>
         </div>
@@ -464,7 +464,7 @@ export default function AdminAnalyticsPage() {
         {/* Filters & Refresh */}
         <div className="flex flex-wrap items-center gap-2">
           {/* Period Selector */}
-          <div className="flex items-center bg-[#070B14] p-1 rounded-xl border border-[#1E2D4A]">
+          <div className="flex items-center bg-slate-100 dark:bg-[#070B14] p-1 rounded-xl border border-slate-200 dark:border-[#1E2D4A]">
             {[
               { key: 'today', label: l.today },
               { key: '7d', label: l.days7 },
@@ -478,7 +478,7 @@ export default function AdminAnalyticsPage() {
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all duration-150 ${
                   period === key
                     ? 'bg-blue-600 text-white shadow-md shadow-blue-600/40'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-800/40'
                 }`}
               >
                 {label}
@@ -491,9 +491,9 @@ export default function AdminAnalyticsPage() {
             type="button"
             onClick={() => fetchAnalytics(period, true)}
             disabled={loading || refreshing}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold bg-[#131D31] text-slate-200 hover:text-white hover:bg-slate-800 border border-[#1E2D4A] transition-colors shrink-0 disabled:opacity-50"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-[#131D31] text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-[#1E2D4A] transition-colors shrink-0 disabled:opacity-50"
           >
-            <RefreshCw size={14} className={refreshing ? 'animate-spin text-cyan-400' : ''} />
+            <RefreshCw size={14} className={refreshing ? 'animate-spin text-blue-600 dark:text-cyan-400' : ''} />
             <span>{l.refresh}</span>
           </button>
         </div>
@@ -501,8 +501,8 @@ export default function AdminAnalyticsPage() {
 
       {/* Simulated Notice Banner if initial benchmark is active */}
       {data?.isSimulated && (
-        <div className="flex items-center gap-3 p-3.5 rounded-xl bg-blue-950/40 border border-blue-900/60 text-xs text-cyan-300">
-          <Zap size={16} className="text-cyan-400 shrink-0" />
+        <div className="flex items-center gap-3 p-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60 text-xs text-blue-800 dark:text-cyan-300">
+          <Zap size={16} className="text-blue-600 dark:text-cyan-400 shrink-0" />
           <span>{l.simulatedNotice}</span>
         </div>
       )}
@@ -511,13 +511,13 @@ export default function AdminAnalyticsPage() {
       {loading && !data && (
         <div className="flex flex-col items-center justify-center py-24 space-y-3">
           <RefreshCw size={32} className="animate-spin text-blue-500" />
-          <p className="text-sm text-slate-400 font-medium">{l.loading}</p>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">{l.loading}</p>
         </div>
       )}
 
       {/* Error State */}
       {error && (
-        <div className="p-4 rounded-xl bg-red-950/40 border border-red-900/60 text-red-300 text-sm">
+        <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 text-red-700 dark:text-red-300 text-sm">
           {error}
         </div>
       )}
@@ -528,39 +528,39 @@ export default function AdminAnalyticsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
             {/* KPI 1: Sessions */}
-            <div className="bg-[#0E1524] border border-[#1E2D4A] rounded-2xl p-5 relative overflow-hidden shadow-lg group hover:border-blue-500/40 transition-colors">
+            <div className="bg-white dark:bg-[#0E1524] border border-slate-200 dark:border-[#1E2D4A] rounded-2xl p-5 relative overflow-hidden shadow-sm dark:shadow-lg group hover:border-blue-500/40 transition-colors">
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-600 to-cyan-500" />
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{l.kpiSessions}</span>
-                <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{l.kpiSessions}</span>
+                <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
                   <Users size={16} />
                 </div>
               </div>
               <div className="mt-3">
-                <div className="text-3xl font-black font-orbitron tracking-tight text-white">
+                <div className="text-3xl font-black font-orbitron tracking-tight text-slate-900 dark:text-white">
                   {data.kpis.totalSessions.toLocaleString()}
                 </div>
-                <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-1">
-                  <span className="text-cyan-400 font-bold font-orbitron">{data.kpis.pageViews.toLocaleString()}</span>
+                <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  <span className="text-blue-600 dark:text-cyan-400 font-bold font-orbitron">{data.kpis.pageViews.toLocaleString()}</span>
                   <span>{lang === 'ar' ? 'مشاهدة صفحة' : 'page views'}</span>
                 </div>
               </div>
             </div>
 
             {/* KPI 2: Dwell Time */}
-            <div className="bg-[#0E1524] border border-[#1E2D4A] rounded-2xl p-5 relative overflow-hidden shadow-lg group hover:border-amber-500/40 transition-colors">
+            <div className="bg-white dark:bg-[#0E1524] border border-slate-200 dark:border-[#1E2D4A] rounded-2xl p-5 relative overflow-hidden shadow-sm dark:shadow-lg group hover:border-amber-500/40 transition-colors">
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-amber-500 to-orange-500" />
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{l.kpiDwell}</span>
-                <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{l.kpiDwell}</span>
+                <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-amber-600 dark:text-amber-400">
                   <Clock size={16} />
                 </div>
               </div>
               <div className="mt-3">
-                <div className="text-3xl font-black font-orbitron tracking-tight text-white">
+                <div className="text-3xl font-black font-orbitron tracking-tight text-slate-900 dark:text-white">
                   {formatSeconds(data.kpis.avgDwellSeconds)}
                 </div>
-                <div className="flex items-center gap-1.5 text-xs text-emerald-400 mt-1">
+                <div className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 mt-1">
                   <TrendingUp size={13} />
                   <span>{lang === 'ar' ? 'اهتمام عالي بالتفاصيل' : 'High engagement depth'}</span>
                 </div>
@@ -568,41 +568,41 @@ export default function AdminAnalyticsPage() {
             </div>
 
             {/* KPI 3: Quote Intent */}
-            <div className="bg-[#0E1524] border border-[#1E2D4A] rounded-2xl p-5 relative overflow-hidden shadow-lg group hover:border-cyan-500/40 transition-colors">
+            <div className="bg-white dark:bg-[#0E1524] border border-slate-200 dark:border-[#1E2D4A] rounded-2xl p-5 relative overflow-hidden shadow-sm dark:shadow-lg group hover:border-cyan-500/40 transition-colors">
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-cyan-500 to-teal-500" />
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{l.kpiIntent}</span>
-                <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{l.kpiIntent}</span>
+                <div className="w-8 h-8 rounded-lg bg-cyan-50 dark:bg-cyan-500/10 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
                   <Send size={16} />
                 </div>
               </div>
               <div className="mt-3">
-                <div className="text-3xl font-black font-orbitron tracking-tight text-cyan-300">
+                <div className="text-3xl font-black font-orbitron tracking-tight text-blue-600 dark:text-cyan-300">
                   {data.kpis.quoteIntentRate}%
                 </div>
-                <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-1">
-                  <span className="text-white font-bold font-orbitron">{data.kpis.quoteModalOpens}</span>
+                <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  <span className="text-slate-900 dark:text-white font-bold font-orbitron">{data.kpis.quoteModalOpens}</span>
                   <span>{lang === 'ar' ? 'فتحوا نموذج التسعير' : 'opened quote modal'}</span>
                 </div>
               </div>
             </div>
 
             {/* KPI 4: Conversions */}
-            <div className="bg-[#0E1524] border border-[#1E2D4A] rounded-2xl p-5 relative overflow-hidden shadow-lg group hover:border-emerald-500/40 transition-colors">
+            <div className="bg-white dark:bg-[#0E1524] border border-slate-200 dark:border-[#1E2D4A] rounded-2xl p-5 relative overflow-hidden shadow-sm dark:shadow-lg group hover:border-emerald-500/40 transition-colors">
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-emerald-500 to-green-600" />
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{l.kpiLeads}</span>
-                <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{l.kpiLeads}</span>
+                <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                   <CheckCircle size={16} />
                 </div>
               </div>
               <div className="mt-3">
-                <div className="text-3xl font-black font-orbitron tracking-tight text-emerald-400">
+                <div className="text-3xl font-black font-orbitron tracking-tight text-emerald-600 dark:text-emerald-400">
                   {data.kpis.totalConversions}
                 </div>
-                <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-1">
+                <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mt-1">
                   <span>{lang === 'ar' ? 'معدل التحويل:' : 'Conv. Rate:'}</span>
-                  <span className="text-white font-bold font-orbitron">{data.kpis.conversionRate}%</span>
+                  <span className="text-slate-900 dark:text-white font-bold font-orbitron">{data.kpis.conversionRate}%</span>
                 </div>
               </div>
             </div>
@@ -613,32 +613,32 @@ export default function AdminAnalyticsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
             {/* Saudi Cities Breakdown (5 cols) */}
-            <div className="lg:col-span-5 bg-[#0E1524] border border-[#1E2D4A] rounded-2xl p-5 shadow-lg flex flex-col justify-between">
+            <div className="lg:col-span-5 bg-white dark:bg-[#0E1524] border border-slate-200 dark:border-[#1E2D4A] rounded-2xl p-5 shadow-sm dark:shadow-lg flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between border-b border-[#1E2D4A] pb-3 mb-4">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#1E2D4A] pb-3 mb-4">
                   <div className="flex items-center gap-2">
-                    <MapPin size={17} className="text-cyan-400" />
-                    <h2 className="text-base font-bold text-white">{l.geoTitle}</h2>
+                    <MapPin size={17} className="text-blue-600 dark:text-cyan-400" />
+                    <h2 className="text-base font-bold text-slate-900 dark:text-white">{l.geoTitle}</h2>
                   </div>
-                  <span className="text-[10px] font-black uppercase text-slate-400 bg-[#131D31] px-2 py-0.5 rounded border border-[#1E2D4A]">
+                  <span className="text-[10px] font-black uppercase text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-[#131D31] px-2 py-0.5 rounded border border-slate-200 dark:border-[#1E2D4A]">
                     Saudi KSA
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mb-4">{l.geoSub}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">{l.geoSub}</p>
 
                 <div className="space-y-3.5">
                   {data.cities.map((city) => (
                     <div key={city.key} className="space-y-1.5">
                       <div className="flex justify-between items-center text-xs">
-                        <span className="font-bold text-slate-200">
+                        <span className="font-bold text-slate-800 dark:text-slate-200">
                           {lang === 'ar' ? city.name_ar : city.name_en}
                         </span>
                         <div className="flex items-center gap-2 font-orbitron text-xs">
-                          <span className="text-slate-400">{city.visits} {lang === 'ar' ? 'زيارة' : 'visits'}</span>
-                          <span className="font-black text-cyan-400">{city.percentage}%</span>
+                          <span className="text-slate-500 dark:text-slate-400">{city.visits} {lang === 'ar' ? 'زيارة' : 'visits'}</span>
+                          <span className="font-black text-blue-600 dark:text-cyan-400">{city.percentage}%</span>
                         </div>
                       </div>
-                      <div className="w-full h-2 bg-[#070B14] rounded-full overflow-hidden border border-slate-800/80">
+                      <div className="w-full h-2 bg-slate-100 dark:bg-[#070B14] rounded-full overflow-hidden border border-slate-200 dark:border-slate-800/80">
                         <div
                           className={`h-full bg-gradient-to-r ${CITY_COLORS[city.key] || 'from-blue-600 to-cyan-500'} transition-all duration-500 rounded-full`}
                           style={{ width: `${Math.max(city.percentage, 4)}%` }}
@@ -649,25 +649,25 @@ export default function AdminAnalyticsPage() {
                 </div>
               </div>
 
-              <div className="mt-6 pt-3 border-t border-[#1E2D4A]/60 flex items-center justify-between text-[11px] text-slate-400">
+              <div className="mt-6 pt-3 border-t border-slate-200 dark:border-[#1E2D4A]/60 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
                 <span>{lang === 'ar' ? 'أعلى تركيز هندسي: الرياض والجبيل الصناعية' : 'Primary hubs: Riyadh & Jubail Industrial'}</span>
-                <span className="text-emerald-400 font-bold">● Live Geo-IP</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-bold">● Live Geo-IP</span>
               </div>
             </div>
 
             {/* 4-Stage Action Funnel (7 cols) */}
-            <div className="lg:col-span-7 bg-[#0E1524] border border-[#1E2D4A] rounded-2xl p-5 shadow-lg flex flex-col justify-between">
+            <div className="lg:col-span-7 bg-white dark:bg-[#0E1524] border border-slate-200 dark:border-[#1E2D4A] rounded-2xl p-5 shadow-sm dark:shadow-lg flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between border-b border-[#1E2D4A] pb-3 mb-4">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#1E2D4A] pb-3 mb-4">
                   <div className="flex items-center gap-2">
-                    <TrendingUp size={17} className="text-blue-400" />
-                    <h2 className="text-base font-bold text-white">{l.funnelTitle}</h2>
+                    <TrendingUp size={17} className="text-blue-600 dark:text-blue-400" />
+                    <h2 className="text-base font-bold text-slate-900 dark:text-white">{l.funnelTitle}</h2>
                   </div>
-                  <span className="text-[10px] font-black uppercase text-blue-400 bg-blue-950/40 px-2 py-0.5 rounded border border-blue-900/60">
+                  <span className="text-[10px] font-black uppercase text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2 py-0.5 rounded border border-blue-200 dark:border-blue-900/60">
                     B2B Funnel
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mb-4">{l.funnelSub}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">{l.funnelSub}</p>
 
                 {/* Funnel Steps */}
                 <div className="space-y-3">
@@ -678,24 +678,24 @@ export default function AdminAnalyticsPage() {
                     return (
                       <div
                         key={step.key}
-                        className="p-3 rounded-xl bg-[#131D31] border border-[#1E2D4A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-blue-500/30 transition-colors"
+                        className="p-3 rounded-xl bg-slate-50 dark:bg-[#131D31] border border-slate-200 dark:border-[#1E2D4A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-blue-500/30 transition-colors"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/40 text-cyan-300 font-orbitron font-black text-sm flex items-center justify-center shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-600/20 border border-blue-200 dark:border-blue-500/40 text-blue-600 dark:text-cyan-300 font-orbitron font-black text-sm flex items-center justify-center shrink-0">
                             0{step.step}
                           </div>
                           <div>
-                            <h3 className="text-xs font-bold text-white">
+                            <h3 className="text-xs font-bold text-slate-900 dark:text-white">
                               {lang === 'ar' ? step.name_ar : step.name_en}
                             </h3>
-                            <div className="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
+                            <div className="flex items-center gap-2 text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
                               <span>{l.stepCompletion}</span>
-                              <span className="text-cyan-400 font-bold font-orbitron">{step.rate}%</span>
+                              <span className="text-blue-600 dark:text-cyan-400 font-bold font-orbitron">{step.rate}%</span>
                               {!isLast && (
                                 <>
-                                  <span className="text-slate-600">|</span>
+                                  <span className="text-slate-300 dark:text-slate-600">|</span>
                                   <span>{l.stepDropoff}</span>
-                                  <span className="text-amber-400/90 font-bold font-orbitron">{dropOff}%</span>
+                                  <span className="text-amber-600 dark:text-amber-400/90 font-bold font-orbitron">{dropOff}%</span>
                                 </>
                               )}
                             </div>
@@ -703,10 +703,10 @@ export default function AdminAnalyticsPage() {
                         </div>
 
                         <div className="sm:text-end shrink-0">
-                          <div className="text-lg font-black font-orbitron text-white">
+                          <div className="text-lg font-black font-orbitron text-slate-900 dark:text-white">
                             {step.count.toLocaleString()}
                           </div>
-                          <div className="text-[10px] text-slate-500 uppercase font-semibold">
+                          <div className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-semibold">
                             {lang === 'ar' ? 'إجراء مسجل' : 'Events'}
                           </div>
                         </div>
@@ -716,9 +716,9 @@ export default function AdminAnalyticsPage() {
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-[#1E2D4A]/60 flex items-center justify-between text-[11px] text-slate-400">
+              <div className="mt-4 pt-3 border-t border-slate-200 dark:border-[#1E2D4A]/60 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
                 <span>{lang === 'ar' ? 'مؤشر الكفاءة: 1 من كل 6 زوار يتحول لطلب تسعير' : 'Benchmark: 1 in 6 visitors initiates B2B RFP'}</span>
-                <span className="text-cyan-400 font-bold font-orbitron">ROI +16.9%</span>
+                <span className="text-blue-600 dark:text-cyan-400 font-bold font-orbitron">ROI +16.9%</span>
               </div>
             </div>
 
@@ -728,29 +728,29 @@ export default function AdminAnalyticsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
             {/* Left: Interactive Campaign URL Builder (5 cols) */}
-            <div className="lg:col-span-5 bg-[#0E1524] border border-[#1E2D4A] rounded-2xl p-5 shadow-lg flex flex-col justify-between space-y-4">
+            <div className="lg:col-span-5 bg-white dark:bg-[#0E1524] border border-slate-200 dark:border-[#1E2D4A] rounded-2xl p-5 shadow-sm dark:shadow-lg flex flex-col justify-between space-y-4">
               <div>
-                <div className="flex items-center justify-between border-b border-[#1E2D4A] pb-3 mb-4">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#1E2D4A] pb-3 mb-4">
                   <div className="flex items-center gap-2">
-                    <Target size={17} className="text-cyan-400" />
-                    <h2 className="text-base font-bold text-white">{l.builderTitle}</h2>
+                    <Target size={17} className="text-blue-600 dark:text-cyan-400" />
+                    <h2 className="text-base font-bold text-slate-900 dark:text-white">{l.builderTitle}</h2>
                   </div>
-                  <span className="text-[10px] font-black uppercase text-cyan-400 bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-900/60">
+                  <span className="text-[10px] font-black uppercase text-cyan-700 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-200 dark:border-cyan-900/60">
                     UTM Builder
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mb-4">{l.builderSub}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">{l.builderSub}</p>
 
                 <div className="space-y-3.5">
                   {/* Target Landing Page */}
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-300 mb-1.5">
+                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                       {l.fieldLandingPage}
                     </label>
                     <select
                       value={selectedPage}
                       onChange={(e) => setSelectedPage(e.target.value)}
-                      className="w-full bg-[#070B14] border border-[#1E2D4A] rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500 font-medium"
+                      className="w-full bg-slate-50 dark:bg-[#070B14] border border-slate-200 dark:border-[#1E2D4A] rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                     >
                       <option value="/services/data-centers">
                         {lang === 'ar' ? 'مراكز البيانات وتجهيز البنية التحتية (/services/data-centers)' : 'Data Centers & Infrastructure (/services/data-centers)'}
@@ -781,7 +781,7 @@ export default function AdminAnalyticsPage() {
 
                   {/* Traffic Source Buttons */}
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-300 mb-1.5">
+                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                       {l.fieldSource}
                     </label>
                     <div className="grid grid-cols-3 gap-1.5">
@@ -799,8 +799,8 @@ export default function AdminAnalyticsPage() {
                           onClick={() => setSelectedSource(item.key)}
                           className={`px-2 py-1.5 rounded-lg text-[11px] font-bold transition-all border text-center ${
                             selectedSource === item.key
-                              ? 'bg-blue-600/30 text-cyan-300 border-blue-500/60 shadow-sm'
-                              : 'bg-[#070B14] text-slate-400 border-[#1E2D4A] hover:text-white hover:border-slate-600'
+                              ? 'bg-blue-50 dark:bg-blue-600/30 text-blue-700 dark:text-cyan-300 border-blue-300 dark:border-blue-500/60 shadow-sm'
+                              : 'bg-slate-50 dark:bg-[#070B14] text-slate-600 dark:text-slate-400 border-slate-200 dark:border-[#1E2D4A] hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-600'
                           }`}
                         >
                           {item.label}
@@ -813,7 +813,7 @@ export default function AdminAnalyticsPage() {
                         placeholder="e.g. twitter, conference, portal"
                         value={customSource}
                         onChange={(e) => setCustomSource(e.target.value)}
-                        className="mt-2 w-full bg-[#070B14] border border-[#1E2D4A] rounded-xl px-3 py-1.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 font-mono"
+                        className="mt-2 w-full bg-slate-50 dark:bg-[#070B14] border border-slate-200 dark:border-[#1E2D4A] rounded-xl px-3 py-1.5 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:border-blue-500 font-mono"
                       />
                     )}
                   </div>
@@ -821,13 +821,13 @@ export default function AdminAnalyticsPage() {
                   {/* Medium & Locale Row */}
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-1.5">
+                      <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                         {l.fieldMedium}
                       </label>
                       <select
                         value={selectedMedium}
                         onChange={(e) => setSelectedMedium(e.target.value)}
-                        className="w-full bg-[#070B14] border border-[#1E2D4A] rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500 font-mono"
+                        className="w-full bg-slate-50 dark:bg-[#070B14] border border-slate-200 dark:border-[#1E2D4A] rounded-xl px-2.5 py-1.5 text-xs text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-mono"
                       >
                         <option value="sponsored">sponsored</option>
                         <option value="cpc">cpc</option>
@@ -837,15 +837,15 @@ export default function AdminAnalyticsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-bold text-slate-300 mb-1.5">
+                      <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                         {l.fieldLocale}
                       </label>
-                      <div className="flex bg-[#070B14] p-0.5 rounded-xl border border-[#1E2D4A]">
+                      <div className="flex bg-slate-100 dark:bg-[#070B14] p-0.5 rounded-xl border border-slate-200 dark:border-[#1E2D4A]">
                         <button
                           type="button"
                           onClick={() => setPreviewLocale('ar')}
                           className={`flex-1 py-1 text-xs font-bold rounded-lg transition-colors ${
-                            previewLocale === 'ar' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
+                            previewLocale === 'ar' ? 'bg-blue-600 text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                           }`}
                         >
                           العربية (ar)
@@ -854,7 +854,7 @@ export default function AdminAnalyticsPage() {
                           type="button"
                           onClick={() => setPreviewLocale('en')}
                           className={`flex-1 py-1 text-xs font-bold rounded-lg transition-colors ${
-                            previewLocale === 'en' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
+                            previewLocale === 'en' ? 'bg-blue-600 text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                           }`}
                         >
                           English (en)
@@ -865,7 +865,7 @@ export default function AdminAnalyticsPage() {
 
                   {/* Campaign Name */}
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-300 mb-1.5">
+                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                       {l.fieldCampaign}
                     </label>
                     <input
@@ -873,16 +873,16 @@ export default function AdminAnalyticsPage() {
                       placeholder="e.g. tier3_datacenter_q3"
                       value={campaignName}
                       onChange={(e) => setCampaignName(e.target.value)}
-                      className="w-full bg-[#070B14] border border-[#1E2D4A] rounded-xl px-3 py-2 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-blue-500 font-mono"
+                      className="w-full bg-slate-50 dark:bg-[#070B14] border border-slate-200 dark:border-[#1E2D4A] rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:border-blue-500 font-mono"
                     />
                   </div>
 
                   {/* Generated URL Box */}
                   <div>
-                    <label className="block text-[11px] font-bold text-slate-300 mb-1.5">
+                    <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                       {l.previewTitle}
                     </label>
-                    <div className="bg-[#070B14] border border-blue-900/40 rounded-xl p-3 text-[11px] font-mono text-cyan-300 break-all select-all leading-relaxed relative group" dir="ltr">
+                    <div className="bg-slate-900 dark:bg-[#070B14] border border-slate-800 dark:border-blue-900/40 rounded-xl p-3 text-[11px] font-mono text-cyan-400 dark:text-cyan-300 break-all select-all leading-relaxed relative group" dir="ltr">
                       {generatedUrl}
                     </div>
                   </div>
@@ -907,23 +907,23 @@ export default function AdminAnalyticsPage() {
             </div>
 
             {/* Right: Campaign Performance Leaderboard (7 cols) */}
-            <div className="lg:col-span-7 bg-[#0E1524] border border-[#1E2D4A] rounded-2xl p-5 shadow-lg flex flex-col justify-between space-y-4">
+            <div className="lg:col-span-7 bg-white dark:bg-[#0E1524] border border-slate-200 dark:border-[#1E2D4A] rounded-2xl p-5 shadow-sm dark:shadow-lg flex flex-col justify-between space-y-4">
               <div>
-                <div className="flex items-center justify-between border-b border-[#1E2D4A] pb-3 mb-4">
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#1E2D4A] pb-3 mb-4">
                   <div className="flex items-center gap-2">
-                    <Share2 size={17} className="text-blue-400" />
-                    <h2 className="text-base font-bold text-white">{l.campaignsTitle}</h2>
+                    <Share2 size={17} className="text-blue-600 dark:text-blue-400" />
+                    <h2 className="text-base font-bold text-slate-900 dark:text-white">{l.campaignsTitle}</h2>
                   </div>
-                  <span className="text-[10px] font-black uppercase text-blue-400 bg-blue-950/40 px-2 py-0.5 rounded border border-blue-900/60">
+                  <span className="text-[10px] font-black uppercase text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 px-2 py-0.5 rounded border border-blue-200 dark:border-blue-900/60">
                     Attribution ROI
                   </span>
                 </div>
-                <p className="text-xs text-slate-400 mb-4">{l.campaignsSub}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">{l.campaignsSub}</p>
 
                 <div className="overflow-x-auto">
                   <table className="w-full text-xs text-start">
                     <thead>
-                      <tr className="border-b border-[#1E2D4A] text-slate-400 font-bold">
+                      <tr className="border-b border-slate-200 dark:border-[#1E2D4A] text-slate-500 dark:text-slate-400 font-bold">
                         <th className="pb-3 text-start">{l.colCampaignName}</th>
                         <th className="pb-3 text-start">{l.colCampaignVisits}</th>
                         <th className="pb-3 text-start">{l.colCampaignIntent}</th>
@@ -932,33 +932,33 @@ export default function AdminAnalyticsPage() {
                         <th className="pb-3 text-end">{l.colCampaignQuality}</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#1E2D4A]/50 font-medium">
+                    <tbody className="divide-y divide-slate-200 dark:divide-[#1E2D4A]/50 font-medium">
                       {(data.campaigns || []).map((c) => (
-                        <tr key={c.campaign} className="hover:bg-[#131D31]/60 transition-colors">
+                        <tr key={c.campaign} className="hover:bg-slate-50 dark:hover:bg-[#131D31]/60 transition-colors">
                           <td className="py-3">
                             <div className="flex flex-col gap-1">
-                              <span className="font-bold text-slate-200 font-mono text-[11px]">
+                              <span className="font-bold text-slate-800 dark:text-slate-200 font-mono text-[11px]">
                                 {c.campaign}
                               </span>
                               <div>{renderSourceBadge(c.source)}</div>
                             </div>
                           </td>
-                          <td className="py-3 font-orbitron font-bold text-white">
+                          <td className="py-3 font-orbitron font-bold text-slate-900 dark:text-white">
                             {c.visits.toLocaleString()}
                           </td>
-                          <td className="py-3 font-orbitron text-cyan-300">
+                          <td className="py-3 font-orbitron text-blue-600 dark:text-cyan-300">
                             {c.quoteModalOpens.toLocaleString()}
                           </td>
-                          <td className="py-3 font-orbitron font-bold text-emerald-400">
+                          <td className="py-3 font-orbitron font-bold text-emerald-600 dark:text-emerald-400">
                             {c.conversions.toLocaleString()}
                           </td>
                           <td className="py-3">
                             <div className="flex items-center gap-1.5">
-                              <span className="font-orbitron font-black text-cyan-300 text-xs">
+                              <span className="font-orbitron font-black text-blue-600 dark:text-cyan-300 text-xs">
                                 {c.conversionRate}%
                               </span>
                             </div>
-                            <div className="w-16 h-1.5 bg-[#070B14] rounded-full overflow-hidden mt-1 border border-slate-800">
+                            <div className="w-16 h-1.5 bg-slate-100 dark:bg-[#070B14] rounded-full overflow-hidden mt-1 border border-slate-200 dark:border-slate-800">
                               <div
                                 className="h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full"
                                 style={{ width: `${Math.min(Math.max(c.conversionRate * 3.5, 8), 100)}%` }}
@@ -975,60 +975,60 @@ export default function AdminAnalyticsPage() {
                 </div>
               </div>
 
-              <div className="mt-4 pt-3 border-t border-[#1E2D4A]/60 flex items-center justify-between text-[11px] text-slate-400">
+              <div className="mt-4 pt-3 border-t border-slate-200 dark:border-[#1E2D4A]/60 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
                 <span className="flex items-center gap-1.5">
-                  <Sparkles size={13} className="text-amber-400" />
+                  <Sparkles size={13} className="text-amber-500 dark:text-amber-400" />
                   <span>{lang === 'ar' ? 'الحملة الأعلى تحويلاً: datacenter_riyadh_q3 بنسبة 20.9%' : 'Top performing: datacenter_riyadh_q3 at 20.9% conv.'}</span>
                 </span>
-                <span className="text-cyan-400 font-bold font-orbitron">● ROI Driven</span>
+                <span className="text-blue-600 dark:text-cyan-400 font-bold font-orbitron">● ROI Driven</span>
               </div>
             </div>
 
           </div>
 
           {/* ─── 5. Services & Projects Engagement Table ───────────── */}
-          <div className="bg-[#0E1524] border border-[#1E2D4A] rounded-2xl p-5 shadow-lg">
-            <div className="flex items-center justify-between border-b border-[#1E2D4A] pb-3 mb-4">
+          <div className="bg-white dark:bg-[#0E1524] border border-slate-200 dark:border-[#1E2D4A] rounded-2xl p-5 shadow-sm dark:shadow-lg">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#1E2D4A] pb-3 mb-4">
               <div className="flex items-center gap-2">
-                <Layers size={17} className="text-cyan-400" />
-                <h2 className="text-base font-bold text-white">{l.servicesTitle}</h2>
+                <Layers size={17} className="text-blue-600 dark:text-cyan-400" />
+                <h2 className="text-base font-bold text-slate-900 dark:text-white">{l.servicesTitle}</h2>
               </div>
-              <span className="text-[10px] font-black uppercase text-slate-400 bg-[#131D31] px-2 py-0.5 rounded border border-[#1E2D4A]">
+              <span className="text-[10px] font-black uppercase text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-[#131D31] px-2 py-0.5 rounded border border-slate-200 dark:border-[#1E2D4A]">
                 Market Depth
               </span>
             </div>
-            <p className="text-xs text-slate-400 mb-4">{l.servicesSub}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">{l.servicesSub}</p>
 
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-start">
                 <thead>
-                  <tr className="border-b border-[#1E2D4A] text-slate-400 font-bold">
+                  <tr className="border-b border-slate-200 dark:border-[#1E2D4A] text-slate-500 dark:text-slate-400 font-bold">
                     <th className="pb-3 text-start">{l.colService}</th>
                     <th className="pb-3 text-start">{l.colViews}</th>
                     <th className="pb-3 text-start">{l.colDwell}</th>
                     <th className="pb-3 text-end">{l.colAction}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#1E2D4A]/50 font-medium">
+                <tbody className="divide-y divide-slate-200 dark:divide-[#1E2D4A]/50 font-medium">
                   {data.topServices.map((service, idx) => (
-                    <tr key={service.key} className="hover:bg-[#131D31]/60 transition-colors">
-                      <td className="py-3 font-bold text-slate-200 flex items-center gap-2">
-                        <span className="w-5 h-5 rounded-md bg-[#070B14] border border-[#1E2D4A] flex items-center justify-center text-[10px] font-orbitron text-slate-400">
+                    <tr key={service.key} className="hover:bg-slate-50 dark:hover:bg-[#131D31]/60 transition-colors">
+                      <td className="py-3 font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+                        <span className="w-5 h-5 rounded-md bg-slate-100 dark:bg-[#070B14] border border-slate-200 dark:border-[#1E2D4A] flex items-center justify-center text-[10px] font-orbitron text-slate-600 dark:text-slate-400">
                           {idx + 1}
                         </span>
                         <span>{lang === 'ar' ? service.title_ar : service.title_en}</span>
                       </td>
-                      <td className="py-3 font-orbitron text-cyan-300 font-bold">
+                      <td className="py-3 font-orbitron text-blue-600 dark:text-cyan-300 font-bold">
                         {service.views.toLocaleString()}
                       </td>
-                      <td className="py-3 font-orbitron text-slate-300">
+                      <td className="py-3 font-orbitron text-slate-600 dark:text-slate-300">
                         {formatSeconds(service.avgDurationSecs)}
                       </td>
                       <td className="py-3 text-end">
                         <Link
                           href={`/services`}
                           target="_blank"
-                          className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-400 hover:text-cyan-300 transition-colors"
+                          className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-cyan-300 transition-colors"
                         >
                           <span>{l.colAction}</span>
                           <ExternalLink size={12} />
@@ -1042,23 +1042,23 @@ export default function AdminAnalyticsPage() {
           </div>
 
           {/* ─── 5. Real-Time Activity Feed ────────────────────────── */}
-          <div className="bg-[#0E1524] border border-[#1E2D4A] rounded-2xl p-5 shadow-lg">
-            <div className="flex items-center justify-between border-b border-[#1E2D4A] pb-3 mb-4">
+          <div className="bg-white dark:bg-[#0E1524] border border-slate-200 dark:border-[#1E2D4A] rounded-2xl p-5 shadow-sm dark:shadow-lg">
+            <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#1E2D4A] pb-3 mb-4">
               <div className="flex items-center gap-2">
-                <Zap size={17} className="text-amber-400" />
-                <h2 className="text-base font-bold text-white">{l.activityTitle}</h2>
+                <Zap size={17} className="text-amber-500 dark:text-amber-400" />
+                <h2 className="text-base font-bold text-slate-900 dark:text-white">{l.activityTitle}</h2>
               </div>
-              <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-400 bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-900/60">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-900/60">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 <span>{l.liveStream}</span>
               </div>
             </div>
-            <p className="text-xs text-slate-400 mb-4">{l.activitySub}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">{l.activitySub}</p>
 
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-start">
                 <thead>
-                  <tr className="border-b border-[#1E2D4A] text-slate-400 font-bold">
+                  <tr className="border-b border-slate-200 dark:border-[#1E2D4A] text-slate-500 dark:text-slate-400 font-bold">
                     <th className="pb-3 text-start">{l.colTime}</th>
                     <th className="pb-3 text-start">{l.colEvent}</th>
                     <th className="pb-3 text-start">{l.colTarget}</th>
@@ -1066,38 +1066,38 @@ export default function AdminAnalyticsPage() {
                     <th className="pb-3 text-end">{l.colCampaign}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#1E2D4A]/50 font-medium">
+                <tbody className="divide-y divide-slate-200 dark:divide-[#1E2D4A]/50 font-medium">
                   {data.recentActivity.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="py-8 text-center text-slate-500">
+                      <td colSpan={5} className="py-8 text-center text-slate-400 dark:text-slate-500">
                         {l.noActivity}
                       </td>
                     </tr>
                   ) : (
                     data.recentActivity.map((event) => (
-                      <tr key={event.id} className="hover:bg-[#131D31]/60 transition-colors">
-                        <td className="py-3 font-mono text-[11px] text-slate-400 whitespace-nowrap">
+                      <tr key={event.id} className="hover:bg-slate-50 dark:hover:bg-[#131D31]/60 transition-colors">
+                        <td className="py-3 font-mono text-[11px] text-slate-500 dark:text-slate-400 whitespace-nowrap">
                           {formatTimeAgo(event.created_at)}
                         </td>
                         <td className="py-3">
                           {renderEventBadge(event.event_type)}
                         </td>
-                        <td className="py-3 font-mono text-slate-300 text-[11px] max-w-xs truncate" dir="ltr">
+                        <td className="py-3 font-mono text-slate-700 dark:text-slate-300 text-[11px] max-w-xs truncate" dir="ltr">
                           {event.path}
                         </td>
-                        <td className="py-3 text-slate-300">
+                        <td className="py-3 text-slate-700 dark:text-slate-300">
                           <span className="inline-flex items-center gap-1">
-                            <MapPin size={11} className="text-slate-500" />
+                            <MapPin size={11} className="text-slate-400 dark:text-slate-500" />
                             <span>{event.city || (lang === 'ar' ? 'السعودية' : 'Saudi Arabia')}</span>
                           </span>
                         </td>
                         <td className="py-3 text-end">
                           {event.utm_campaign ? (
-                            <span className="inline-block px-2 py-0.5 rounded bg-cyan-950/40 text-cyan-300 border border-cyan-800/40 text-[10px] font-mono">
+                            <span className="inline-block px-2 py-0.5 rounded bg-cyan-50 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-300 border border-cyan-200 dark:border-cyan-800/40 text-[10px] font-mono">
                               {event.utm_campaign}
                             </span>
                           ) : (
-                            <span className="text-slate-600 text-[10px] font-mono">
+                            <span className="text-slate-400 dark:text-slate-600 text-[10px] font-mono">
                               {event.utm_source || 'organic'}
                             </span>
                           )}
