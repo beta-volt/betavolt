@@ -226,20 +226,20 @@ export async function sendSalesAlert(payload: SalesAlertPayload): Promise<void> 
   let subject: string;
 
   if (isLeadMagnet) {
-    // 1. Analytics & High-Intent Marketing / Sales Stream -> sales@betavolt.com.sa ONLY
+    // 1. Analytics & High-Intent Marketing / Sales Stream -> inquiries@betavolt.com.sa
     fromAddress = process.env.SALES_ALERT_FROM_EMAIL || 'BetaVolt System <noreply@betavolt.com.sa>';
-    toAddress = parseRecipientList(process.env.SALES_ALERT_EMAIL, ['sales@betavolt.com.sa']);
+    toAddress = parseRecipientList(process.env.SALES_ALERT_EMAIL, ['inquiries@betavolt.com.sa']);
     subject = `🎯 [تنبيه مبيعات وتسويق] تحميل الملف التعريفي وسابقة الأعمال — ${payload.company} (${payload.name})`;
   } else if (payload.type === 'quote_request') {
-    // 2. Official RFP Quotation Stream -> info@betavolt.com.sa (with clear [طلب عرض سعر رسمي - RFP] subject)
+    // 2. Official RFP Quotation Stream -> inquiries@betavolt.com.sa
     fromAddress = process.env.INQUIRIES_FROM_EMAIL || 'BetaVolt Inquiries <inquiries@betavolt.com.sa>';
-    toAddress = parseRecipientList(process.env.QUOTE_TARGET_EMAIL || process.env.INQUIRIES_TARGET_EMAIL, ['info@betavolt.com.sa']);
+    toAddress = parseRecipientList(process.env.QUOTE_TARGET_EMAIL, ['inquiries@betavolt.com.sa']);
     subject = `⚡ [طلب عرض سعر رسمي — RFP] ${payload.company} | مشروع: ${payload.service || 'مشروع جديد'} (${payload.name})`;
     if (process.env.INQUIRIES_CC_EMAIL) {
       ccAddress = parseRecipientList(process.env.INQUIRIES_CC_EMAIL);
     }
   } else {
-    // 3. General Contact Inquiries -> inquiries@betavolt.com.sa ONLY (Dedicated)
+    // 3. General Contact Inquiries -> inquiries@betavolt.com.sa
     fromAddress = process.env.INQUIRIES_FROM_EMAIL || 'BetaVolt Inquiries <inquiries@betavolt.com.sa>';
     toAddress = parseRecipientList(process.env.CONTACT_TARGET_EMAIL, ['inquiries@betavolt.com.sa']);
     subject = `📩 [استفسار وتواصل عام] ${payload.name} (${payload.company || 'جهة عامة'}) — ${payload.subject || 'عام'}`;
