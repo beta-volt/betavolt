@@ -89,7 +89,7 @@ export default function LeadMagnetModal({ isOpen, onClose }: LeadMagnetModalProp
     try {
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', 'BetaVolt-Company-Pre-Qualification.html');
+      link.setAttribute('download', 'BetaVolt-Company-Pre-Qualification.pdf');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -283,20 +283,20 @@ export default function LeadMagnetModal({ isOpen, onClose }: LeadMagnetModalProp
                   {isAr ? 'اسم الشركة أو المكتب الاستشاري *' : 'Company or Consulting Firm *'}
                 </label>
                 <div className="relative">
-                  <Building2 size={15} className="absolute top-1/2 -translate-y-1/2 start-3 text-slate-400 pointer-events-none" />
+                  <Building2 size={16} className={`absolute top-1/2 -translate-y-1/2 ${isAr ? 'right-3.5' : 'left-3.5'} text-slate-400 pointer-events-none`} />
                   <input
                     type="text"
                     required
                     placeholder={isAr ? 'مثال: شركة المقاولات الهندسية / دار الهندسة' : 'e.g. Engineering Contractors / Parsons'}
                     value={formData.company}
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    className="
-                      w-full ps-9 pe-3 py-2.5 rounded-xl
+                    className={`
+                      w-full ${isAr ? 'pr-11 pl-4 text-right' : 'pl-11 pr-4 text-left'} py-2.5 rounded-xl
                       bg-[#070B14] border border-[#1E2D4A]
                       text-xs sm:text-sm text-white placeholder:text-slate-500
                       focus:outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400
                       transition-colors
-                    "
+                    `}
                   />
                 </div>
               </div>
@@ -309,20 +309,20 @@ export default function LeadMagnetModal({ isOpen, onClose }: LeadMagnetModalProp
                     {isAr ? 'اسم المسؤول أو المهندس *' : 'Contact Person / Engineer *'}
                   </label>
                   <div className="relative">
-                    <User size={15} className="absolute top-1/2 -translate-y-1/2 start-3 text-slate-400 pointer-events-none" />
+                    <User size={16} className={`absolute top-1/2 -translate-y-1/2 ${isAr ? 'right-3.5' : 'left-3.5'} text-slate-400 pointer-events-none`} />
                     <input
                       type="text"
                       required
                       placeholder={isAr ? 'الاسم الكريم' : 'Full Name'}
                       value={formData.full_name}
                       onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                      className="
-                        w-full ps-9 pe-3 py-2.5 rounded-xl
+                      className={`
+                        w-full ${isAr ? 'pr-11 pl-4 text-right' : 'pl-11 pr-4 text-left'} py-2.5 rounded-xl
                         bg-[#070B14] border border-[#1E2D4A]
                         text-xs sm:text-sm text-white placeholder:text-slate-500
                         focus:outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400
                         transition-colors
-                      "
+                      `}
                     />
                   </div>
                 </div>
@@ -333,21 +333,20 @@ export default function LeadMagnetModal({ isOpen, onClose }: LeadMagnetModalProp
                     {isAr ? 'رقم الهاتف أو الجوال *' : 'Phone / Mobile Number *'}
                   </label>
                   <div className="relative">
-                    <Phone size={15} className="absolute top-1/2 -translate-y-1/2 start-3 text-slate-400 pointer-events-none" />
+                    <Phone size={16} className={`absolute top-1/2 -translate-y-1/2 ${isAr ? 'right-3.5' : 'left-3.5'} text-slate-400 pointer-events-none`} />
                     <input
                       type="tel"
                       required
-                      dir="ltr"
-                      placeholder="05xxxxxxxx"
+                      placeholder={isAr ? '05xxxxxxxx' : '05xxxxxxxx'}
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="
-                        w-full ps-9 pe-3 py-2.5 rounded-xl
+                      className={`
+                        w-full ${isAr ? 'pr-11 pl-4 text-right' : 'pl-11 pr-4 text-left'} py-2.5 rounded-xl
                         bg-[#070B14] border border-[#1E2D4A]
-                        text-xs sm:text-sm text-white placeholder:text-slate-500 text-end
+                        text-xs sm:text-sm text-white placeholder:text-slate-500
                         focus:outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400
                         transition-colors
-                      "
+                      `}
                     />
                   </div>
                 </div>
@@ -359,21 +358,20 @@ export default function LeadMagnetModal({ isOpen, onClose }: LeadMagnetModalProp
                   {isAr ? 'البريد الإلكتروني للعمل *' : 'Corporate Email Address *'}
                 </label>
                 <div className="relative">
-                  <Mail size={15} className="absolute top-1/2 -translate-y-1/2 start-3 text-slate-400 pointer-events-none" />
+                  <Mail size={16} className={`absolute top-1/2 -translate-y-1/2 ${isAr ? 'right-3.5' : 'left-3.5'} text-slate-400 pointer-events-none`} />
                   <input
                     type="email"
                     required
-                    dir="ltr"
-                    placeholder="engineer@company.com.sa"
+                    placeholder={isAr ? 'engineer@company.com.sa' : 'engineer@company.com.sa'}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="
-                      w-full ps-9 pe-3 py-2.5 rounded-xl
+                    className={`
+                      w-full ${isAr ? 'pr-11 pl-4 text-right' : 'pl-11 pr-4 text-left'} py-2.5 rounded-xl
                       bg-[#070B14] border border-[#1E2D4A]
-                      text-xs sm:text-sm text-white placeholder:text-slate-500 text-end
+                      text-xs sm:text-sm text-white placeholder:text-slate-500
                       focus:outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400
                       transition-colors
-                    "
+                    `}
                   />
                 </div>
               </div>
@@ -387,16 +385,16 @@ export default function LeadMagnetModal({ isOpen, onClose }: LeadMagnetModalProp
                   <select
                     value={formData.service_interest}
                     onChange={(e) => setFormData({ ...formData, service_interest: e.target.value })}
-                    className="
-                      w-full px-3 py-2.5 rounded-xl appearance-none
+                    className={`
+                      w-full ${isAr ? 'pr-4 pl-10 text-right' : 'pl-4 pr-10 text-left'} py-2.5 rounded-xl
                       bg-[#070B14] border border-[#1E2D4A]
                       text-xs sm:text-sm text-white
                       focus:outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400
-                      transition-colors cursor-pointer
-                    "
+                      transition-colors appearance-none cursor-pointer
+                    `}
                   >
                     {options.map((opt) => (
-                      <option key={opt.value} value={opt.value} className="bg-[#0D1527] text-white">
+                      <option key={opt.value} value={opt.value} className="bg-[#0D1527] text-slate-200">
                         {opt.label}
                       </option>
                     ))}
@@ -427,7 +425,7 @@ export default function LeadMagnetModal({ isOpen, onClose }: LeadMagnetModalProp
                   ) : (
                     <>
                       <ArrowDownToLine size={16} />
-                      <span>{isAr ? 'تحميل الملف التعريفي الآن (PDF/HTML)' : 'Download Pre-Qualification Profile'}</span>
+                      <span>{isAr ? 'تحميل ملف التأهيل وسابقة الأعمال الآن (PDF)' : 'Download Pre-Qualification Profile (PDF)'}</span>
                     </>
                   )}
                 </button>
@@ -454,42 +452,96 @@ export default function LeadMagnetModal({ isOpen, onClose }: LeadMagnetModalProp
 export function LeadMagnetTriggerButton({
   className = '',
   label,
+  subtitle,
+  variant = 'bar',
 }: {
   className?: string;
   label?: string;
+  subtitle?: string;
+  variant?: 'bar' | 'compact';
 }) {
   const locale = useLocale();
   const isAr = locale === 'ar';
   const [isOpen, setIsOpen] = useState(false);
 
   const defaultLabel = isAr
-    ? 'تحميل الملف التعريفي وسابقة الأعمال'
+    ? 'تحميل ملف التأهيل وسابقة الأعمال الهندسية'
     : 'Download Pre-Qualification Profile';
+
+  const defaultSubtitle = isAr
+    ? 'النسخة المعتمدة لمشاريع مراكز البيانات و BMS'
+    : 'Official Credentials for Data Centers & BMS';
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => setIsOpen(true)}
-        className={
-          className ||
+      {variant === 'compact' ? (
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          className={
+            className ||
+            `
+            inline-flex items-center justify-center gap-2
+            px-5 py-3.5
+            min-h-[48px]
+            rounded-lg
+            border border-cyan-500/40 hover:border-cyan-400
+            text-cyan-600 dark:text-cyan-400 hover:text-cyan-800 dark:hover:text-white
+            font-bold text-sm sm:text-[0.95rem]
+            bg-white dark:bg-[#0C1425]/90 hover:bg-cyan-50 dark:hover:bg-cyan-950/40
+            shadow-sm dark:shadow-lg dark:shadow-cyan-950/40
+            transition-all duration-200 hover:scale-[1.02] active:scale-100 cursor-pointer
           `
-          inline-flex items-center justify-center gap-2
-          px-5 py-3.5
-          min-h-[48px]
-          rounded-lg
-          border border-cyan-500/50 hover:border-cyan-400
-          text-cyan-400 hover:text-white
-          font-bold text-sm sm:text-[0.95rem]
-          bg-[#0C1425]/90 hover:bg-cyan-950/40
-          shadow-lg shadow-cyan-950/40
-          transition-all duration-200 hover:scale-[1.02] active:scale-100 cursor-pointer
-        `
-        }
-      >
-        <FileCheck2 size={18} className="text-cyan-400 shrink-0" />
-        <span>{label || defaultLabel}</span>
-      </button>
+          }
+        >
+          <FileCheck2 size={18} className="text-cyan-500 dark:text-cyan-400 shrink-0" />
+          <span className="whitespace-nowrap">{label || defaultLabel}</span>
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          className={
+            className ||
+            `
+            group w-full max-w-lg
+            inline-flex items-center justify-between gap-3
+            px-4 py-3 sm:px-5 sm:py-3.5
+            min-h-[54px]
+            rounded-xl
+            border border-cyan-500/40 dark:border-cyan-500/30 hover:border-cyan-500 dark:hover:border-cyan-400
+            bg-slate-50/90 dark:bg-[#0C1425]/90 hover:bg-cyan-50/70 dark:hover:bg-cyan-950/40
+            text-slate-800 dark:text-cyan-300 hover:text-cyan-900 dark:hover:text-white
+            shadow-sm hover:shadow-md dark:shadow-lg dark:shadow-cyan-950/30
+            transition-all duration-200 hover:scale-[1.01] active:scale-100 cursor-pointer text-start
+          `
+          }
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-cyan-500/10 dark:bg-cyan-400/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
+              <FileCheck2 className="w-5 h-5" />
+            </div>
+            <div className="flex flex-col min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100 leading-tight">
+                  {label || defaultLabel}
+                </span>
+                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30 shrink-0">
+                  PDF
+                </span>
+              </div>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5 hidden sm:block">
+                {subtitle || defaultSubtitle}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1.5 text-xs font-bold text-cyan-600 dark:text-cyan-400 shrink-0 group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 transition-transform ps-2">
+            <span className="hidden md:inline">{isAr ? 'تنزيل الملف' : 'Download'}</span>
+            <ArrowDownToLine size={16} />
+          </div>
+        </button>
+      )}
 
       <LeadMagnetModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>

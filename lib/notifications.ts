@@ -297,3 +297,182 @@ export async function sendSalesAlert(payload: SalesAlertPayload): Promise<void> 
     }
   }
 }
+
+/**
+ * Generates an executive, client-facing HTML confirmation email.
+ */
+function generateCustomerConfirmationEmail(payload: SalesAlertPayload): string {
+  const isQuote = payload.type === 'quote_request';
+  const isLeadMagnet = payload.type === 'lead_magnet';
+  const timestamp = new Date().toLocaleString('ar-SA', { timeZone: 'Asia/Riyadh' });
+
+  let badgeText = '⚡ تم استلام طلب عرض السعر بنجاح';
+  let badgeColor = '#2563EB';
+  let introParagraph = 'نشكركم على اهتمامكم بالتعاون مع شركة بيتافولت للمقاولات. نود إحاطتكم بأن طلبكم قد تم تسجيله بنجاح، ويقوم فريقنا الهندسي والتجاري حالياً بمراجعة نطاق العمل والمواصفات الفنية لإعداد العرض الهندسي والمالي المناسب.';
+
+  if (isLeadMagnet) {
+    badgeText = '📄 تم اعتماد طلب الملف التعريفي وسابقة الأعمال';
+    badgeColor = '#059669';
+    introParagraph = 'يسعدنا مشاركتكم النسخة الرسمية المعتمدة لسابقة أعمال واعتمادات شركة بيتافولت لعام 2025. يغطي الملف تفاصيل مشاريعنا في مراكز البيانات، وأنظمة إدارة المباني BMS، والتيار الخفيف، والتحكم الصناعي بالمملكة.';
+  } else if (payload.type === 'contact_message') {
+    badgeText = '📩 تم استلام رسالتكم واستفساركم بنجاح';
+    badgeColor = '#0284C7';
+    introParagraph = 'نؤكد لكم استلام رسالتكم واستفساركم بنجاح. سيقوم ممثل خدمة العملاء والتواصل بالرد عليكم وتوفير كافة الإيضاحات المطلوبة في أسرع وقت.';
+  }
+
+  const companyRow = payload.company ? '<tr><td class="info-label">🏢 اسم الجهة / الشركة:</td><td class="info-value">' + payload.company + '</td></tr>' : '';
+  const companyHeader = payload.company ? '<div style="font-size: 13px; color: #94A3B8; margin-bottom: 12px;">جهة العمل: <strong style="color: #E2E8F0;">' + payload.company + '</strong></div>' : '';
+  const serviceRow = payload.service ? '<tr><td class="info-label">🎯 مجال المشروع / التخصص:</td><td class="info-value">' + payload.service + '</td></tr>' : '';
+  const timelineRow = payload.timeline ? '<tr><td class="info-label">⏱️ الجدول الزمني المطلوب:</td><td class="info-value">' + payload.timeline + '</td></tr>' : '';
+  const phoneRow = payload.phone ? '<tr><td class="info-label">📞 رقم الاتصال المسجل:</td><td class="info-value" dir="ltr" style="text-align: right;">' + payload.phone + '</td></tr>' : '';
+  const fileRow = payload.file_name ? '<tr><td class="info-label">📎 كراسة الشروط / المرفق:</td><td class="info-value">' + payload.file_name + '</td></tr>' : '';
+
+  let nextStepsText = 'سيقوم ممثل خدمة العملاء والتواصل بمراجعة استفساركم والرد عليكم مباشرة خلال ساعات العمل الرسمية.';
+  if (isQuote) {
+    nextStepsText = 'يقوم مهندسونا المختصون حالياً بدراسة المخططات والمتطلبات الفنية، وسيتم التواصل معكم خلال <strong>24 ساعة عمل</strong> لمناقشة التفاصيل وتزويدكم بعرض السعر الفني والمالي.';
+  } else if (isLeadMagnet) {
+    nextStepsText = 'يمكنكم تحميل النسخة الرسمية لملف التأهيل وسابقة الأعمال الهندسية لعام 2025 مباشرة عبر الرابط أدناه للاطلاع على اعتمادات وسوابق مشاريع مراكز البيانات وBMS.';
+  }
+
+  const actionButtons = isLeadMagnet
+    ? '<a href="https://betavolt.com.sa/api/lead-magnet/download" class="btn btn-primary" target="_blank">📥 تحميل الملف التعريفي وسابقة الأعمال (PDF)</a>'
+    : '<a href="https://betavolt.com.sa/api/lead-magnet/download" class="btn btn-primary" target="_blank">📄 استعراض سابقة أعمال بيتافولت</a>';
+
+  return `
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background-color: #070B14; color: #E2E8F0; margin: 0; padding: 24px; direction: rtl; }
+    .card { max-width: 620px; margin: 0 auto; background: #0E1524; border: 1px solid #1E2D4A; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .top-bar { height: 6px; background: linear-gradient(90deg, #2563EB, #38BDF8, #059669); }
+    .header { background: linear-gradient(135deg, #0A101D 0%, #131D31 100%); padding: 28px 24px; border-bottom: 1px solid #1E2D4A; text-align: center; }
+    .logo { font-size: 26px; font-weight: 900; letter-spacing: 2px; color: #FFFFFF; margin-bottom: 6px; }
+    .logo span { color: #38BDF8; }
+    .subtitle { font-size: 12px; color: #94A3B8; font-weight: 500; }
+    .badge { display: inline-block; margin-top: 14px; padding: 6px 18px; border-radius: 9999px; font-size: 13px; font-weight: 700; background: ${badgeColor}; color: #FFFFFF; }
+    .content { padding: 28px 24px; }
+    .greeting { font-size: 17px; font-weight: 800; color: #FFFFFF; margin-bottom: 8px; }
+    .intro { font-size: 14px; color: #CBD5E1; line-height: 1.7; margin-bottom: 22px; }
+    .info-card { background: #070B14; border: 1px solid #1E2D4A; border-radius: 12px; overflow: hidden; margin-bottom: 22px; }
+    .info-title { background: #131D31; padding: 10px 16px; font-size: 13px; font-weight: 700; color: #38BDF8; border-bottom: 1px solid #1E2D4A; }
+    .info-table { width: 100%; border-collapse: collapse; }
+    .info-table td { padding: 11px 16px; border-bottom: 1px solid #141F36; font-size: 13px; }
+    .info-table tr:last-child td { border-bottom: none; }
+    .info-label { color: #94A3B8; font-weight: 600; width: 35%; }
+    .info-value { color: #F1F5F9; font-weight: 700; }
+    .next-steps { background: rgba(56, 189, 248, 0.05); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; padding: 18px; margin-bottom: 24px; }
+    .next-steps-title { font-size: 14px; font-weight: 800; color: #38BDF8; margin-bottom: 6px; }
+    .next-steps-desc { font-size: 13px; color: #CBD5E1; line-height: 1.7; }
+    .actions { text-align: center; margin: 26px 0 10px 0; }
+    .btn { display: inline-block; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 700; text-decoration: none; margin: 5px; }
+    .btn-primary { background: linear-gradient(135deg, #2563EB, #0284C7); color: #FFFFFF; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35); }
+    .btn-wa { background: #16A34A; color: #FFFFFF; }
+    .reply-note { font-size: 12px; color: #64748B; text-align: center; margin-top: 18px; line-height: 1.6; border-top: 1px dashed #1E2D4A; padding-top: 16px; }
+    .footer { background: #070B14; padding: 22px 24px; text-align: center; font-size: 12px; color: #64748B; border-top: 1px solid #1E2D4A; line-height: 1.8; }
+    .footer strong { color: #94A3B8; }
+    .footer a { color: #38BDF8; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="top-bar"></div>
+    <div class="header">
+      <div class="logo">BETA<span>VOLT</span></div>
+      <div class="subtitle">شركة بيتافولت للمقاولات الكهروميكانيكية والأنظمة الذكية</div>
+      <div class="badge">${badgeText}</div>
+    </div>
+    <div class="content">
+      <div class="greeting">السيد / المهندس ${payload.name} المحترم،</div>
+      ${companyHeader}
+      <div class="intro">${introParagraph}</div>
+
+      <div class="info-card">
+        <div class="info-title">📋 ملخص بيانات الطلب المسجل لدينا:</div>
+        <table class="info-table">
+          <tr>
+            <td class="info-label">👤 اسم المسؤول:</td>
+            <td class="info-value">${payload.name}</td>
+          </tr>
+          ${companyRow}
+          ${serviceRow}
+          ${timelineRow}
+          ${phoneRow}
+          ${fileRow}
+          <tr>
+            <td class="info-label">🕒 توقيت التسجيل:</td>
+            <td class="info-value" dir="ltr" style="text-align: right;">${timestamp}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="next-steps">
+        <div class="next-steps-title">⏱️ ما هي الخطوة القادمة؟</div>
+        <div class="next-steps-desc">
+          ${nextStepsText}
+        </div>
+      </div>
+
+      <div class="actions">
+        ${actionButtons}
+        <a href="https://wa.me/966500000000" class="btn btn-wa" target="_blank">💬 التواصل المباشر عبر واتساب</a>
+      </div>
+
+      <div class="reply-note">
+        💡 <strong>هل تود تزويدنا بمخططات أو تفاصيل إضافية؟</strong><br>
+        يمكنك ببساطة الرد المباشر على هذا البريد الإلكتروني وسيصل ردك مباشرة إلى الإدارة الهندسية.
+      </div>
+    </div>
+
+    <div class="footer">
+      <strong>شركة بيتافولت للمقاولات | BetaVolt Contracting Co.</strong><br>
+      المملكة العربية السعودية — الرياض | Kingdom of Saudi Arabia — Riyadh<br>
+      البريد الرسمي: <a href="mailto:inquiries@betavolt.com.sa">inquiries@betavolt.com.sa</a> | الموقع: <a href="https://betavolt.com.sa">www.betavolt.com.sa</a><br>
+      © ${new Date().getFullYear()} بيتافولت. جميع الحقوق محفوظة.
+    </div>
+  </div>
+</body>
+</html>
+  `.trim();
+}
+
+/**
+ * Dispatches an automated, professional confirmation email directly to the customer.
+ * Uses the authenticated mailbox inquiries@betavolt.com.sa to guarantee deliverability.
+ * 
+ * Non-blocking, completely fail-safe.
+ */
+export async function sendCustomerConfirmation(payload: SalesAlertPayload): Promise<void> {
+  if (!payload.email || !payload.email.includes('@')) {
+    return;
+  }
+
+  const fromAddress = process.env.CUSTOMER_CONFIRMATION_FROM_EMAIL ||
+                      'بيتافولت للمقاولات | BetaVolt Contracting <inquiries@betavolt.com.sa>';
+
+  let subject: string;
+  if (payload.type === 'quote_request') {
+    subject = `✨ تم استلام طلب عرض السعر بنجاح — بيتافولت للمقاولات | ${payload.service || 'مشروع جديد'}`;
+  } else if (payload.type === 'lead_magnet') {
+    subject = '📄 الملف التعريفي وسابقة الأعمال الهندسية لشركة بيتافولت لعام 2025 | BetaVolt Profile';
+  } else {
+    subject = '✨ تم استلام استفساركم بنجاح — بيتافولت للمقاولات';
+  }
+
+  try {
+    const htmlBody = generateCustomerConfirmationEmail(payload);
+    await sendEmail({
+      from: fromAddress,
+      to: payload.email.trim(),
+      replyTo: 'inquiries@betavolt.com.sa',
+      subject,
+      html: htmlBody,
+    });
+    console.info(`[Customer Confirmation Success]: Sent confirmation for "${subject}" to customer: ${payload.email}`);
+  } catch (err) {
+    console.warn('[Customer Confirmation Warning]: Customer confirmation dispatch failed safely:', err);
+  }
+}
+

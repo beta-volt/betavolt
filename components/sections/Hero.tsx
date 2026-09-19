@@ -181,52 +181,50 @@ export default async function Hero() {
             </p>
 
             {/* CTA Buttons */}
-            <div
-              className="
-                flex flex-col sm:flex-row items-stretch sm:items-center
-                gap-3
-                animate-fade-up [animation-delay:270ms]
-              "
-            >
-              <Link
-                href="/projects"
-                className="
-                  inline-flex items-center justify-center gap-2
-                  px-6 py-3.5
-                  min-h-[48px]
-                  rounded-lg
-                  bg-blue-600 text-white font-bold
-                  text-sm sm:text-[0.95rem]
-                  shadow-lg shadow-blue-600/25 dark:shadow-blue-900/50
-                  hover:bg-blue-700
-                  transition-all duration-200 hover:scale-[1.03] active:scale-100
-                "
-              >
-                {t('hero.cta_primary')}
-                <span className="rtl:rotate-180 shrink-0" aria-hidden="true"><ArrowIcon /></span>
-              </Link>
+            <div className="flex flex-col gap-3 w-full max-w-lg animate-fade-up [animation-delay:270ms]">
+              {/* Primary Actions Row */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <Link
+                  href="/projects"
+                  className="
+                    inline-flex items-center justify-center gap-2
+                    px-6 py-3.5
+                    min-h-[48px]
+                    rounded-lg
+                    bg-blue-600 text-white font-bold
+                    text-sm sm:text-[0.95rem]
+                    shadow-lg shadow-blue-600/25 dark:shadow-blue-900/50
+                    hover:bg-blue-700
+                    transition-all duration-200 hover:scale-[1.02] active:scale-100
+                  "
+                >
+                  {t('hero.cta_primary')}
+                  <span className="rtl:rotate-180 shrink-0" aria-hidden="true"><ArrowIcon /></span>
+                </Link>
 
-              <a
-                href="#services"
-                className="
-                  inline-flex items-center justify-center gap-2
-                  px-6 py-3.5
-                  min-h-[48px]
-                  rounded-lg
-                  border border-slate-300 dark:border-slate-700
-                  text-slate-700 dark:text-slate-300
-                  font-semibold
-                  bg-white dark:bg-slate-800/60
-                  text-sm sm:text-[0.95rem]
-                  hover:bg-slate-50 dark:hover:bg-slate-800
-                  hover:border-slate-400 dark:hover:border-slate-600
-                  hover:text-slate-900 dark:hover:text-white
-                  transition-all duration-200
-                "
-              >
-                {t('hero.cta_secondary')}
-              </a>
+                <a
+                  href="#services"
+                  className="
+                    inline-flex items-center justify-center gap-2
+                    px-6 py-3.5
+                    min-h-[48px]
+                    rounded-lg
+                    border border-slate-300 dark:border-slate-700
+                    text-slate-700 dark:text-slate-300
+                    font-semibold
+                    bg-white dark:bg-slate-800/60
+                    text-sm sm:text-[0.95rem]
+                    hover:bg-slate-50 dark:hover:bg-slate-800
+                    hover:border-slate-400 dark:hover:border-slate-600
+                    hover:text-slate-900 dark:hover:text-white
+                    transition-all duration-200
+                  "
+                >
+                  {t('hero.cta_secondary')}
+                </a>
+              </div>
 
+              {/* Pre-Qualification Official Dossier Download Bar */}
               <LeadMagnetTriggerButton />
             </div>
 

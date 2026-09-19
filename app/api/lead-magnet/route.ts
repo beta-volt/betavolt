@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createSupabaseServerClient } from '@/lib/supabase-server';
-import { sendSalesAlert } from '@/lib/notifications';
+import { sendSalesAlert, sendCustomerConfirmation, SalesAlertPayload } from '@/lib/notifications';
 
 export async function POST(request: NextRequest) {
   try {
@@ -57,8 +57,8 @@ export async function POST(request: NextRequest) {
       throw error;
     }
 
-    // Trigger instant sales alert (fail-safe)
-    await sendSalesAlert({
+    // Trigger instant sales alert and customer confirmation in parallel (fail-safe)
+    const alertPayload: SalesAlertPayload = {
       type: 'lead_magnet',
       name: full_name.trim(),
       company: company.trim(),
@@ -71,7 +71,14 @@ export async function POST(request: NextRequest) {
       utm_medium,
       utm_campaign,
       utm_content,
-    });
+      file_url: 'https://xdkfmduiftxisifetfmu.supabase.co/storage/v1/object/public/attachments/documents/BetaVolt-Company-Pre-Qualification.pdf',
+      file_name: 'ملف التأهيل وسابقة الأعمال الرسمية (BetaVolt-Profile.pdf)',
+    };
+
+    await Promise.allSettled([
+      sendSalesAlert(alertPayload),
+      sendCustomerConfirmation(alertPayload),
+    ]);
 
     return NextResponse.json({
       success: true,

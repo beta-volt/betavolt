@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import { sendSalesAlert } from '@/lib/notifications';
+import { sendSalesAlert, sendCustomerConfirmation, SalesAlertPayload } from '@/lib/notifications';
 
 export async function POST(request: Request) {
   try {
@@ -27,8 +27,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to save inquiry' }, { status: 500 });
     }
 
-    // Trigger instant sales alert (fail-safe)
-    await sendSalesAlert({
+    // Trigger instant sales alert and customer confirmation in parallel (fail-safe)
+    const alertPayload: SalesAlertPayload = {
       type: 'contact_message',
       name,
       company: company || '',
@@ -41,7 +41,12 @@ export async function POST(request: Request) {
       utm_medium,
       utm_campaign,
       utm_content,
-    });
+    };
+
+    await Promise.allSettled([
+      sendSalesAlert(alertPayload),
+      sendCustomerConfirmation(alertPayload),
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (err) {

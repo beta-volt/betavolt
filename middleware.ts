@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import createIntlMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
 import type { Role } from './lib/admin-roles';
+import { isPlatformLocked } from './lib/security/lockdown-manager';
 
 /**
  * ══ Global Maintenance Mode Switch ═════════════════════════
@@ -67,6 +68,30 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  /* ══ 0.15 Sovereign Emergency Lockdown & Isolation Interceptor ════
+     Triggered during critical cyber incidents to freeze all mutations,
+     sever all APIs, and display 503 Emergency Maintenance */
+  if (isPlatformLocked() || MAINTENANCE_MODE) {
+    if (pathname.startsWith('/api')) {
+      return NextResponse.json(
+        {
+          error: 'Platform Emergency Isolation Active',
+          code: 'EMERGENCY_LOCKDOWN',
+          message: 'The BetaVolt platform is currently under emergency security lockdown. All external mutations, sessions, and APIs are frozen.',
+        },
+        { status: 503 }
+      );
+    }
+
+    if (pathname === '/maintenance') {
+      return NextResponse.next();
+    }
+
+    const url = request.nextUrl.clone();
+    url.pathname = '/maintenance';
+    return NextResponse.rewrite(url, { status: 503 });
+  }
+
   /* ══ 0.2 Public API passthrough ═════════════════════════════
      All public API routes (/api/quote, /api/contact, /api/lead-magnet,
      /api/analytics/track) must pass directly without locale rewrite. */
@@ -82,29 +107,6 @@ export async function middleware(request: NextRequest) {
     const cleanUrl = request.nextUrl.clone();
     cleanUrl.pathname = `/api/${localeApiMatch[1]}`;
     return NextResponse.rewrite(cleanUrl);
-  }
-
-  /* ══ Global Maintenance Mode Interceptor ═══════════════════
-     Overrides ALL routes including admin dashboard & user pages */
-  if (MAINTENANCE_MODE) {
-    if (pathname.startsWith('/api')) {
-      return NextResponse.json(
-        {
-          error: 'Platform Under Maintenance',
-          code: '404_MAINTENANCE',
-          message: 'The BetaVolt platform is currently undergoing scheduled maintenance and system upgrades.',
-        },
-        { status: 404 }
-      );
-    }
-
-    if (pathname === '/maintenance') {
-      return NextResponse.next();
-    }
-
-    const url = request.nextUrl.clone();
-    url.pathname = '/maintenance';
-    return NextResponse.rewrite(url);
   }
 
   /* ══ 1. Admin API routes — /api/admin/* ════════════════════

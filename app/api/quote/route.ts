@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import { sendSalesAlert } from '@/lib/notifications';
+import { sendSalesAlert, sendCustomerConfirmation, SalesAlertPayload } from '@/lib/notifications';
 
 export async function POST(request: NextRequest) {
   try {
@@ -43,8 +43,8 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error;
 
-    // Trigger instant sales alert (fail-safe)
-    await sendSalesAlert({
+    // Trigger instant sales alert and customer confirmation in parallel (fail-safe)
+    const alertPayload: SalesAlertPayload = {
       type: 'quote_request',
       name,
       company,
@@ -60,7 +60,12 @@ export async function POST(request: NextRequest) {
       utm_medium,
       utm_campaign,
       utm_content,
-    });
+    };
+
+    await Promise.allSettled([
+      sendSalesAlert(alertPayload),
+      sendCustomerConfirmation(alertPayload),
+    ]);
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (err) {
