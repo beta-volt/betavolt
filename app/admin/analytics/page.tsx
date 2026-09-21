@@ -1187,7 +1187,11 @@ export default function AdminAnalyticsPage() {
                     </div>
                     <div className="flex items-center gap-1.5 text-xs text-emerald-600 dark:text-emerald-400 mt-1">
                       <TrendingUp size={13} />
-                      <span>{lang === 'ar' ? 'اهتمام عالي بالتفاصيل' : 'High engagement depth'}</span>
+                      <span>
+                        {data.kpis.avgDwellSeconds > 0
+                          ? (lang === 'ar' ? 'اهتمام عالي بالتفاصيل' : 'High engagement depth')
+                          : (lang === 'ar' ? 'بانتظار جلسات التفاعل' : 'Awaiting engagement')}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1273,7 +1277,11 @@ export default function AdminAnalyticsPage() {
                   </div>
 
                   <div className="mt-6 pt-3 border-t border-slate-200 dark:border-[#1E2D4A]/60 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
-                    <span>{lang === 'ar' ? 'أعلى تركيز هندسي: الرياض والجبيل الصناعية' : 'Primary hubs: Riyadh & Jubail Industrial'}</span>
+                    <span>
+                      {data.cities.some((c) => c.visits > 0)
+                        ? (lang === 'ar' ? 'أعلى تركيز هندسي: الرياض والجبيل الصناعية' : 'Primary hubs: Riyadh & Jubail Industrial')
+                        : (lang === 'ar' ? 'التوزيع الجغرافي جاهز للرصد التلقائي عبر Geo-IP' : 'Regional distribution ready for real-time Geo-IP capture')}
+                    </span>
                     <span className="text-emerald-600 dark:text-emerald-400 font-bold">● Live Geo-IP</span>
                   </div>
                 </div>
@@ -1296,7 +1304,7 @@ export default function AdminAnalyticsPage() {
                     <div className="space-y-3">
                       {data.funnel.map((step, idx) => {
                         const isLast = idx === data.funnel.length - 1;
-                        const dropOff = (100 - step.rate).toFixed(1);
+                        const dropOff = step.rate > 0 ? (100 - step.rate).toFixed(1) : '0.0';
 
                         return (
                           <div
@@ -1340,8 +1348,14 @@ export default function AdminAnalyticsPage() {
                   </div>
 
                   <div className="mt-4 pt-3 border-t border-slate-200 dark:border-[#1E2D4A]/60 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
-                    <span>{lang === 'ar' ? 'مؤشر الكفاءة: 1 من كل 6 زوار يتحول لطلب تسعير' : 'Benchmark: 1 in 6 visitors initiates B2B RFP'}</span>
-                    <span className="text-blue-600 dark:text-cyan-400 font-bold font-orbitron">ROI +16.9%</span>
+                    <span>
+                      {data.kpis.totalSessions > 0
+                        ? (lang === 'ar' ? `معدل التحويل الكلي: ${data.kpis.conversionRate}% من إجمالي الجلسات` : `Overall conversion rate: ${data.kpis.conversionRate}% of total sessions`)
+                        : (lang === 'ar' ? 'مسار التحويل جاهز للرصد الحي عند استقبال الزيارات' : 'Conversion funnel ready for incoming live traffic')}
+                    </span>
+                    <span className="text-blue-600 dark:text-cyan-400 font-bold font-orbitron">
+                      {data.kpis.totalSessions > 0 ? `${data.kpis.conversionRate}%` : '0.0%'}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1860,7 +1874,7 @@ export default function AdminAnalyticsPage() {
                             <span className="text-[10px] text-slate-400"> ({kw.gsc_ctr}%)</span>
                           </td>
                           <td className="py-3 font-orbitron font-bold text-blue-600 dark:text-cyan-400">
-                            #{kw.gsc_position}
+                            {kw.gsc_position > 0 ? `#${kw.gsc_position}` : '—'}
                           </td>
                           <td className="py-3 text-end">
                             {renderHunterStatusBadge(kw.status)}
@@ -2137,43 +2151,53 @@ export default function AdminAnalyticsPage() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-200 dark:divide-[#1E2D4A]/50 font-medium">
-                        {(data.campaigns || []).map((c) => (
-                          <tr key={c.campaign} className="hover:bg-slate-50 dark:hover:bg-[#131D31]/60 transition-colors">
-                            <td className="py-3">
-                              <div className="flex flex-col gap-1">
-                                <span className="font-bold text-slate-800 dark:text-slate-200 font-mono text-[11px]">
-                                  {c.campaign}
-                                </span>
-                                <div>{renderSourceBadge(c.source)}</div>
-                              </div>
-                            </td>
-                            <td className="py-3 font-orbitron font-bold text-slate-900 dark:text-white">
-                              {c.visits.toLocaleString()}
-                            </td>
-                            <td className="py-3 font-orbitron text-blue-600 dark:text-cyan-300">
-                              {c.quoteModalOpens.toLocaleString()}
-                            </td>
-                            <td className="py-3 font-orbitron font-bold text-emerald-600 dark:text-emerald-400">
-                              {c.conversions.toLocaleString()}
-                            </td>
-                            <td className="py-3">
-                              <div className="flex items-center gap-1.5">
-                                <span className="font-orbitron font-black text-blue-600 dark:text-cyan-300 text-xs">
-                                  {c.conversionRate}%
-                                </span>
-                              </div>
-                              <div className="w-16 h-1.5 bg-slate-100 dark:bg-[#070B14] rounded-full overflow-hidden mt-1 border border-slate-200 dark:border-slate-800">
-                                <div
-                                  className="h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full"
-                                  style={{ width: `${Math.min(Math.max(c.conversionRate * 3.5, 8), 100)}%` }}
-                                />
-                              </div>
-                            </td>
-                            <td className="py-3 text-end">
-                              {renderQualityBadge(c.qualityBadge)}
+                        {(data.campaigns || []).length === 0 ? (
+                          <tr>
+                            <td colSpan={6} className="py-8 text-center text-slate-400 dark:text-slate-500 text-xs">
+                              {lang === 'ar'
+                                ? 'لا توجد حملات تسويقية مسجلة حالياً. استخدم منشئ الروابط المتتبعة لإطلاق أول حملة.'
+                                : 'No tracked campaigns recorded yet. Use the Campaign URL Builder to launch your first campaign.'}
                             </td>
                           </tr>
-                        ))}
+                        ) : (
+                          data.campaigns.map((c) => (
+                            <tr key={c.campaign} className="hover:bg-slate-50 dark:hover:bg-[#131D31]/60 transition-colors">
+                              <td className="py-3">
+                                <div className="flex flex-col gap-1">
+                                  <span className="font-bold text-slate-800 dark:text-slate-200 font-mono text-[11px]">
+                                    {c.campaign}
+                                  </span>
+                                  <div>{renderSourceBadge(c.source)}</div>
+                                </div>
+                              </td>
+                              <td className="py-3 font-orbitron font-bold text-slate-900 dark:text-white">
+                                {c.visits.toLocaleString()}
+                              </td>
+                              <td className="py-3 font-orbitron text-blue-600 dark:text-cyan-300">
+                                {c.quoteModalOpens.toLocaleString()}
+                              </td>
+                              <td className="py-3 font-orbitron font-bold text-emerald-600 dark:text-emerald-400">
+                                {c.conversions.toLocaleString()}
+                              </td>
+                              <td className="py-3">
+                                <div className="flex items-center gap-1.5">
+                                  <span className="font-orbitron font-black text-blue-600 dark:text-cyan-300 text-xs">
+                                    {c.conversionRate}%
+                                  </span>
+                                </div>
+                                <div className="w-16 h-1.5 bg-slate-100 dark:bg-[#070B14] rounded-full overflow-hidden mt-1 border border-slate-200 dark:border-slate-800">
+                                  <div
+                                    className="h-full bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full"
+                                    style={{ width: `${Math.min(Math.max(c.conversionRate * 3.5, 8), 100)}%` }}
+                                  />
+                                </div>
+                              </td>
+                              <td className="py-3 text-end">
+                                {renderQualityBadge(c.qualityBadge)}
+                              </td>
+                            </tr>
+                          ))
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -2182,7 +2206,15 @@ export default function AdminAnalyticsPage() {
                 <div className="mt-4 pt-3 border-t border-slate-200 dark:border-[#1E2D4A]/60 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
                   <span className="flex items-center gap-1.5">
                     <Sparkles size={13} className="text-amber-500 dark:text-amber-400" />
-                    <span>{lang === 'ar' ? 'الحملة الأعلى تحويلاً: datacenter_riyadh_q3 بنسبة 20.9%' : 'Top performing: datacenter_riyadh_q3 at 20.9% conv.'}</span>
+                    <span>
+                      {data.campaigns && data.campaigns.length > 0
+                        ? (lang === 'ar'
+                            ? `الحملة الأعلى تحويلاً: ${data.campaigns[0].campaign} بنسبة ${data.campaigns[0].conversionRate}%`
+                            : `Top performing: ${data.campaigns[0].campaign} at ${data.campaigns[0].conversionRate}% conv.`)
+                        : (lang === 'ar'
+                            ? 'بانتظار حركة زيارات من الروابط التسويقية وحملات الاستهداف'
+                            : 'Awaiting traffic from outbound tracked marketing campaigns')}
+                    </span>
                   </span>
                   <span className="text-blue-600 dark:text-cyan-400 font-bold font-orbitron">● ROI Driven</span>
                 </div>

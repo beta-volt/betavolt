@@ -244,7 +244,7 @@ export async function GET(request: NextRequest) {
           name_ar: 'زيارات الموقع العام',
           name_en: 'Platform Visitors',
           count: pageViewCount || totalSessions,
-          rate: 100,
+          rate: (pageViewCount || totalSessions) > 0 ? 100 : 0,
         },
         {
           step: 2,
@@ -252,7 +252,7 @@ export async function GET(request: NextRequest) {
           name_ar: 'استعراض الخدمات وسوابق الأعمال',
           name_en: 'Service & Portfolio Deep Dive',
           count: serviceDeepDives,
-          rate: Number(((serviceDeepDives / (pageViewCount || 1)) * 100).toFixed(1)),
+          rate: pageViewCount > 0 ? Number(((serviceDeepDives / pageViewCount) * 100).toFixed(1)) : 0,
         },
         {
           step: 3,
@@ -260,7 +260,7 @@ export async function GET(request: NextRequest) {
           name_ar: 'فتح نافذة طلب عرض السعر',
           name_en: 'Quote Modal Opened',
           count: quoteModalOpenCount,
-          rate: Number(((quoteModalOpenCount / (serviceDeepDives || 1)) * 100).toFixed(1)),
+          rate: serviceDeepDives > 0 ? Number(((quoteModalOpenCount / serviceDeepDives) * 100).toFixed(1)) : 0,
         },
         {
           step: 4,
@@ -268,7 +268,7 @@ export async function GET(request: NextRequest) {
           name_ar: 'اكتمال الطلب والتواصل المباشر',
           name_en: 'Conversion & Direct RFP',
           count: totalConversions,
-          rate: Number(((totalConversions / (quoteModalOpenCount || 1)) * 100).toFixed(1)),
+          rate: quoteModalOpenCount > 0 ? Number(((totalConversions / quoteModalOpenCount) * 100).toFixed(1)) : 0,
         },
       ];
 
@@ -293,7 +293,7 @@ export async function GET(request: NextRequest) {
         };
       }).sort((a, b) => b.views - a.views);
 
-      let campaignsList = Object.values(campaignMap).map((c) => {
+      const campaignsList = Object.values(campaignMap).map((c) => {
         const rate = c.visits > 0 ? Number(((c.conversions / c.visits) * 100).toFixed(1)) : 0;
         const qualityBadge: 'high' | 'moderate' | 'broad' =
           rate >= 15 ? 'high' : rate >= 8 ? 'moderate' : 'broad';
@@ -303,10 +303,6 @@ export async function GET(request: NextRequest) {
           qualityBadge,
         };
       }).sort((a, b) => b.conversions - a.conversions || b.visits - a.visits);
-
-      if (campaignsList.length === 0) {
-        campaignsList = getBaselineCampaigns(period);
-      }
 
       return NextResponse.json({
         kpis: {
@@ -332,8 +328,8 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Baseline initial dataset when database is freshly created
-    return NextResponse.json(getBaselineAnalyticsData(period));
+    // Authentic zero-state when database has 0 events
+    return NextResponse.json(getZeroStateAnalyticsData(period));
   } catch (err) {
     console.error('[GET /api/admin/analytics] Unexpected error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -341,246 +337,99 @@ export async function GET(request: NextRequest) {
 }
 
 /**
- * Provides executive baseline analytics when telemetry has just been bootstrapped.
- * Calibrated specifically for Saudi B2B Contracting and Electromechanical metrics.
+ * Provides authentic zero-state analytics when telemetry has 0 records.
+ * Calibrated specifically for BetaVolt production real-time tracking.
  */
-function getBaselineAnalyticsData(period: string) {
-  const multiplier = period === 'today' ? 0.15 : period === '30d' ? 3.8 : period === 'all' ? 8.5 : 1.0;
+function getZeroStateAnalyticsData(period: string) {
+  const serviceDisplayMeta: Record<string, { ar: string; en: string }> = {
+    'data-centers': { ar: 'مراكز البيانات وتجهيز البنية التحتية', en: 'Data Centers & Infrastructure' },
+    bms: { ar: 'أنظمة إدارة المباني الذكية (BMS)', en: 'Smart Building BMS' },
+    'low-current': { ar: 'أنظمة التيار الخفيف والاتصالات', en: 'Low Current & Telecom' },
+    automation: { ar: 'الأتمتة والتحكم الصناعي (SCADA/PLC)', en: 'Industrial Automation' },
+    power: { ar: 'محطات الطاقة وتوزيع الكهرباء', en: 'Power Stations & Distribution' },
+    projects: { ar: 'معرض المشاريع وسوابق الأعمال', en: 'Executed Projects Portfolio' },
+  };
 
-  const totalSessions = Math.round(148 * multiplier);
-  const pageViews = Math.round(482 * multiplier);
-  const quoteModalOpens = Math.round(34 * multiplier);
-  const quoteSubmits = Math.round(11 * multiplier);
-  const whatsappClicks = Math.round(9 * multiplier);
-  const phoneClicks = Math.round(5 * multiplier);
-  const careersClicks = Math.round(7 * multiplier);
-  const totalConversions = quoteSubmits + whatsappClicks + phoneClicks;
+  const cities = Object.entries(SAUDI_CITIES_CANONICAL).map(([key, labels]) => ({
+    key,
+    name_ar: labels.ar,
+    name_en: labels.en,
+    visits: 0,
+    percentage: 0,
+  }));
+
+  const funnel = [
+    {
+      step: 1,
+      key: 'visitors',
+      name_ar: 'زيارات الموقع العام',
+      name_en: 'Platform Visitors',
+      count: 0,
+      rate: 0,
+    },
+    {
+      step: 2,
+      key: 'exploration',
+      name_ar: 'استعراض الخدمات وسوابق الأعمال',
+      name_en: 'Service & Portfolio Deep Dive',
+      count: 0,
+      rate: 0,
+    },
+    {
+      step: 3,
+      key: 'quote_intent',
+      name_ar: 'فتح نافذة طلب عرض السعر',
+      name_en: 'Quote Modal Opened',
+      count: 0,
+      rate: 0,
+    },
+    {
+      step: 4,
+      key: 'conversion',
+      name_ar: 'اكتمال الطلب والتواصل المباشر',
+      name_en: 'Conversion & Direct RFP',
+      count: 0,
+      rate: 0,
+    },
+  ];
+
+  const topServices = Object.entries(serviceDisplayMeta).map(([key, meta]) => ({
+    key,
+    title_ar: meta.ar,
+    title_en: meta.en,
+    views: 0,
+    avgDurationSecs: 0,
+  }));
 
   return {
     kpis: {
-      totalSessions,
-      pageViews,
-      avgDwellSeconds: 142, // ~2m 22s
-      quoteModalOpens,
-      totalConversions,
-      conversionRate: 16.9,
-      quoteIntentRate: 23.0,
-      whatsappClicks,
-      phoneClicks,
-      careersClicks,
+      totalSessions: 0,
+      pageViews: 0,
+      avgDwellSeconds: 0,
+      quoteModalOpens: 0,
+      totalConversions: 0,
+      conversionRate: 0,
+      quoteIntentRate: 0,
+      whatsappClicks: 0,
+      phoneClicks: 0,
+      careersClicks: 0,
     },
-    cities: [
-      { key: 'riyadh', name_ar: 'الرياض', name_en: 'Riyadh', visits: Math.round(62 * multiplier), percentage: 41.9 },
-      { key: 'jubail', name_ar: 'الجبيل الصناعية', name_en: 'Jubail Industrial', visits: Math.round(31 * multiplier), percentage: 20.9 },
-      { key: 'dammam', name_ar: 'الدمام والخبر', name_en: 'Dammam & Khobar', visits: Math.round(24 * multiplier), percentage: 16.2 },
-      { key: 'jeddah', name_ar: 'جدة', name_en: 'Jeddah', visits: Math.round(18 * multiplier), percentage: 12.2 },
-      { key: 'neom', name_ar: 'نيوم (NEOM)', name_en: 'NEOM', visits: Math.round(13 * multiplier), percentage: 8.8 },
-    ],
-    funnel: [
-      {
-        step: 1,
-        key: 'visitors',
-        name_ar: 'زيارات الموقع العام',
-        name_en: 'Platform Visitors',
-        count: totalSessions,
-        rate: 100,
-      },
-      {
-        step: 2,
-        key: 'exploration',
-        name_ar: 'استعراض الخدمات وسوابق الأعمال',
-        name_en: 'Service & Portfolio Deep Dive',
-        count: Math.round(totalSessions * 0.68),
-        rate: 68.0,
-      },
-      {
-        step: 3,
-        key: 'quote_intent',
-        name_ar: 'فتح نافذة طلب عرض السعر',
-        name_en: 'Quote Modal Opened',
-        count: quoteModalOpens,
-        rate: 33.7,
-      },
-      {
-        step: 4,
-        key: 'conversion',
-        name_ar: 'اكتمال الطلب والتواصل المباشر',
-        name_en: 'Conversion & Direct RFP',
-        count: totalConversions,
-        rate: 73.5,
-      },
-    ],
-    topServices: [
-      {
-        key: 'data-centers',
-        title_ar: 'مراكز البيانات وتجهيز البنية التحتية',
-        title_en: 'Data Centers & Infrastructure',
-        views: Math.round(184 * multiplier),
-        avgDurationSecs: 185,
-      },
-      {
-        key: 'bms',
-        title_ar: 'أنظمة إدارة المباني الذكية (BMS)',
-        title_en: 'Smart Building BMS',
-        views: Math.round(128 * multiplier),
-        avgDurationSecs: 142,
-      },
-      {
-        key: 'low-current',
-        title_ar: 'أنظمة التيار الخفيف والاتصالات',
-        title_en: 'Low Current & Telecom',
-        views: Math.round(95 * multiplier),
-        avgDurationSecs: 110,
-      },
-      {
-        key: 'automation',
-        title_ar: 'الأتمتة والتحكم الصناعي (SCADA/PLC)',
-        title_en: 'Industrial Automation',
-        views: Math.round(76 * multiplier),
-        avgDurationSecs: 130,
-      },
-      {
-        key: 'projects',
-        title_ar: 'معرض المشاريع وسوابق الأعمال',
-        title_en: 'Executed Projects Portfolio',
-        views: Math.round(62 * multiplier),
-        avgDurationSecs: 160,
-      },
-    ],
-    recentActivity: [
-      {
-        id: 'rec_01',
-        created_at: new Date(Date.now() - 3 * 60 * 1000).toISOString(),
-        event_type: 'quote_submit',
-        path: '/ar/services/data-centers',
-        country: 'SA',
-        city: 'Riyadh',
-        utm_source: 'linkedin',
-        utm_campaign: 'tier3_datacenter_q3',
-        duration_seconds: 245,
-        metadata: { project_type: 'Data Center Tier III', timeline: '6 Months' },
-      },
-      {
-        id: 'rec_02',
-        created_at: new Date(Date.now() - 14 * 60 * 1000).toISOString(),
-        event_type: 'whatsapp_click',
-        path: '/ar/services/bms',
-        country: 'SA',
-        city: 'Jubail',
-        utm_source: 'google',
-        utm_campaign: 'jubail_industrial_bms',
-        duration_seconds: 180,
-      },
-      {
-        id: 'rec_03',
-        created_at: new Date(Date.now() - 29 * 60 * 1000).toISOString(),
-        event_type: 'quote_modal_open',
-        path: '/ar/services/low-current',
-        country: 'SA',
-        city: 'NEOM',
-        utm_source: 'direct',
-        utm_campaign: null,
-        duration_seconds: 115,
-      },
-      {
-        id: 'rec_04',
-        created_at: new Date(Date.now() - 47 * 60 * 1000).toISOString(),
-        event_type: 'page_view',
-        path: '/ar/projects',
-        country: 'SA',
-        city: 'Dammam',
-        utm_source: 'linkedin',
-        utm_campaign: 'saudi_contracting_leads',
-        duration_seconds: 160,
-      },
-      {
-        id: 'rec_05',
-        created_at: new Date(Date.now() - 65 * 60 * 1000).toISOString(),
-        event_type: 'phone_click',
-        path: '/ar/contact',
-        country: 'SA',
-        city: 'Jeddah',
-        utm_source: 'google',
-        utm_campaign: 'mep_contractors_sa',
-        duration_seconds: 92,
-      },
-    ],
-    campaigns: getBaselineCampaigns(period),
-    seo: getSeoAnalyticsData(period),
+    cities,
+    funnel,
+    topServices,
+    campaigns: [],
+    seo: getSeoAnalyticsData(period, [], 0),
+    recentActivity: [],
     period,
-    isSimulated: true,
+    isSimulated: false,
   };
-}
-
-/**
- * Calibrated baseline campaigns for Saudi B2B Contracting and Electromechanical market.
- */
-function getBaselineCampaigns(period: string) {
-  const multiplier = period === 'today' ? 0.15 : period === '30d' ? 3.8 : period === 'all' ? 8.5 : 1.0;
-  return [
-    {
-      campaign: 'datacenter_riyadh_q3',
-      source: 'linkedin',
-      medium: 'sponsored',
-      visits: Math.round(86 * multiplier),
-      quoteModalOpens: Math.round(24 * multiplier),
-      conversions: Math.round(18 * multiplier),
-      conversionRate: 20.9,
-      qualityBadge: 'high' as const,
-      lastActive: new Date(Date.now() - 12 * 60 * 1000).toISOString(),
-    },
-    {
-      campaign: 'bms_jubail_industrial',
-      source: 'google',
-      medium: 'cpc',
-      visits: Math.round(64 * multiplier),
-      quoteModalOpens: Math.round(15 * multiplier),
-      conversions: Math.round(11 * multiplier),
-      conversionRate: 17.2,
-      qualityBadge: 'high' as const,
-      lastActive: new Date(Date.now() - 28 * 60 * 1000).toISOString(),
-    },
-    {
-      campaign: 'neom_substations_pif',
-      source: 'direct_rfp',
-      medium: 'outreach',
-      visits: Math.round(42 * multiplier),
-      quoteModalOpens: Math.round(14 * multiplier),
-      conversions: Math.round(9 * multiplier),
-      conversionRate: 21.4,
-      qualityBadge: 'high' as const,
-      lastActive: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
-    },
-    {
-      campaign: 'smart_building_mep',
-      source: 'linkedin',
-      medium: 'sponsored',
-      visits: Math.round(38 * multiplier),
-      quoteModalOpens: Math.round(7 * multiplier),
-      conversions: Math.round(4 * multiplier),
-      conversionRate: 10.5,
-      qualityBadge: 'moderate' as const,
-      lastActive: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-    },
-    {
-      campaign: 'saudi_automation_summit',
-      source: 'whatsapp',
-      medium: 'direct',
-      visits: Math.round(29 * multiplier),
-      quoteModalOpens: Math.round(6 * multiplier),
-      conversions: Math.round(3 * multiplier),
-      conversionRate: 10.3,
-      qualityBadge: 'moderate' as const,
-      lastActive: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-    },
-  ];
 }
 
 /**
  * High-Intent B2B Keyword Matrix: 16 curated high-value Saudi market search terms
  * representing Tier III/IV Data Centers, BMS Automation, Low Current, and PIF Prequalification.
  */
-function getHighIntentKeywords(multiplier: number) {
+function getHighIntentKeywords(multiplier: number = 0) {
   return [
     {
       id: 'kw_dc_01',
@@ -599,8 +448,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 94,
       gsc_impressions: Math.round(1420 * multiplier),
       gsc_clicks: Math.round(186 * multiplier),
-      gsc_ctr: 13.1,
-      gsc_position: 2.4,
+      gsc_ctr: multiplier > 0 ? 13.1 : 0,
+      gsc_position: multiplier > 0 ? 2.4 : 0,
       status: 'active_hunting' as const,
     },
     {
@@ -620,8 +469,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 89,
       gsc_impressions: Math.round(980 * multiplier),
       gsc_clicks: Math.round(114 * multiplier),
-      gsc_ctr: 11.6,
-      gsc_position: 3.1,
+      gsc_ctr: multiplier > 0 ? 11.6 : 0,
+      gsc_position: multiplier > 0 ? 3.1 : 0,
       status: 'active_hunting' as const,
     },
     {
@@ -641,8 +490,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 87,
       gsc_impressions: Math.round(620 * multiplier),
       gsc_clicks: Math.round(72 * multiplier),
-      gsc_ctr: 11.6,
-      gsc_position: 2.8,
+      gsc_ctr: multiplier > 0 ? 11.6 : 0,
+      gsc_position: multiplier > 0 ? 2.8 : 0,
       status: 'ranking_improving' as const,
     },
     {
@@ -662,8 +511,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 92,
       gsc_impressions: Math.round(2100 * multiplier),
       gsc_clicks: Math.round(245 * multiplier),
-      gsc_ctr: 11.7,
-      gsc_position: 2.1,
+      gsc_ctr: multiplier > 0 ? 11.7 : 0,
+      gsc_position: multiplier > 0 ? 2.1 : 0,
       status: 'active_hunting' as const,
     },
     {
@@ -683,8 +532,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 95,
       gsc_impressions: Math.round(1850 * multiplier),
       gsc_clicks: Math.round(230 * multiplier),
-      gsc_ctr: 12.4,
-      gsc_position: 1.8,
+      gsc_ctr: multiplier > 0 ? 12.4 : 0,
+      gsc_position: multiplier > 0 ? 1.8 : 0,
       status: 'active_hunting' as const,
     },
     {
@@ -704,8 +553,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 91,
       gsc_impressions: Math.round(1340 * multiplier),
       gsc_clicks: Math.round(155 * multiplier),
-      gsc_ctr: 11.6,
-      gsc_position: 2.5,
+      gsc_ctr: multiplier > 0 ? 11.6 : 0,
+      gsc_position: multiplier > 0 ? 2.5 : 0,
       status: 'active_hunting' as const,
     },
     {
@@ -725,8 +574,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 86,
       gsc_impressions: Math.round(890 * multiplier),
       gsc_clicks: Math.round(98 * multiplier),
-      gsc_ctr: 11.0,
-      gsc_position: 3.2,
+      gsc_ctr: multiplier > 0 ? 11.0 : 0,
+      gsc_position: multiplier > 0 ? 3.2 : 0,
       status: 'ranking_improving' as const,
     },
     {
@@ -746,8 +595,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 84,
       gsc_impressions: Math.round(710 * multiplier),
       gsc_clicks: Math.round(68 * multiplier),
-      gsc_ctr: 9.6,
-      gsc_position: 3.8,
+      gsc_ctr: multiplier > 0 ? 9.6 : 0,
+      gsc_position: multiplier > 0 ? 3.8 : 0,
       status: 'targeted' as const,
     },
     {
@@ -767,8 +616,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 93,
       gsc_impressions: Math.round(1620 * multiplier),
       gsc_clicks: Math.round(195 * multiplier),
-      gsc_ctr: 12.0,
-      gsc_position: 2.2,
+      gsc_ctr: multiplier > 0 ? 12.0 : 0,
+      gsc_position: multiplier > 0 ? 2.2 : 0,
       status: 'active_hunting' as const,
     },
     {
@@ -788,8 +637,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 90,
       gsc_impressions: Math.round(1480 * multiplier),
       gsc_clicks: Math.round(172 * multiplier),
-      gsc_ctr: 11.6,
-      gsc_position: 2.6,
+      gsc_ctr: multiplier > 0 ? 11.6 : 0,
+      gsc_position: multiplier > 0 ? 2.6 : 0,
       status: 'active_hunting' as const,
     },
     {
@@ -809,8 +658,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 88,
       gsc_impressions: Math.round(1120 * multiplier),
       gsc_clicks: Math.round(135 * multiplier),
-      gsc_ctr: 12.1,
-      gsc_position: 2.9,
+      gsc_ctr: multiplier > 0 ? 12.1 : 0,
+      gsc_position: multiplier > 0 ? 2.9 : 0,
       status: 'active_hunting' as const,
     },
     {
@@ -830,8 +679,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 86,
       gsc_impressions: Math.round(940 * multiplier),
       gsc_clicks: Math.round(102 * multiplier),
-      gsc_ctr: 10.9,
-      gsc_position: 3.4,
+      gsc_ctr: multiplier > 0 ? 10.9 : 0,
+      gsc_position: multiplier > 0 ? 3.4 : 0,
       status: 'ranking_improving' as const,
     },
     {
@@ -851,8 +700,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 96,
       gsc_impressions: Math.round(2850 * multiplier),
       gsc_clicks: Math.round(390 * multiplier),
-      gsc_ctr: 13.7,
-      gsc_position: 1.7,
+      gsc_ctr: multiplier > 0 ? 13.7 : 0,
+      gsc_position: multiplier > 0 ? 1.7 : 0,
       status: 'active_hunting' as const,
     },
     {
@@ -872,8 +721,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 95,
       gsc_impressions: Math.round(2150 * multiplier),
       gsc_clicks: Math.round(310 * multiplier),
-      gsc_ctr: 14.4,
-      gsc_position: 1.6,
+      gsc_ctr: multiplier > 0 ? 14.4 : 0,
+      gsc_position: multiplier > 0 ? 1.6 : 0,
       status: 'active_hunting' as const,
     },
     {
@@ -893,8 +742,8 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 97,
       gsc_impressions: Math.round(1720 * multiplier),
       gsc_clicks: Math.round(280 * multiplier),
-      gsc_ctr: 16.3,
-      gsc_position: 1.4,
+      gsc_ctr: multiplier > 0 ? 16.3 : 0,
+      gsc_position: multiplier > 0 ? 1.4 : 0,
       status: 'active_hunting' as const,
     },
     {
@@ -914,43 +763,36 @@ function getHighIntentKeywords(multiplier: number) {
       readiness_score: 92,
       gsc_impressions: Math.round(1550 * multiplier),
       gsc_clicks: Math.round(195 * multiplier),
-      gsc_ctr: 12.6,
-      gsc_position: 2.3,
+      gsc_ctr: multiplier > 0 ? 12.6 : 0,
+      gsc_position: multiplier > 0 ? 2.3 : 0,
       status: 'active_hunting' as const,
     },
   ];
 }
 
 /**
- * Aggregates High-Intent SEO Intelligence for both live events and baseline state.
+ * Aggregates High-Intent SEO Intelligence for both live events and authentic zero-state.
  */
 function getSeoAnalyticsData(period: string, events?: Record<string, unknown>[], totalSessionsCount?: number) {
-  const multiplier = period === 'today' ? 0.15 : period === '30d' ? 3.8 : period === 'all' ? 8.5 : 1.0;
-
-  // Real data calculations if events array has entries
-  let organicSessions = Math.round(58 * multiplier);
-  let organicQuoteIntentOpens = Math.round(17 * multiplier);
-  let organicConversionsCount = Math.round(12 * multiplier);
+  let organicSessions = 0;
+  let organicQuoteIntentOpens = 0;
+  let organicConversionsCount = 0;
 
   const engineCounts: Record<string, number> = {
-    google_sa: Math.round(39 * multiplier),
-    google_global: Math.round(13 * multiplier),
-    bing: Math.round(4 * multiplier),
-    other: Math.round(2 * multiplier),
+    google_sa: 0,
+    google_global: 0,
+    bing: 0,
+    other: 0,
   };
 
   const clusterCounts: Record<string, { visits: number; quotes: number }> = {
-    data_centers: { visits: Math.round(22 * multiplier), quotes: Math.round(7 * multiplier) },
-    bms_automation: { visits: Math.round(16 * multiplier), quotes: Math.round(5 * multiplier) },
-    low_current: { visits: Math.round(11 * multiplier), quotes: Math.round(3 * multiplier) },
-    pif_prequalification: { visits: Math.round(9 * multiplier), quotes: Math.round(2 * multiplier) },
+    data_centers: { visits: 0, quotes: 0 },
+    bms_automation: { visits: 0, quotes: 0 },
+    low_current: { visits: 0, quotes: 0 },
+    pif_prequalification: { visits: 0, quotes: 0 },
   };
 
   if (events && events.length > 0) {
-    let liveOrganic = 0;
-    let liveIntent = 0;
-    let liveConv = 0;
-
     for (const e of events) {
       const ref = String(e.referrer || '').toLowerCase();
       const meta = (e.metadata || {}) as Record<string, unknown>;
@@ -964,10 +806,10 @@ function getSeoAnalyticsData(period: string, events?: Record<string, unknown>[],
         ref.includes('duckduckgo');
 
       if (isSearch) {
-        liveOrganic++;
-        if (eventType === 'quote_modal_open') liveIntent++;
+        organicSessions++;
+        if (eventType === 'quote_modal_open') organicQuoteIntentOpens++;
         if (['quote_submit', 'whatsapp_click', 'phone_click', 'contact_submit'].includes(eventType)) {
-          liveConv++;
+          organicConversionsCount++;
         }
 
         if (ref.includes('google.com.sa') || searchEngine === 'google_sa') engineCounts.google_sa++;
@@ -982,24 +824,22 @@ function getSeoAnalyticsData(period: string, events?: Record<string, unknown>[],
         }
       }
     }
-
-    if (liveOrganic > 0) {
-      organicSessions = liveOrganic;
-      organicQuoteIntentOpens = liveIntent;
-      organicConversionsCount = liveConv;
-    }
   }
 
-  const baseSessions = totalSessionsCount || Math.round(148 * multiplier);
-  const organicSharePercentage = Number(((organicSessions / Math.max(1, baseSessions)) * 100).toFixed(1));
-  const organicQuoteIntentRate = Number(((organicQuoteIntentOpens / Math.max(1, organicSessions)) * 100).toFixed(1));
+  const baseSessions = totalSessionsCount || 0;
+  const organicSharePercentage = baseSessions > 0
+    ? Number(((organicSessions / baseSessions) * 100).toFixed(1))
+    : 0;
+  const organicQuoteIntentRate = organicSessions > 0
+    ? Number(((organicQuoteIntentOpens / organicSessions) * 100).toFixed(1))
+    : 0;
 
-  const totalEngineVisits = Object.values(engineCounts).reduce((a, b) => a + b, 0) || 1;
+  const totalEngineVisits = Object.values(engineCounts).reduce((a, b) => a + b, 0);
   const searchEngines = [
-    { key: 'google_sa', name: 'Google.com.sa (المملكة العربية السعودية)', visits: engineCounts.google_sa, percentage: Number(((engineCounts.google_sa / totalEngineVisits) * 100).toFixed(1)) },
-    { key: 'google_global', name: 'Google.com (دولي وإقليمي)', visits: engineCounts.google_global, percentage: Number(((engineCounts.google_global / totalEngineVisits) * 100).toFixed(1)) },
-    { key: 'bing', name: 'Microsoft Bing (محركات الأعمال والشركات)', visits: engineCounts.bing, percentage: Number(((engineCounts.bing / totalEngineVisits) * 100).toFixed(1)) },
-    { key: 'other', name: 'محركات بحث أخرى (Yahoo / DuckDuckGo)', visits: engineCounts.other, percentage: Number(((engineCounts.other / totalEngineVisits) * 100).toFixed(1)) },
+    { key: 'google_sa', name: 'Google.com.sa (المملكة العربية السعودية)', visits: engineCounts.google_sa, percentage: totalEngineVisits > 0 ? Number(((engineCounts.google_sa / totalEngineVisits) * 100).toFixed(1)) : 0 },
+    { key: 'google_global', name: 'Google.com (دولي وإقليمي)', visits: engineCounts.google_global, percentage: totalEngineVisits > 0 ? Number(((engineCounts.google_global / totalEngineVisits) * 100).toFixed(1)) : 0 },
+    { key: 'bing', name: 'Microsoft Bing (محركات الأعمال والشركات)', visits: engineCounts.bing, percentage: totalEngineVisits > 0 ? Number(((engineCounts.bing / totalEngineVisits) * 100).toFixed(1)) : 0 },
+    { key: 'other', name: 'محركات بحث أخرى (Yahoo / DuckDuckGo)', visits: engineCounts.other, percentage: totalEngineVisits > 0 ? Number(((engineCounts.other / totalEngineVisits) * 100).toFixed(1)) : 0 },
   ];
 
   const clusters = [
@@ -1009,8 +849,12 @@ function getSeoAnalyticsData(period: string, events?: Record<string, unknown>[],
       name_en: 'Tier III/IV Data Centers & Critical Power',
       organicVisits: clusterCounts.data_centers.visits,
       quoteIntentCount: clusterCounts.data_centers.quotes,
-      conversionRate: Number(((clusterCounts.data_centers.quotes / Math.max(1, clusterCounts.data_centers.visits)) * 100).toFixed(1)),
-      pipelineEstimate: '38,000,000 SAR',
+      conversionRate: clusterCounts.data_centers.visits > 0
+        ? Number(((clusterCounts.data_centers.quotes / clusterCounts.data_centers.visits) * 100).toFixed(1))
+        : 0,
+      pipelineEstimate: clusterCounts.data_centers.quotes > 0
+        ? `${(clusterCounts.data_centers.quotes * 8).toLocaleString()},000,000 SAR`
+        : '0 SAR',
     },
     {
       key: 'bms_automation',
@@ -1018,8 +862,12 @@ function getSeoAnalyticsData(period: string, events?: Record<string, unknown>[],
       name_en: 'BMS Smart Buildings & Industrial SCADA',
       organicVisits: clusterCounts.bms_automation.visits,
       quoteIntentCount: clusterCounts.bms_automation.quotes,
-      conversionRate: Number(((clusterCounts.bms_automation.quotes / Math.max(1, clusterCounts.bms_automation.visits)) * 100).toFixed(1)),
-      pipelineEstimate: '24,000,000 SAR',
+      conversionRate: clusterCounts.bms_automation.visits > 0
+        ? Number(((clusterCounts.bms_automation.quotes / clusterCounts.bms_automation.visits) * 100).toFixed(1))
+        : 0,
+      pipelineEstimate: clusterCounts.bms_automation.quotes > 0
+        ? `${(clusterCounts.bms_automation.quotes * 5).toLocaleString()},000,000 SAR`
+        : '0 SAR',
     },
     {
       key: 'low_current',
@@ -1027,8 +875,12 @@ function getSeoAnalyticsData(period: string, events?: Record<string, unknown>[],
       name_en: 'Low Current ELV & Certified Security Systems',
       organicVisits: clusterCounts.low_current.visits,
       quoteIntentCount: clusterCounts.low_current.quotes,
-      conversionRate: Number(((clusterCounts.low_current.quotes / Math.max(1, clusterCounts.low_current.visits)) * 100).toFixed(1)),
-      pipelineEstimate: '15,000,000 SAR',
+      conversionRate: clusterCounts.low_current.visits > 0
+        ? Number(((clusterCounts.low_current.quotes / clusterCounts.low_current.visits) * 100).toFixed(1))
+        : 0,
+      pipelineEstimate: clusterCounts.low_current.quotes > 0
+        ? `${(clusterCounts.low_current.quotes * 3).toLocaleString()},000,000 SAR`
+        : '0 SAR',
     },
     {
       key: 'pif_prequalification',
@@ -1036,15 +888,25 @@ function getSeoAnalyticsData(period: string, events?: Record<string, unknown>[],
       name_en: 'PIF Giga-Projects & Direct Prequalification',
       organicVisits: clusterCounts.pif_prequalification.visits,
       quoteIntentCount: clusterCounts.pif_prequalification.quotes,
-      conversionRate: Number(((clusterCounts.pif_prequalification.quotes / Math.max(1, clusterCounts.pif_prequalification.visits)) * 100).toFixed(1)),
-      pipelineEstimate: '45,000,000 SAR',
+      conversionRate: clusterCounts.pif_prequalification.visits > 0
+        ? Number(((clusterCounts.pif_prequalification.quotes / clusterCounts.pif_prequalification.visits) * 100).toFixed(1))
+        : 0,
+      pipelineEstimate: clusterCounts.pif_prequalification.quotes > 0
+        ? `${(clusterCounts.pif_prequalification.quotes * 12).toLocaleString()},000,000 SAR`
+        : '0 SAR',
     },
   ];
 
-  const keywords = getHighIntentKeywords(multiplier);
+  const keywords = getHighIntentKeywords(0);
   const overallReadinessIndex = Math.round(
     keywords.reduce((acc, curr) => acc + curr.readiness_score, 0) / keywords.length
   );
+
+  const totalPipelineNum =
+    clusterCounts.data_centers.quotes * 8 +
+    clusterCounts.bms_automation.quotes * 5 +
+    clusterCounts.low_current.quotes * 3 +
+    clusterCounts.pif_prequalification.quotes * 12;
 
   const landingPageDiagnostics = [
     {
@@ -1096,7 +958,7 @@ function getSeoAnalyticsData(period: string, events?: Record<string, unknown>[],
       organicQuoteIntentRate,
       organicConversions: organicConversionsCount,
       overallReadinessIndex,
-      estimatedPipelineSar: '85,000,000 SAR',
+      estimatedPipelineSar: totalPipelineNum > 0 ? `${totalPipelineNum.toLocaleString()},000,000 SAR` : '0 SAR',
     },
     searchEngines,
     clusters,
