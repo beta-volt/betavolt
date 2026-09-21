@@ -84,7 +84,7 @@ export default function AdminLoginPage() {
   const [_auxPending, _setAuxPending] = useState(false);
   const [_auxError, _setAuxError] = useState<string | null>(null);
   const [_showAuxMask, _setShowAuxMask] = useState(false);
-  const [_telemetryEvents, _setTelemetryEvents] = useState<number[]>([]);
+  const [, _setTelemetryEvents] = useState<number[]>([]);
 
   function _closeAux() {
     _setSysAuxVisible(false);

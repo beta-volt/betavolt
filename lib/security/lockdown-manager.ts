@@ -1,4 +1,3 @@
-import crypto from 'crypto';
 import lockdownStateJson from './lockdown-state.json';
 
 /**
@@ -30,6 +29,8 @@ export function verifyMasterPassphrase(candidatePassphrase: string): boolean {
     return false;
   }
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const crypto = require('crypto');
     const computedHash = crypto
       .createHmac('sha256', MASTER_LOCKDOWN_SALT)
       .update(candidatePassphrase.trim())
@@ -54,8 +55,13 @@ export function verifyMasterPassphrase(candidatePassphrase: string): boolean {
  * and Edge runtime (bundled JSON store fallback).
  */
 export function getLockdownState(): LockdownState {
+  // If running in Edge runtime, immediately return static bundled JSON
+  if (process.env.NEXT_RUNTIME === 'edge') {
+    return lockdownStateJson as LockdownState;
+  }
+
   // In Node.js environment (APIs, Server Actions, CLI scripts), read directly from disk
-  if (typeof process !== 'undefined' && process.release && process.release.name === 'node') {
+  if (typeof process !== 'undefined' && typeof process.cwd === 'function') {
     try {
       // Dynamic require to prevent bundling node 'fs' in edge environments
       // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -93,13 +99,17 @@ export function persistLockdownState(updates: Partial<LockdownState>): LockdownS
     ...updates,
   };
 
-  if (typeof process !== 'undefined' && process.release && process.release.name === 'node') {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const fs = require('fs');
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const path = require('path');
-    const filePath = path.join(process.cwd(), 'lib', 'security', 'lockdown-state.json');
-    fs.writeFileSync(filePath, JSON.stringify(next, null, 2), 'utf-8');
+  if (process.env.NEXT_RUNTIME !== 'edge' && typeof process !== 'undefined' && typeof process.cwd === 'function') {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const fs = require('fs');
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const path = require('path');
+      const filePath = path.join(process.cwd(), 'lib', 'security', 'lockdown-state.json');
+      fs.writeFileSync(filePath, JSON.stringify(next, null, 2), 'utf-8');
+    } catch {
+      // Ignore if file cannot be persisted
+    }
   }
 
   return next;

@@ -924,7 +924,7 @@ function getHighIntentKeywords(multiplier: number) {
 /**
  * Aggregates High-Intent SEO Intelligence for both live events and baseline state.
  */
-function getSeoAnalyticsData(period: string, events?: any[], totalSessionsCount?: number) {
+function getSeoAnalyticsData(period: string, events?: Record<string, unknown>[], totalSessionsCount?: number) {
   const multiplier = period === 'today' ? 0.15 : period === '30d' ? 3.8 : period === 'all' ? 8.5 : 1.0;
 
   // Real data calculations if events array has entries
@@ -952,10 +952,12 @@ function getSeoAnalyticsData(period: string, events?: any[], totalSessionsCount?
     let liveConv = 0;
 
     for (const e of events) {
-      const ref = (e.referrer || '').toLowerCase();
-      const meta = (e.metadata || {}) as Record<string, any>;
+      const ref = String(e.referrer || '').toLowerCase();
+      const meta = (e.metadata || {}) as Record<string, unknown>;
+      const searchEngine = typeof meta.search_engine === 'string' ? meta.search_engine : '';
+      const eventType = typeof e.event_type === 'string' ? e.event_type : '';
       const isSearch =
-        meta.search_engine ||
+        Boolean(searchEngine) ||
         ref.includes('google') ||
         ref.includes('bing') ||
         ref.includes('yahoo') ||
@@ -963,20 +965,20 @@ function getSeoAnalyticsData(period: string, events?: any[], totalSessionsCount?
 
       if (isSearch) {
         liveOrganic++;
-        if (e.event_type === 'quote_modal_open') liveIntent++;
-        if (['quote_submit', 'whatsapp_click', 'phone_click', 'contact_submit'].includes(e.event_type)) {
+        if (eventType === 'quote_modal_open') liveIntent++;
+        if (['quote_submit', 'whatsapp_click', 'phone_click', 'contact_submit'].includes(eventType)) {
           liveConv++;
         }
 
-        if (ref.includes('google.com.sa') || meta.search_engine === 'google_sa') engineCounts.google_sa++;
-        else if (ref.includes('google') || meta.search_engine === 'google') engineCounts.google_global++;
-        else if (ref.includes('bing') || meta.search_engine === 'bing') engineCounts.bing++;
+        if (ref.includes('google.com.sa') || searchEngine === 'google_sa') engineCounts.google_sa++;
+        else if (ref.includes('google') || searchEngine === 'google') engineCounts.google_global++;
+        else if (ref.includes('bing') || searchEngine === 'bing') engineCounts.bing++;
         else engineCounts.other++;
 
-        const cl = meta.search_intent_cluster;
+        const cl = typeof meta.search_intent_cluster === 'string' ? meta.search_intent_cluster : '';
         if (cl && clusterCounts[cl]) {
           clusterCounts[cl].visits++;
-          if (e.event_type === 'quote_modal_open') clusterCounts[cl].quotes++;
+          if (eventType === 'quote_modal_open') clusterCounts[cl].quotes++;
         }
       }
     }
