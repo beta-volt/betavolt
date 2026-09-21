@@ -5,12 +5,21 @@ import { usePathname, useSearchParams } from 'next/navigation';
 
 const SESSION_KEY = 'bv_sid';
 const UTM_STORAGE_KEY = 'bv_utm';
+const SEARCH_INTENT_KEY = 'bv_search_intent';
 
 interface UtmData {
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
   utm_content?: string;
+}
+
+export interface SearchIntentData {
+  search_engine?: string;
+  search_intent_cluster?: 'data_centers' | 'bms_automation' | 'low_current' | 'pif_prequalification' | 'general_mep';
+  search_query?: string;
+  landing_path?: string;
+  entry_timestamp?: string;
 }
 
 /**
@@ -45,6 +54,19 @@ export function getStoredUtm(): UtmData {
 }
 
 /**
+ * Retrieves preserved organic search intent data from sessionStorage.
+ */
+export function getStoredSearchIntent(): SearchIntentData {
+  if (typeof window === 'undefined') return {};
+  try {
+    const raw = window.sessionStorage.getItem(SEARCH_INTENT_KEY);
+    return raw ? (JSON.parse(raw) as SearchIntentData) : {};
+  } catch {
+    return {};
+  }
+}
+
+/**
  * Saves active UTM parameters into sessionStorage to preserve campaign attribution
  * across subsequent page navigations and conversion actions.
  */
@@ -53,12 +75,86 @@ export function storeUtm(utm: UtmData): void {
   try {
     const existing = getStoredUtm();
     const updated = { ...existing, ...utm };
-    // Only save if at least one parameter is present
     if (Object.values(updated).some(Boolean)) {
       window.sessionStorage.setItem(UTM_STORAGE_KEY, JSON.stringify(updated));
     }
   } catch {
     // Ignore sessionStorage quota / privacy mode exceptions
+  }
+}
+
+/**
+ * Saves organic search intent attribution into sessionStorage.
+ */
+export function storeSearchIntent(intent: SearchIntentData): void {
+  if (typeof window === 'undefined') return;
+  try {
+    const existing = getStoredSearchIntent();
+    const updated = { ...existing, ...intent };
+    window.sessionStorage.setItem(SEARCH_INTENT_KEY, JSON.stringify(updated));
+  } catch {
+    // Ignore sessionStorage exceptions
+  }
+}
+
+/**
+ * Detects whether the visitor arrived from an organic search engine (Google, Bing, Yahoo, etc.)
+ * and maps the landing path to high-intent B2B contracting clusters.
+ */
+export function detectSearchIntent(
+  referrerUrl: string,
+  pathname: string,
+  searchParams?: URLSearchParams | null
+): SearchIntentData | null {
+  if (!referrerUrl) return null;
+
+  try {
+    const ref = referrerUrl.toLowerCase();
+    let engine: string | null = null;
+
+    if (ref.includes('google.com.sa')) engine = 'google_sa';
+    else if (ref.includes('google.')) engine = 'google';
+    else if (ref.includes('bing.com')) engine = 'bing';
+    else if (ref.includes('yahoo.com')) engine = 'yahoo';
+    else if (ref.includes('duckduckgo.com')) engine = 'duckduckgo';
+    else if (ref.includes('yandex.')) engine = 'yandex';
+
+    if (!engine) return null;
+
+    // Check for query keyword in searchParams or referrer
+    let query = searchParams?.get('utm_term') || searchParams?.get('q') || '';
+    if (!query && ref.includes('q=')) {
+      try {
+        const u = new URL(referrerUrl);
+        query = u.searchParams.get('q') || '';
+      } catch {
+        // url parse exception
+      }
+    }
+
+    // Determine Intent Cluster based on landing pathname
+    const p = pathname.toLowerCase();
+    let cluster: SearchIntentData['search_intent_cluster'] = 'general_mep';
+
+    if (p.includes('data-center') || p.includes('datacenter')) {
+      cluster = 'data_centers';
+    } else if (p.includes('bms') || p.includes('automation') || p.includes('control')) {
+      cluster = 'bms_automation';
+    } else if (p.includes('low-current') || p.includes('light-current') || p.includes('cctv') || p.includes('fire')) {
+      cluster = 'low_current';
+    } else if (p.includes('project') || p.includes('lead-magnet') || p.includes('pre-qualification') || p.includes('profile')) {
+      cluster = 'pif_prequalification';
+    }
+
+    return {
+      search_engine: engine,
+      search_intent_cluster: cluster,
+      search_query: query ? query.slice(0, 100) : undefined,
+      landing_path: pathname,
+      entry_timestamp: new Date().toISOString(),
+    };
+  } catch {
+    return null;
   }
 }
 
@@ -70,6 +166,7 @@ export function trackEvent(eventType: string, metadata?: Record<string, unknown>
 
   const sessionId = getOrCreateSessionId();
   const utm = getStoredUtm();
+  const searchIntent = getStoredSearchIntent();
   const path = window.location.pathname;
   const locale = path.startsWith('/en') ? 'en' : 'ar';
 
@@ -83,7 +180,17 @@ export function trackEvent(eventType: string, metadata?: Record<string, unknown>
     utm_medium: utm.utm_medium,
     utm_campaign: utm.utm_campaign,
     utm_content: utm.utm_content,
-    metadata,
+    search_engine: searchIntent.search_engine,
+    search_intent_cluster: searchIntent.search_intent_cluster,
+    search_query: searchIntent.search_query,
+    metadata: {
+      ...(metadata || {}),
+      ...(searchIntent.search_engine && {
+        search_engine: searchIntent.search_engine,
+        search_intent_cluster: searchIntent.search_intent_cluster,
+        search_query: searchIntent.search_query,
+      }),
+    },
   };
 
   const payloadString = JSON.stringify(payload);
@@ -115,8 +222,16 @@ export default function AnalyticsBeacon() {
   const pageStartTimeRef = useRef<number>(Date.now());
   const currentPathRef = useRef<string>(pathname);
 
-  // 1. UTM Extraction & Retention
+  // 1. Organic Search Intent & UTM Detection & Retention
   useEffect(() => {
+    // Check search engine referrer on landing
+    if (typeof document !== 'undefined' && document.referrer) {
+      const detected = detectSearchIntent(document.referrer, pathname, searchParams);
+      if (detected) {
+        storeSearchIntent(detected);
+      }
+    }
+
     if (!searchParams) return;
 
     const source = searchParams.get('utm_source');
@@ -132,7 +247,7 @@ export default function AnalyticsBeacon() {
       if (content) newUtm.utm_content = content;
       storeUtm(newUtm);
     }
-  }, [searchParams]);
+  }, [pathname, searchParams]);
 
   // 2. Page View & Dwell Duration Tracking
   useEffect(() => {

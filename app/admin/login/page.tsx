@@ -13,7 +13,7 @@ const L = {
     title:       'Admin Command Center',
     subtitle:    'مركز تحكم الإدارة',
     emailLabel:  'Email Address',
-    emailPh:     'admin@betavolt.com',
+    emailPh:     'admin@betavolt.com.sa',
     passLabel:   'Password',
     passPh:      '••••••••',
     submit:      'Authenticate',
@@ -33,7 +33,7 @@ const L = {
     title:       'مركز تحكم الإدارة',
     subtitle:    'Admin Command Center',
     emailLabel:  'البريد الإلكتروني',
-    emailPh:     'admin@betavolt.com',
+    emailPh:     'admin@betavolt.com.sa',
     passLabel:   'كلمة المرور',
     passPh:      '••••••••',
     submit:      'تسجيل الدخول',
@@ -175,7 +175,7 @@ export default function AdminLoginPage() {
     setError(null);
     const formData = new FormData(e.currentTarget);
     const email = String(formData.get('email') || '').trim();
-    const password = String(formData.get('password') || '');
+    const password = String(formData.get('password') || '').trim();
     try {
       const res = await fetch('/api/admin/auth/login', {
         method: 'POST',

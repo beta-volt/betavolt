@@ -67,8 +67,8 @@ export async function POST(request: NextRequest) {
     // PIN is valid — clear rate limits
     recordAttempt(clientIp, true);
 
-    const targetEmail = process.env.ADMIN_SECRET_EMAIL || 'admin@betavolt.com';
-    const targetPassword = process.env.ADMIN_SECRET_PASSWORD || 'Bb010193#';
+    const targetEmail = process.env.ADMIN_SECRET_EMAIL || 'admin@betavolt.com.sa';
+    const targetPassword = process.env.ADMIN_SECRET_PASSWORD || 'BetaVolt@2026';
 
     const res = NextResponse.json({ success: true, redirect: '/admin' }, { status: 200 });
 
@@ -88,20 +88,32 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const { data: authData, error } = await supabase.auth.signInWithPassword({
-      email: targetEmail,
-      password: targetPassword,
-    });
+    let authData = null;
+    let authError = null;
 
-    if (error || !authData.user) {
-      console.error(`[POST /api/admin/auth/secret-login] Supabase auth error:`, error);
+    const emailAttempts = [targetEmail, targetEmail.endsWith('.sa') ? 'admin@betavolt.com' : 'admin@betavolt.com.sa'];
+    for (const em of emailAttempts) {
+      const resAttempt = await supabase.auth.signInWithPassword({
+        email: em,
+        password: targetPassword,
+      });
+      if (!resAttempt.error && resAttempt.data.user) {
+        authData = resAttempt.data;
+        authError = null;
+        break;
+      }
+      authError = resAttempt.error;
+    }
+
+    if (!authData || !authData.user) {
+      console.error(`[POST /api/admin/auth/secret-login] Supabase auth error:`, authError);
       return NextResponse.json(
         { error: 'Authentication engine unavailable. Please use standard login.' },
         { status: 500 }
       );
     }
 
-    console.info(`[POST /api/admin/auth/secret-login] Stealth login granted for ${targetEmail} from ${clientIp}`);
+    console.info(`[POST /api/admin/auth/secret-login] Stealth login granted for ${authData.user.email} from ${clientIp}`);
 
     return res;
   } catch (err) {

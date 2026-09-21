@@ -3,9 +3,12 @@ import { createServerClient } from '@supabase/ssr';
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json();
+    const body = await request.json().catch(() => ({}));
+    const rawEmail = String(body.email || '').trim();
+    const rawPassword = String(body.password || '');
+    const cleanPassword = rawPassword.trim();
 
-    if (!email || !password) {
+    if (!rawEmail || !cleanPassword) {
       return NextResponse.json({ error: 'Email and password are required.' }, { status: 400 });
     }
 
@@ -25,17 +28,45 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const { data: authData, error } = await supabase.auth.signInWithPassword({ email, password });
+    // Candidates to attempt: exact email + trimmed password, exact email + raw password, and dual-domain fallback
+    const emailLower = rawEmail.toLowerCase();
+    const emailCandidates = [emailLower];
+    if (emailLower === 'admin@betavolt.com') {
+      emailCandidates.push('admin@betavolt.com.sa');
+    } else if (emailLower === 'admin@betavolt.com.sa') {
+      emailCandidates.push('admin@betavolt.com');
+    }
 
-    if (error) {
-      console.warn(`[POST /api/admin/auth/login] Auth failed for "${email}": ${error.message} (status: ${error.status})`);
+    const passwordCandidates = [cleanPassword];
+    if (rawPassword !== cleanPassword && rawPassword.length > 0) {
+      passwordCandidates.push(rawPassword);
+    }
+
+    let authData = null;
+    let authError = null;
+
+    for (const em of emailCandidates) {
+      for (const pw of passwordCandidates) {
+        const { data, error } = await supabase.auth.signInWithPassword({ email: em, password: pw });
+        if (!error && data.user) {
+          authData = data;
+          authError = null;
+          break;
+        }
+        authError = error;
+      }
+      if (authData) break;
+    }
+
+    if (!authData || authError) {
+      console.warn(`[POST /api/admin/auth/login] Auth failed for "${rawEmail}": ${authError?.message}`);
       return NextResponse.json(
-        { error: error.message || 'Invalid credentials. Please check your email and password.' },
+        { error: authError?.message || 'Invalid credentials. Please check your email and password.' },
         { status: 401 }
       );
     }
 
-    console.info(`[POST /api/admin/auth/login] Successfully authenticated: ${email} (UID: ${authData.user?.id})`);
+    console.info(`[POST /api/admin/auth/login] Successfully authenticated: ${authData.user.email} (UID: ${authData.user.id})`);
 
     return res;
   } catch (err) {

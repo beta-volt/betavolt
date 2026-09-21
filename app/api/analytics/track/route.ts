@@ -23,6 +23,9 @@ interface AnalyticsPayload {
   utm_medium?: string;
   utm_campaign?: string;
   utm_content?: string;
+  search_engine?: string;
+  search_intent_cluster?: string;
+  search_query?: string;
   metadata?: Record<string, unknown>;
 }
 
@@ -71,7 +74,12 @@ export async function POST(request: NextRequest) {
       utm_medium: payload.utm_medium || null,
       utm_campaign: payload.utm_campaign || null,
       utm_content: payload.utm_content || null,
-      metadata: payload.metadata || {},
+      metadata: {
+        ...(payload.metadata || {}),
+        ...(payload.search_engine && { search_engine: payload.search_engine }),
+        ...(payload.search_intent_cluster && { search_intent_cluster: payload.search_intent_cluster }),
+        ...(payload.search_query && { search_query: payload.search_query }),
+      },
     });
 
     if (error) {
