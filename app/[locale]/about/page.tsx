@@ -42,6 +42,43 @@ async function loadAboutContent(): Promise<AboutContent> {
   }
 }
 
+/**
+ * Defensively normalizes any Google Maps URL (place links, coordinates, or embed endpoints)
+ * into a valid, frame-embeddable URL with output=embed and language parameter.
+ */
+function normalizeMapEmbedUrl(rawUrl: string, lang: Lang = 'ar'): string {
+  if (!rawUrl) return '';
+  let url = rawUrl.trim();
+
+  // If already a standard embed URL with output=embed
+  if (url.includes('output=embed')) {
+    if (!url.includes('hl=')) {
+      url += (url.includes('?') ? '&' : '?') + 'hl=' + lang;
+    }
+    return url;
+  }
+
+  // Extract !3d(lat)!4d(lng) from Google Maps place URLs
+  const pinMatch = url.match(/!3d([0-9.-]+)!4d([0-9.-]+)/);
+  if (pinMatch) {
+    return `https://maps.google.com/maps?q=${pinMatch[1]},${pinMatch[2]}&z=16&output=embed&hl=${lang}`;
+  }
+
+  // Extract @lat,lng from Google Maps place or viewport URLs
+  const atMatch = url.match(/@([0-9.-]+),([0-9.-]+)/);
+  if (atMatch) {
+    return `https://maps.google.com/maps?q=${atMatch[1]},${atMatch[2]}&z=16&output=embed&hl=${lang}`;
+  }
+
+  // Extract q=lat,lng from search URLs
+  const qMatch = url.match(/[?&]q=([0-9.-]+,[0-9.-]+)/);
+  if (qMatch) {
+    return `https://maps.google.com/maps?q=${qMatch[1]}&z=16&output=embed&hl=${lang}`;
+  }
+
+  return url;
+}
+
 // ── Icon components ────────────────────────────────────────────────────────
 
 function BadgeIcon() {
@@ -126,6 +163,7 @@ export default async function AboutPage({ params }: Props) {
   const lang = locale as Lang;
   const t    = await getTranslations('about');
   const { dna, stats, why, map } = await loadAboutContent();
+  const safeEmbedUrl = normalizeMapEmbedUrl(map.embedUrl, lang);
 
   return (
     <main className="overflow-x-hidden bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
@@ -263,7 +301,7 @@ export default async function AboutPage({ params }: Props) {
       )}
 
       {/* ── 4. Glowing Map — Our Footprint ────────────────────────────── */}
-      {map.embedUrl && (
+      {safeEmbedUrl && (
         <section className="py-20 sm:py-28 bg-white dark:bg-transparent">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
@@ -276,7 +314,7 @@ export default async function AboutPage({ params }: Props) {
             <div className="p-2 rounded-2xl border border-slate-200 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-900/50 shadow-sm dark:shadow-[0_8px_40px_rgba(0,0,0,0.5)]">
               <div className="relative w-full h-[380px] sm:h-[460px] rounded-xl overflow-hidden">
                 <iframe
-                  src={map.embedUrl}
+                  src={safeEmbedUrl}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

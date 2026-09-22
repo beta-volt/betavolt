@@ -489,10 +489,34 @@ export default function AboutContentPage() {
           <input
             className={INPUT}
             value={content.map.embedUrl}
-            onChange={e => setContentField('map', { ...content.map, embedUrl: e.target.value })}
+            onChange={e => {
+              let val = e.target.value.trim();
+              if (val && !val.includes('output=embed')) {
+                const pinMatch = val.match(/!3d([0-9.-]+)!4d([0-9.-]+)/);
+                if (pinMatch) {
+                  val = `https://maps.google.com/maps?q=${pinMatch[1]},${pinMatch[2]}&z=16&output=embed`;
+                } else {
+                  const atMatch = val.match(/@([0-9.-]+),([0-9.-]+)/);
+                  if (atMatch) {
+                    val = `https://maps.google.com/maps?q=${atMatch[1]},${atMatch[2]}&z=16&output=embed`;
+                  } else {
+                    const qMatch = val.match(/[?&]q=([0-9.-]+,[0-9.-]+)/);
+                    if (qMatch) {
+                      val = `https://maps.google.com/maps?q=${qMatch[1]}&z=16&output=embed`;
+                    }
+                  }
+                }
+              }
+              setContentField('map', { ...content.map, embedUrl: val });
+            }}
             dir="ltr"
-            placeholder="https://maps.google.com/maps?q=..."
+            placeholder="https://maps.google.com/maps?q=26.2336915,49.9876096&z=16&output=embed"
           />
+          <p className="text-[11px] text-slate-500 dark:text-slate-400">
+            {lang === 'ar'
+              ? 'يدعم روابط التضمين المباشرة (output=embed) أو روابط الموقع العادية على خرائط جوجل وسيتم تحويلها تلقائياً لتجنب الحظر.'
+              : 'Supports direct embed links (output=embed) or standard Google Maps place links, automatically converted to avoid embedding blocks.'}
+          </p>
         </div>
 
         <div className="space-y-1.5">

@@ -73,11 +73,11 @@
     }
   ],
   "map": {
-    "embedUrl": "https://maps.google.com/maps?q=26.2172,50.1971&z=14&output=embed&hl=ar",
-    "mapsUrl": "https://maps.app.goo.gl/yZUnxT64cNQq2vHk8",
+    "embedUrl": "https://maps.google.com/maps?q=26.2336915,49.9876096&z=16&output=embed",
+    "mapsUrl": "https://maps.app.goo.gl/YcybGTrHPFgUzxQN9",
     "label": {
-      "en": "HQ — Al Khobar, Eastern Province",
-      "ar": "المقر الرئيسي — الخبر، المنطقة الشرقية"
+      "en": "HQ — MODON, Radisson Blu, 2nd Industrial City, Dammam",
+      "ar": "المقر الرئيسي — مدن، راديسون بلو، المدينة الصناعية الثانية، الدمام"
     }
   }
 }
