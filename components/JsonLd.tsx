@@ -33,14 +33,18 @@ export default function JsonLd({ locale }: JsonLdProps) {
     email: 'inquiries@betavolt.com.sa',
     address: {
       '@type': 'PostalAddress',
-      addressLocality: isAr ? 'الرياض' : 'Riyadh',
-      addressRegion: isAr ? 'منطقة الرياض' : 'Riyadh Region',
+      streetAddress: isAr
+        ? 'المدينة الصناعية الثانية، راديسون بلو، مدن'
+        : '2nd industrial city, Radisson Blu, MODON',
+      addressLocality: isAr ? 'الدمام' : 'Dammam',
+      addressRegion: isAr ? 'المنطقة الشرقية' : 'Eastern Province',
+      postalCode: 'EIGA7420',
       addressCountry: 'SA',
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: '24.7136',
-      longitude: '46.6753',
+      latitude: '26.2570',
+      longitude: '50.0094',
     },
     areaServed: [
       { '@type': 'Country', name: 'Saudi Arabia' },

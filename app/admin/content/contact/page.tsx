@@ -349,8 +349,8 @@ export default function ContactContentPage() {
         <BiField t={t} label={t.addressValue} rows={2}
           valueEn={en('address_value')} valueAr={ar('address_value')}
           onEn={v => setEn('address_value', v)} onAr={v => setAr('address_value', v)}
-          placeholderEn="Jubail Industrial Area 01, Eastern Province, KSA"
-          placeholderAr="المدينة الصناعية الأولى — جبيل، المنطقة الشرقية" />
+          placeholderEn="2nd industrial city, Radisson Blu, MODON, Dammam, EIGA7420"
+          placeholderAr="المدينة الصناعية الثانية، راديسون بلو، مدن، الدمام، EIGA7420" />
 
         <FieldDivider label={t.divEmail} />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
