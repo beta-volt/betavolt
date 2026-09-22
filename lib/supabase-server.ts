@@ -3,7 +3,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  * Before using the admin dashboard, create the first admin user manually:
  *   1. Go to Supabase Studio → Authentication → Users → "Add User"
- *   2. Email: admin@betavolt.com  (or your preferred email)
+ *   2. Email: admin@betavolt.com.sa  (or your preferred email)
  *   3. Set a strong password and enable "Auto Confirm User"
  *   4. There is NO sign-up or password-reset flow in the app by design.
  * ─────────────────────────────────────────────────────────────────────────────

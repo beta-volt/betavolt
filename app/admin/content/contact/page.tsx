@@ -360,7 +360,7 @@ export default function ContactContentPage() {
               onEn={v => setEn('email_general_label', v)} onAr={v => setAr('email_general_label', v)}
               placeholderEn="General Inquiries" placeholderAr="الاستفسارات العامة" />
             <SingleField label={t.emailGenAddr} value={details.email_general}
-              onChange={v => setDetail('email_general', v)} placeholder="info@betavolt.com"
+              onChange={v => setDetail('email_general', v)} placeholder="info@betavolt.com.sa"
               icon={Mail} type="email" />
           </div>
           <div className="space-y-3">
@@ -369,7 +369,7 @@ export default function ContactContentPage() {
               onEn={v => setEn('email_projects_label', v)} onAr={v => setAr('email_projects_label', v)}
               placeholderEn="Project Inquiries" placeholderAr="استفسارات المشاريع" />
             <SingleField label={t.emailProjAddr} value={details.email_projects}
-              onChange={v => setDetail('email_projects', v)} placeholder="engineering@betavolt.com"
+              onChange={v => setDetail('email_projects', v)} placeholder="engineering@betavolt.com.sa"
               icon={Mail} type="email" />
           </div>
           <div className="space-y-3 sm:col-span-2">

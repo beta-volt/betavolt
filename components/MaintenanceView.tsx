@@ -21,7 +21,7 @@ export default function MaintenanceView() {
   const [checkMessage, setCheckMessage] = useState<string | null>(null);
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText('info@betavolt.com');
+    navigator.clipboard.writeText('info@betavolt.com.sa');
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
@@ -224,7 +224,7 @@ export default function MaintenanceView() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5">
             {/* Direct Email Button */}
             <a
-              href="mailto:info@betavolt.com"
+              href="mailto:info@betavolt.com.sa"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-brand-blue hover:bg-brand-blue-hover text-slate-950 font-bold font-cairo text-sm transition-all duration-200 shadow-[0_0_20px_rgba(75,163,227,0.3)] hover:shadow-[0_0_30px_rgba(75,163,227,0.5)] hover:-translate-y-0.5"
             >
               <Mail className="w-4 h-4" />
@@ -245,7 +245,7 @@ export default function MaintenanceView() {
               ) : (
                 <>
                   <Copy className="w-4 h-4 text-slate-400" />
-                  <span>نسخ: info@betavolt.com</span>
+                  <span>نسخ: info@betavolt.com.sa</span>
                 </>
               )}
             </button>

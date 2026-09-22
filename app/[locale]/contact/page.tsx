@@ -16,7 +16,7 @@ async function loadContactDetails(): Promise<ContactDetails> {
     const db = await getContent('contact-details');
     if (db) return db as unknown as ContactDetails;
   } catch { /* fall through */ }
-  return { email_general: '', email_projects: '', email_careers: 'careers@betavolt.com.sa', phone: '', whatsapp: '' };
+  return { email_general: 'info@betavolt.com.sa', email_projects: 'engineering@betavolt.com.sa', email_careers: 'careers@betavolt.com.sa', phone: '', whatsapp: '' };
 }
 
 export const metadata: Metadata = {
